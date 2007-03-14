@@ -27,25 +27,25 @@
 	<key>Dashboard Widget Prefs</key>
 	<dict>
 		<key>id</key>
-		<string>27f96136db50a741</string>
+		<string>a3401fb02851a741</string>
 		<key>in-layer</key>
 		<true/>
 		<key>path</key>
-		<string>/private/tmp/Dashcode/.Aviation Weather Forecast.wdgtprojbCBW5F/Aviation Weather Forecast.wdgtproj/project.wdgt/</string>
+		<string>/private/tmp/Dashcode/.Aviation Weather Forecast.wdgtprojyJpIFj/Aviation Weather Forecast.wdgtproj/project.wdgt/</string>
 		<key>percent-offset-x</key>
 		<integer>0</integer>
 		<key>percent-offset-y</key>
 		<integer>0</integer>
 		<key>percent-type</key>
-		<integer>4</integer>
+		<integer>3</integer>
 		<key>percent-x</key>
-		<real>0.1302083283662796</real>
+		<real>0.22447916865348816</real>
 		<key>percent-y</key>
-		<real>0.24916666746139526</real>
+		<real>0.39250001311302185</real>
 		<key>pos-x</key>
-		<integer>250</integer>
+		<integer>431</integer>
 		<key>pos-y</key>
-		<integer>643</integer>
+		<integer>471</integer>
 		<key>rosetta</key>
 		<false/>
 	</dict>
@@ -106,13 +106,7 @@
 		</array>
 	</array>
 	<key>Objects view last selections</key>
-	<array>
-		<array>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>2</integer>
-		</array>
-	</array>
+	<array/>
 	<key>Opened Steps</key>
 	<array>
 		<integer>0</integer>
