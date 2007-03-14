@@ -1,0 +1,74 @@
+<html>
+<head>
+    <title>ChemicalBurn</title>
+</head>
+<body>
+    <center>
+        <h1>ChemicalBurn</h1>
+        <img src="cb_ss.png">
+        <p>by Michael Ash</p>
+    </center>
+    
+    <p>ChemicalBurn is a screensaver that simulates a transportation network. Packages are generated with a destination, and attempt to find the fastest way there. Frequently used routes get faster, making them more popular. The result is a beautiful self-organizing network colorfully displayed on your screen.</p>
+    
+	<p><b>New in 1.1.1:</b>
+	<br>&bull; Fixed deadlock in threading code, added watchdog thread to terminate gracefully in case of other deadlocks.</p>
+	<p><b>New in 1.1:</b>
+	<br>&bull; ChemicalBurn is now multithreaded to take advantage of multicore and multiprocessor Macintoshes.</p>
+	
+    <p><b>How it Works</b>
+    <br>Nodes are randomly generated on the screen. Initially, all connections are equally slow. Packages are generated randomly as the screensaver runs. Each package is generated at a random node, and has another random node set as its destination.</p>
+    
+    <p>As packages flow through a connection, the connection is strengthened and becomes faster. A disused connection gradually weakens. This is analogous to real-life computer and transportation networks, where the connections with the most traffic get more infrastructure investment and become even faster.</p>
+    
+    <p>The result is a self-organizing network with complex structure, as popular routes are reinforced with even more traffic, and hubs, rings, and other structures form spontaneously from the simple rules.</p>
+    
+    <p>If enabled, nodes will be created and destroyed at random during the simulation. When a node is destroyed, it is not immediately removed from the network. Instead the node and its connections turns red, packages are forbidden from using that node in their routes and packages with the destroyed node as their destination are re-routed elsewhere. Once all packages are clear of the destroyed node, it is removed from the screen.</p>
+    
+    <center><img src="cb_cfg.png"></center>
+    
+    <p><b>Configuration</b>
+    <br>ChemicalBurn has several options to allow you to customize it and explore the consequences of different equations on the networks it forms.</p>
+    
+    <p><b>Traffic Weighting</b>
+    <br>As more traffic flows through a connection, it reinforces and becomes faster. The relationship between the number of packages flowing and the speed of the connection can be changed.</p>
+    
+    <ul>
+        <li><b>Linear:</b> the speed of the connection is directly proportional to the traffic it carries. Twice as much traffic means the connection is twice as fast.</li>
+        <li><b>Sqrt:</b> speed is proportional to the square root of the traffic carried. Four times as much traffic makes the connection twice as fast</li>
+        <li><b>Square:</b> speed is proportional to the square of the traffic. Twice the traffic makes for four times the speed.</li>
+        <li><b>Exp:</b> speed is proportional to the exponential of the traffic. Adding a constant amount of traffic will double the speed.</li>
+        <li><b>Log:</b> speed is proportional to the log of the traffic. Doubling the traffic will add a constant amount to the speed.</li>
+        <li><b>Bell</b> speed follows a bell curve. As traffic increases, speed increases up to a point, and then decreases again.</li>
+    </ul>
+    
+    <p><b>Distance Weighting</b>
+    <br>Normally the length of a connection is just the distance between the two nodes, but this can be altered. This has the effect of changing the speed of longer connections compared to shorter ones. The settings are similar to Traffic Weighting with the exception of Bell, which is removed as it doesn't make sense here.</p>
+    
+    <ul>
+        <li><b>Linear:</b> the length of the connection is equal to the distance.</li>
+        <li><b>Sqrt:</b> the length of the connection is equal to the square root of the distance. A connection to a node four times farther away is only twice as long.</li>
+        <li><b>Square:</b> the length of the connection is equal to the square of the distance. A connection twice as far away is four times as long.</li>
+        <li><b>Exp:</b> the length of the connection is equal to the exponential of the distance. Adding a constant amount to the distance will double the length.</li>
+        <li><b>Log:</b> the length of the connection is equal to the log of the distance. Doubling the distance will add a constant amount to the length.</li>
+    </ul>
+    
+    <p><b>Create/Destroy Nodes at Random</b>
+    <br>If checked, nodes will be created and destroyed at random. The rate is adjusted to keep the total number of nodes close to the desired amount. If unchecked, the network will remain static except for the changes in connection weighting.</p>
+    
+    <p><b>Package of Death</b>
+    <br>When unchecked, nodes are created and destroyed at random. When checked, nodes are created at random but destroyed using a special Package of Death. This package is displayed onscreen as a red triangle. Unlike other packages, it is never delivered, but when it reaches its destination it immediately chooses a new destination and keeps moving. Every node it touches is destroyed. Its speed is adjusted to keep the number of nodes close to the number desired.</p>
+    
+    <p><b>Number of Nodes:</b>
+    <br>Sets the number of nodes visible on screen. If Create/Destroy Nodes at Random is checked, this number is merely approximate.</p>
+    
+    <p>The number of nodes has a drastic effect on performance. Most of ChemicalBurn's time is spent finding the optimal route for the packages. This has to be done when a package is generated, and is redone every time the package reaches a new node, as conditions may have changed while it was in transit. The route-finding algorithm takes a time that is approximately proportional to the square of the number of nodes.</p>
+    
+    <p>Worse, the number of route-finding operations increases as the number of nodes goes up. There are more packages generated, and each package needs individual route-finding. More nodes tends to have networks with more steps, which also increases the number of route-finding operations.</p>
+    
+    <p>In the end, the CPU time spent is proportional to the cube or fourth power of the number of nodes. The default value of 100 runs well on my high-end G4. Increase it if you have a fast computer and like a busy screen. Decreasing it can drastically cut the amout of CPU power used while still presenting a very pretty screensaver.</p>
+    
+    <p><b>Credits</b>
+    <br>ChemicalBurn is &copy; 2006 by <a href="mailto:mike@mikeash.com">Michael Ash</a>. <a href="http://mikeash.com/">http://mikeash.com/</a>
+</body>
+</html>

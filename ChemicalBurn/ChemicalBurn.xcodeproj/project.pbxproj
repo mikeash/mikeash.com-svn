@@ -1,0 +1,495 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		C20DDC500B0AAA77001CDA36 /* Upload */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = C20DDC580B0AAA88001CDA36 /* Build configuration list for PBXAggregateTarget "Upload" */;
+			buildPhases = (
+				C20DDC4F0B0AAA77001CDA36 /* ShellScript */,
+			);
+			dependencies = (
+				C20DDC520B0AAA7B001CDA36 /* PBXTargetDependency */,
+			);
+			name = Upload;
+			productName = Upload;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		8D255AC70486D3F9007BF209 /* ChemicalBurn_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCFA80370C50100C91783 /* ChemicalBurn_Prefix.pch */; };
+		8D255AC80486D3F9007BF209 /* ChemicalBurnView.h in Headers */ = {isa = PBXBuildFile; fileRef = F50079790118B23001CA0E54 /* ChemicalBurnView.h */; };
+		8D255ACA0486D3F9007BF209 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		8D255ACC0486D3F9007BF209 /* ChemicalBurnView.m in Sources */ = {isa = PBXBuildFile; fileRef = F500797A0118B23001CA0E54 /* ChemicalBurnView.m */; };
+		8D255ACE0486D3F9007BF209 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		8D255ACF0486D3F9007BF209 /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F27B2DFFEEEFEF11CA0E56 /* ScreenSaver.framework */; };
+		C213DDC80A66C2C500E1BDD6 /* ConfigurationPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = C213DDC60A66C2C500E1BDD6 /* ConfigurationPanel.nib */; };
+		C213DEBC0A66D27500E1BDD6 /* help in Resources */ = {isa = PBXBuildFile; fileRef = C213DEBA0A66D27500E1BDD6 /* help */; };
+		C25F06E90A634E6200AEB35D /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C25F06E80A634E6200AEB35D /* OpenGL.framework */; };
+		C25F08D70A63647200AEB35D /* ChemicalBurnOrderedQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = C25F08D50A63647200AEB35D /* ChemicalBurnOrderedQueue.h */; };
+		C25F08D80A63647200AEB35D /* ChemicalBurnOrderedQueue.mm in Sources */ = {isa = PBXBuildFile; fileRef = C25F08D60A63647200AEB35D /* ChemicalBurnOrderedQueue.mm */; };
+		C28428BA0A62CE0200C9E89C /* ChemicalBurnNode.h in Headers */ = {isa = PBXBuildFile; fileRef = C28428B80A62CE0200C9E89C /* ChemicalBurnNode.h */; };
+		C28428BB0A62CE0200C9E89C /* ChemicalBurnNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C28428B90A62CE0200C9E89C /* ChemicalBurnNode.m */; };
+		C28428C30A62CE7800C9E89C /* ChemicalBurnConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = C28428C10A62CE7800C9E89C /* ChemicalBurnConnection.h */; };
+		C28428C40A62CE7800C9E89C /* ChemicalBurnConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = C28428C20A62CE7800C9E89C /* ChemicalBurnConnection.m */; };
+		C28428E90A62D22E00C9E89C /* ChemicalBurnPackage.h in Headers */ = {isa = PBXBuildFile; fileRef = C28428E70A62D22E00C9E89C /* ChemicalBurnPackage.h */; };
+		C28428EA0A62D22E00C9E89C /* ChemicalBurnPackage.m in Sources */ = {isa = PBXBuildFile; fileRef = C28428E80A62D22E00C9E89C /* ChemicalBurnPackage.m */; };
+		C2CF0C320ABB012400FD24B5 /* ChemicalBurn.saver in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D255AD30486D3F9007BF209 /* ChemicalBurn.saver */; };
+		C2F387930A976AEE007A6F8F /* ChemicalBurnSafeQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = C2F387910A976AEE007A6F8F /* ChemicalBurnSafeQueue.h */; };
+		C2F387940A976AEE007A6F8F /* ChemicalBurnSafeQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = C2F387920A976AEE007A6F8F /* ChemicalBurnSafeQueue.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C20DDC510B0AAA7B001CDA36 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D255AC50486D3F9007BF209;
+			remoteInfo = ChemicalBurn;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C2CF0C2C0ABB010700FD24B5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(HOME)/Library/Screen Savers";
+			dstSubfolderSpec = 0;
+			files = (
+				C2CF0C320ABB012400FD24B5 /* ChemicalBurn.saver in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		06F27B2DFFEEEFEF11CA0E56 /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = /System/Library/Frameworks/ScreenSaver.framework; sourceTree = "<absolute>"; };
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		32DBCFA80370C50100C91783 /* ChemicalBurn_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChemicalBurn_Prefix.pch; sourceTree = "<group>"; };
+		8D255AD20486D3F9007BF209 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D255AD30486D3F9007BF209 /* ChemicalBurn.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChemicalBurn.saver; sourceTree = BUILT_PRODUCTS_DIR; };
+		C213DDC70A66C2C500E1BDD6 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ConfigurationPanel.nib; sourceTree = "<group>"; };
+		C213DEBA0A66D27500E1BDD6 /* help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = help; sourceTree = "<group>"; };
+		C25F06E80A634E6200AEB35D /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		C25F08D50A63647200AEB35D /* ChemicalBurnOrderedQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChemicalBurnOrderedQueue.h; sourceTree = "<group>"; };
+		C25F08D60A63647200AEB35D /* ChemicalBurnOrderedQueue.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ChemicalBurnOrderedQueue.mm; sourceTree = "<group>"; };
+		C28428B80A62CE0200C9E89C /* ChemicalBurnNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChemicalBurnNode.h; sourceTree = "<group>"; };
+		C28428B90A62CE0200C9E89C /* ChemicalBurnNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChemicalBurnNode.m; sourceTree = "<group>"; };
+		C28428C10A62CE7800C9E89C /* ChemicalBurnConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChemicalBurnConnection.h; sourceTree = "<group>"; };
+		C28428C20A62CE7800C9E89C /* ChemicalBurnConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChemicalBurnConnection.m; sourceTree = "<group>"; };
+		C28428E70A62D22E00C9E89C /* ChemicalBurnPackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChemicalBurnPackage.h; sourceTree = "<group>"; };
+		C28428E80A62D22E00C9E89C /* ChemicalBurnPackage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChemicalBurnPackage.m; sourceTree = "<group>"; };
+		C2F387910A976AEE007A6F8F /* ChemicalBurnSafeQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChemicalBurnSafeQueue.h; sourceTree = "<group>"; };
+		C2F387920A976AEE007A6F8F /* ChemicalBurnSafeQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChemicalBurnSafeQueue.m; sourceTree = "<group>"; };
+		F50079790118B23001CA0E54 /* ChemicalBurnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChemicalBurnView.h; sourceTree = "<group>"; };
+		F500797A0118B23001CA0E54 /* ChemicalBurnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChemicalBurnView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D255ACD0486D3F9007BF209 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D255ACE0486D3F9007BF209 /* Cocoa.framework in Frameworks */,
+				8D255ACF0486D3F9007BF209 /* ScreenSaver.framework in Frameworks */,
+				C25F06E90A634E6200AEB35D /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* ChemicalBurn */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				32DBCFA70370C4F300C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = ChemicalBurn;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C213DEBA0A66D27500E1BDD6 /* help */,
+				8D255AD20486D3F9007BF209 /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+				C213DDC60A66C2C500E1BDD6 /* ConfigurationPanel.nib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				F50079790118B23001CA0E54 /* ChemicalBurnView.h */,
+				F500797A0118B23001CA0E54 /* ChemicalBurnView.m */,
+				C28428B80A62CE0200C9E89C /* ChemicalBurnNode.h */,
+				C28428B90A62CE0200C9E89C /* ChemicalBurnNode.m */,
+				C28428C10A62CE7800C9E89C /* ChemicalBurnConnection.h */,
+				C28428C20A62CE7800C9E89C /* ChemicalBurnConnection.m */,
+				C28428E70A62D22E00C9E89C /* ChemicalBurnPackage.h */,
+				C28428E80A62D22E00C9E89C /* ChemicalBurnPackage.m */,
+				C25F08D50A63647200AEB35D /* ChemicalBurnOrderedQueue.h */,
+				C25F08D60A63647200AEB35D /* ChemicalBurnOrderedQueue.mm */,
+				C2F387910A976AEE007A6F8F /* ChemicalBurnSafeQueue.h */,
+				C2F387920A976AEE007A6F8F /* ChemicalBurnSafeQueue.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C25F06E80A634E6200AEB35D /* OpenGL.framework */,
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+				06F27B2DFFEEEFEF11CA0E56 /* ScreenSaver.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D255AD30486D3F9007BF209 /* ChemicalBurn.saver */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32DBCFA70370C4F300C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCFA80370C50100C91783 /* ChemicalBurn_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D255AC60486D3F9007BF209 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D255AC70486D3F9007BF209 /* ChemicalBurn_Prefix.pch in Headers */,
+				8D255AC80486D3F9007BF209 /* ChemicalBurnView.h in Headers */,
+				C28428BA0A62CE0200C9E89C /* ChemicalBurnNode.h in Headers */,
+				C28428C30A62CE7800C9E89C /* ChemicalBurnConnection.h in Headers */,
+				C28428E90A62D22E00C9E89C /* ChemicalBurnPackage.h in Headers */,
+				C25F08D70A63647200AEB35D /* ChemicalBurnOrderedQueue.h in Headers */,
+				C2F387930A976AEE007A6F8F /* ChemicalBurnSafeQueue.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D255AC50486D3F9007BF209 /* ChemicalBurn */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EF7AD72D08BB986600CE4634 /* Build configuration list for PBXNativeTarget "ChemicalBurn" */;
+			buildPhases = (
+				8D255AC60486D3F9007BF209 /* Headers */,
+				8D255AC90486D3F9007BF209 /* Resources */,
+				8D255ACB0486D3F9007BF209 /* Sources */,
+				8D255ACD0486D3F9007BF209 /* Frameworks */,
+				8D255AD00486D3F9007BF209 /* Rez */,
+				C2CF0C2C0ABB010700FD24B5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ChemicalBurn;
+			productInstallPath = "$(HOME)/Library/Screen Savers";
+			productName = ChemicalBurn;
+			productReference = 8D255AD30486D3F9007BF209 /* ChemicalBurn.saver */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = EF7AD73108BB986600CE4634 /* Build configuration list for PBXProject "ChemicalBurn" */;
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* ChemicalBurn */;
+			projectDirPath = "";
+			targets = (
+				8D255AC50486D3F9007BF209 /* ChemicalBurn */,
+				C20DDC500B0AAA77001CDA36 /* Upload */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D255AC90486D3F9007BF209 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D255ACA0486D3F9007BF209 /* InfoPlist.strings in Resources */,
+				C213DDC80A66C2C500E1BDD6 /* ConfigurationPanel.nib in Resources */,
+				C213DEBC0A66D27500E1BDD6 /* help in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D255AD00486D3F9007BF209 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C20DDC4F0B0AAA77001CDA36 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here\ncd $HOME/Library/Screen\\ Savers\nditto -ck --keepParent ChemicalBurn.saver ChemicalBurn.saver.zip\nscp ChemicalBurn.saver.zip mikeash.com:mikeash.com/tmp/\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D255ACB0486D3F9007BF209 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D255ACC0486D3F9007BF209 /* ChemicalBurnView.m in Sources */,
+				C28428BB0A62CE0200C9E89C /* ChemicalBurnNode.m in Sources */,
+				C28428C40A62CE7800C9E89C /* ChemicalBurnConnection.m in Sources */,
+				C28428EA0A62D22E00C9E89C /* ChemicalBurnPackage.m in Sources */,
+				C25F08D80A63647200AEB35D /* ChemicalBurnOrderedQueue.mm in Sources */,
+				C2F387940A976AEE007A6F8F /* ChemicalBurnSafeQueue.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C20DDC520B0AAA7B001CDA36 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D255AC50486D3F9007BF209 /* ChemicalBurn */;
+			targetProxy = C20DDC510B0AAA7B001CDA36 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C213DDC60A66C2C500E1BDD6 /* ConfigurationPanel.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C213DDC70A66C2C500E1BDD6 /* English */,
+			);
+			name = ConfigurationPanel.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C20DDC590B0AAA88001CDA36 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Upload;
+			};
+			name = Debug;
+		};
+		C20DDC5A0B0AAA88001CDA36 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = Upload;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		C20DDC5B0B0AAA88001CDA36 /* Debug Optimized */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Upload;
+			};
+			name = "Debug Optimized";
+		};
+		C2842DA50A63175000C9E89C /* Debug Optimized */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ChemicalBurn_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				PRODUCT_NAME = ChemicalBurn;
+				WRAPPER_EXTENSION = saver;
+				ZERO_LINK = NO;
+			};
+			name = "Debug Optimized";
+		};
+		C2842DA60A63175000C9E89C /* Debug Optimized */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = "Debug Optimized";
+		};
+		EF7AD72E08BB986600CE4634 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ChemicalBurn_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				PRODUCT_NAME = ChemicalBurn;
+				WRAPPER_EXTENSION = saver;
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		EF7AD72F08BB986600CE4634 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_FAST_OBJC_DISPATCH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ChemicalBurn_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				PRODUCT_NAME = ChemicalBurn;
+				WRAPPER_EXTENSION = saver;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		EF7AD73208BB986600CE4634 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Debug;
+		};
+		EF7AD73308BB986600CE4634 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C20DDC580B0AAA88001CDA36 /* Build configuration list for PBXAggregateTarget "Upload" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C20DDC590B0AAA88001CDA36 /* Debug */,
+				C20DDC5A0B0AAA88001CDA36 /* Release */,
+				C20DDC5B0B0AAA88001CDA36 /* Debug Optimized */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EF7AD72D08BB986600CE4634 /* Build configuration list for PBXNativeTarget "ChemicalBurn" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF7AD72E08BB986600CE4634 /* Debug */,
+				EF7AD72F08BB986600CE4634 /* Release */,
+				C2842DA50A63175000C9E89C /* Debug Optimized */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EF7AD73108BB986600CE4634 /* Build configuration list for PBXProject "ChemicalBurn" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF7AD73208BB986600CE4634 /* Debug */,
+				EF7AD73308BB986600CE4634 /* Release */,
+				C2842DA60A63175000C9E89C /* Debug Optimized */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}
