@@ -3,10 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Breakpoints</key>
-	<dict>
-		<key>Aviation Weather Forecast.js:145</key>
-		<string>loadResults</string>
-	</dict>
+	<dict/>
 	<key>ContentSplitViewGeometry</key>
 	<dict>
 		<key>ContentSplitViewConfig</key>
@@ -30,30 +27,30 @@
 	<key>Dashboard Widget Prefs</key>
 	<dict>
 		<key>id</key>
-		<string>58ac29d3774fa741</string>
+		<string>27f96136db50a741</string>
 		<key>in-layer</key>
 		<true/>
 		<key>path</key>
-		<string>/private/tmp/Dashcode/.Aviation Weather Forecast.wdgtprojczJRFe/Aviation Weather Forecast.wdgtproj/project.wdgt/</string>
+		<string>/private/tmp/Dashcode/.Aviation Weather Forecast.wdgtprojbCBW5F/Aviation Weather Forecast.wdgtproj/project.wdgt/</string>
 		<key>percent-offset-x</key>
 		<integer>0</integer>
 		<key>percent-offset-y</key>
-		<integer>98</integer>
+		<integer>0</integer>
 		<key>percent-type</key>
 		<integer>4</integer>
 		<key>percent-x</key>
-		<real>0.0072916666977107525</real>
+		<real>0.1302083283662796</real>
 		<key>percent-y</key>
-		<real>0.0</real>
+		<real>0.24916666746139526</real>
 		<key>pos-x</key>
-		<integer>14</integer>
+		<integer>250</integer>
 		<key>pos-y</key>
-		<integer>1040</integer>
+		<integer>643</integer>
 		<key>rosetta</key>
 		<false/>
 	</dict>
 	<key>EvaluatorFrame</key>
-	<string>292 54 479 226 0 0 1920 1178 </string>
+	<string>292 43 1190 237 0 0 1920 1178 </string>
 	<key>MainSplitViewGeometry</key>
 	<dict>
 		<key>_collapsingFrameDimension</key>
@@ -69,7 +66,7 @@
 		</array>
 	</dict>
 	<key>MainWindowFrame</key>
-	<string>612 126 1289 1052 0 0 1920 1178 </string>
+	<string>477 126 1289 1052 0 0 1920 1178 </string>
 	<key>NavigatorSplitViewGeometry</key>
 	<dict>
 		<key>ContentSplitViewConfig</key>

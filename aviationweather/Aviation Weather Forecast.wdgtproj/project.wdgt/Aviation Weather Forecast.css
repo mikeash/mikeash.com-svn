@@ -86,6 +86,21 @@ body {
 	white-space: pre;
 }
 
+.resultcell1 {
+	float: left;
+	border-left: 1px solid;
+	border-right: 1px solid;
+	border-top: 1px solid;
+	border-bottom: 1px solid;
+}
+
+.resultcell {
+	float: left;
+	border-right: 1px solid;
+	border-top: 1px solid;
+	border-bottom: 1px solid;
+}
+
 .tempcanvas {
 }
 
@@ -102,11 +117,12 @@ body {
 }
 
 .weathertable {
+	border-width: 1px;
+	border-style: solid;
+	border-spacing: 0px;
 	border-collapse: collapse;
 }
 
 .weathertablecell {
-	border-width: 1px;
-	border-style: solid;
 }
 

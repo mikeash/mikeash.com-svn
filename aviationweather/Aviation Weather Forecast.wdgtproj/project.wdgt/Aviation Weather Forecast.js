@@ -136,11 +136,14 @@ function loadResults(weatherResults)
 	var tableBox = document.getElementById("tableBox");
 	
 	var hours = weatherResults["HR"];
-	var tablestr = "<table class=\"weathertable\"><tr>";
+	//var tablestr = "<table class=\"weathertable\"><tr>";
+	var tablestr = "";
 	for(i = 0; i < hours.length; i++)
 	{
-		tablestr += "<td class=\"weathertablecell\"><div id=\"result" + i + "\">" + templateHTML + "</div></td>";
+		tablestr += /*"<td class=\"weathertablecell\">"*/"<div id=\"result" + i + "\" class=\"resultcell" + (i == 0 ? "1" : "") + "\">" + templateHTML + "</div>"//</td>";
 	}
+	
+	//tablestr += "</table>";
 	
 	tableBox.object.content.innerHTML = tablestr;
 	
