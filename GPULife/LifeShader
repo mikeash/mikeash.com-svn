@@ -1,0 +1,108 @@
+!!ARBfp1.0
+
+# "one" contains the value we add to a tex coord to get neighboring tex coords
+# this should be 1.0 and -1.0 for rectangle extension textures
+PARAM one = {1.0, -1.0, 0.0, 0.0};
+PARAM blackThreshold = {0.1, 0.1, 0.1, 0.1};
+PARAM white = {1.0, 1.0, 1.0, 1.0};
+PARAM black = {0.0, 0.0, 0.0, 0.0};
+
+# get texture values for all eight neighbors
+TEMP neighborCoord;
+TEMP neighborColor;
+MOV neighborColor, {0.0, 0.0, 0.0, 0.0};
+
+# compute four neighbors, store into numNeighbors1.xyzw
+TEMP numNeighbors1;
+
+# +x direction
+ADD neighborCoord, fragment.texcoord[0], one.xzzz;
+TEX neighborColor, neighborCoord, texture[0], RECT;
+DP3 neighborColor, neighborColor, white; # get the sum of all color components
+SGE numNeighbors1.x, neighborColor, blackThreshold; # clamp to 0 or 1 based on threshold
+
+# -x direction
+ADD neighborCoord, fragment.texcoord[0], one.yzzz;
+TEX neighborColor, neighborCoord, texture[0], RECT;
+DP3 neighborColor, neighborColor, white; # get the sum of all color components
+SGE numNeighbors1.y, neighborColor, blackThreshold; # clamp to 0 or 1 based on threshold
+
+# +y direction
+ADD neighborCoord, fragment.texcoord[0], one.zxzz;
+TEX neighborColor, neighborCoord, texture[0], RECT;
+DP3 neighborColor, neighborColor, white; # get the sum of all color components
+SGE numNeighbors1.z, neighborColor, blackThreshold; # clamp to 0 or 1 based on threshold
+
+# -y direction
+ADD neighborCoord, fragment.texcoord[0], one.zyzz;
+TEX neighborColor, neighborCoord, texture[0], RECT;
+DP3 neighborColor, neighborColor, white; # get the sum of all color components
+SGE numNeighbors1.w, neighborColor, blackThreshold; # clamp to 0 or 1 based on threshold
+
+# compute four neighbors, store into numNeighbors2.xyzw
+TEMP numNeighbors2;
+
+# +xy direction
+ADD neighborCoord, fragment.texcoord[0], one.xxzz;
+TEX neighborColor, neighborCoord, texture[0], RECT;
+DP3 neighborColor, neighborColor, white; # get the sum of all color components
+SGE numNeighbors2.x, neighborColor, blackThreshold; # clamp to 0 or 1 based on threshold
+
+# -x+y direction
+ADD neighborCoord, fragment.texcoord[0], one.yxzz;
+TEX neighborColor, neighborCoord, texture[0], RECT;
+DP3 neighborColor, neighborColor, white; # get the sum of all color components
+SGE numNeighbors2.y, neighborColor, blackThreshold; # clamp to 0 or 1 based on threshold
+
+# +x-y direction
+ADD neighborCoord, fragment.texcoord[0], one.xyzz;
+TEX neighborColor, neighborCoord, texture[0], RECT;
+DP3 neighborColor, neighborColor, white; # get the sum of all color components
+SGE numNeighbors2.z, neighborColor, blackThreshold; # clamp to 0 or 1 based on threshold
+
+# -x-y direction
+ADD neighborCoord, fragment.texcoord[0], one.yyzz;
+TEX neighborColor, neighborCoord, texture[0], RECT;
+DP3 neighborColor, neighborColor, white; # get the sum of all color components
+SGE numNeighbors2.w, neighborColor, blackThreshold; # clamp to 0 or 1 based on threshold
+
+# now squish the two numNeighbors down to a single vector with identical components
+DP4 numNeighbors1, numNeighbors1, {1.0, 1.0, 1.0, 1.0};
+DP4 numNeighbors2, numNeighbors2, {1.0, 1.0, 1.0, 1.0};
+
+TEMP numNeighbors;
+ADD numNeighbors, numNeighbors1, numNeighbors2;
+
+# finally, get our current value
+TEMP curValue;
+TEX curValue, fragment.texcoord[0], texture[0], RECT;
+DP3 curValue, curValue, white;
+SGE curValue, curValue, blackThreshold;
+
+# set gteq2 equal to 1 if we have at least 2 neighbors
+TEMP gteq2;
+SGE gteq2, numNeighbors, {1.5, 1.5, 1.5, 1.5};
+
+# set gteq3 equal to 1 if we have at least 3 neighbors
+TEMP gteq3;
+SGE gteq3, numNeighbors, {2.5, 2.5, 2.5, 2.5};
+
+# set gteq4 equal to 1 if we have at least 4 neighbors
+TEMP gteq4;
+SGE gteq4, numNeighbors, {3.5, 3.5, 3.5, 3.5};
+
+# compute this formula: curValue * gteq2 + gteq3
+# gives 0 if cell starves or stays dead, 1 if cell survives or is born
+MAD curValue, curValue, gteq2, gteq3;
+# clamp to 0 or 1
+SGE curValue, curValue, white;
+
+# finally, subtract gteq4
+# if gteq4 is 1, then curValue is also 1, so this will always give either 1 or 0
+SUB curValue, curValue, gteq4;
+
+MUL result.color, curValue, fragment.texcoord[1];
+
+MOV result.color.a, 1.0;
+
+END

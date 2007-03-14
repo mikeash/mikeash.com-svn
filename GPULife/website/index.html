@@ -1,0 +1,67 @@
+<HTML>
+<HEAD>
+<TITLE>GPULife for Mac OS X</TITLE>
+</HEAD>
+<BODY>
+<center><h1>GPULife for Mac OS X</h1></center>
+<h3>Introducing the Game of Life screensaver with the <i>highest</i> system requirements in history!</h3>
+
+<img src="life.png" align=left hspace=10 vspace=10>
+
+<p>But it may be one of the fastest....</p>
+
+<p>This Life screensaver runs almost entirely on your graphics card. The logic is written as an OpenGL shader, with just a bit of extra programming to glue it all together. This screensaver gets 22fps on my PowerBook G4 running at a 1x zoom fullscreen at 1280x854 while using only 10% of the CPU.</p>
+
+<br clear=all>
+
+<p><b>News:</b> GPULife 1.0.1 is now a universal binary. So you can run GPULife on all those blazing fast Intel Chip Based Macs. Enjoy! And on that note, if anybody could tell me whether it runs on the new Mini, I would love to know.</p>
+
+<p>Because it's a shader, and a rather complicated shader, it needs a hefty graphics card to work. So far, it's been tested and known to work on these cards:</p>
+<UL>
+<LI>ATI Mobility Radeon 9700</LI>
+<LI>ATI Mobility Radeon 9200</LI>
+<LI>ATI Radeon 9200</LI>
+<LI>ATI Radeon 9600 Pro</LI>
+<LI>ATI Radeon 9600 XT</LI>
+<LI>ATI Radeon X800</LI>
+<LI>NVIDIA GeForce FX Go5200</LI>
+<LI>NVIDIA GeForce FX 5200</LI>
+</UL>
+<p>If you have one of these cards, or something better, it will probably work fine. If you don't, it may not. However, the worst that can happen is that it won't work. If your screen comes out pure black, or pure white, or never changes, it's probably because of the graphics card.</p>
+
+<p>If it works on your system and your card is not on this list, please <a href="mailto:mike@mikeash.com">e-mail me</a> so I can update the list.</p>
+
+<h3>Download</h3>
+
+<P><A HREF="GPULife.saver.zip">Download GPULife (26kB)</A> - Requires Mac OS X 10.3 (possibly higher) and a hefty video card.</P>
+
+<P>After downloading, double-click the <CODE>GPULife.saver</CODE> file. It will open System Preferences and prompt you to install the screensaver.</P>
+
+<P>For questions, comments, support, etc., e-mail <a href="mailto:mike@mikeash.com">Michael Ash</a>.</P>
+
+<img src="settings.png" align=left>
+
+<center><h3>Options</h3></center>
+
+<P><B>Limit framerate</B>: This option allows you to limit the rate at which the screensaver updates, to keep from using 100% of your graphics card's power. If unchecked, the screensaver will run as fast as your hardware will allow. If checked, you can set a maximum framerate using the slider and textbox to the right.</P>
+
+<P><B>Show framerate</B>: If checked, the current framerate will be displayed in the lower left corner of your screen.</P>
+
+<P><B>Zoom</B>: This allows you to control the zoom factor of the screensaver; at 1, one pixel is one Life cell.</P>
+
+<P><B>Initial fill</B>: When the screensaver starts, the field is filled with a random assortment of live and dead cells. This slider control the proportion of live cells. Both extremes are likely to rapidly result in a very dead space; best results are found in the middle.</P>
+
+<P><B>Add random cells (per step)</B>: The screensaver will add the given number of live cells to the grid at every step. A small number of random cells can keep the grid from stagnating into still or repeating forms.</P>
+
+<P><B>Corner colors</B>: Liven up your screensaver by setting custom colors for the live cells. Dead cells are always black. Colors that are too close to black can confuse the engine, so dark are automatically brightened slightly.</P>
+
+<h3>What is Life?</h3>
+
+<P>More properly called Conway's Game of Life, Life is a cellular automaton. It's a computer simulation which takes place on a grid; each square in the grid is a cell which is either alive or dead. In Life, each cell counts its eight neighbors (four cardinal directions plus diagonals). If a live cell has two or three neighbors, it stays alive, otherwise it dies. If a dead cell has three neighbors, it is born, otherwise it stays dead. Through these simple rules, complex patterns evolve.</P>
+
+<P>For more information, see <A href="http://en.wikipedia.org/wiki/Conway's_Game_of_Life">Conway's Game of Life at the Wikipedia</A>.
+
+<P><FONT SIZE="-1">GPULife is copyright 2005 by Michael Ash</FONT></P>
+
+</BODY>
+</HTML>

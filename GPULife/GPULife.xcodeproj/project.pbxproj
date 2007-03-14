@@ -1,0 +1,510 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		C26797C60B0B938F00FD6A40 /* GPULife.saver in CopyFiles */ = {isa = PBXBuildFile; fileRef = C2CC7A7008350BBD00EB6054 /* GPULife.saver */; };
+		C2CC78710833A2A300EB6054 /* LifeShader in Resources */ = {isa = PBXBuildFile; fileRef = C2CC78700833A2A300EB6054 /* LifeShader */; };
+		C2CC78790833A2DC00EB6054 /* GPULifeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C2CC78780833A2DC00EB6054 /* GPULifeView.m */; };
+		C2CC795C0833B01800EB6054 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2CC795B0833B01800EB6054 /* OpenGL.framework */; };
+		C2CC7A7908350BE700EB6054 /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2CC7A7808350BE700EB6054 /* ScreenSaver.framework */; };
+		C2CC7A9808350C5A00EB6054 /* GPULifeSaverView.m in Sources */ = {isa = PBXBuildFile; fileRef = C2CC7A9708350C5A00EB6054 /* GPULifeSaverView.m */; };
+		C2CC7A9908350C6300EB6054 /* GPULifeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C2CC78780833A2DC00EB6054 /* GPULifeView.m */; };
+		C2CC7ACE08350E2900EB6054 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2CC795B0833B01800EB6054 /* OpenGL.framework */; };
+		C2CC7ACF08350E2900EB6054 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		C2CC7ADD08350E6E00EB6054 /* LifeShader in Resources */ = {isa = PBXBuildFile; fileRef = C2CC78700833A2A300EB6054 /* LifeShader */; };
+		C2CC7B300835127B00EB6054 /* ScreenSaver.nib in Resources */ = {isa = PBXBuildFile; fileRef = C2CC7B2E0835127B00EB6054 /* ScreenSaver.nib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C26797C20B0B937E00FD6A40 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(HOME)/Library/Screen Savers";
+			dstSubfolderSpec = 0;
+			files = (
+				C26797C60B0B938F00FD6A40 /* GPULife.saver in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32CA4F630368D1EE00C91783 /* GPULife_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPULife_Prefix.pch; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* GPULife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GPULife.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2CC78700833A2A300EB6054 /* LifeShader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LifeShader; sourceTree = "<group>"; };
+		C2CC78770833A2DC00EB6054 /* GPULifeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPULifeView.h; sourceTree = "<group>"; };
+		C2CC78780833A2DC00EB6054 /* GPULifeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPULifeView.m; sourceTree = "<group>"; };
+		C2CC795B0833B01800EB6054 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		C2CC7A7008350BBD00EB6054 /* GPULife.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GPULife.saver; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2CC7A7108350BBD00EB6054 /* GPULife saver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "GPULife saver-Info.plist"; sourceTree = "<group>"; };
+		C2CC7A7808350BE700EB6054 /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = /System/Library/Frameworks/ScreenSaver.framework; sourceTree = "<absolute>"; };
+		C2CC7A9608350C5A00EB6054 /* GPULifeSaverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPULifeSaverView.h; sourceTree = "<group>"; };
+		C2CC7A9708350C5A00EB6054 /* GPULifeSaverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPULifeSaverView.m; sourceTree = "<group>"; };
+		C2CC7B2F0835127B00EB6054 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ScreenSaver.nib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				C2CC795C0833B01800EB6054 /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2CC7A6E08350BBD00EB6054 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2CC7ACE08350E2900EB6054 /* OpenGL.framework in Frameworks */,
+				C2CC7ACF08350E2900EB6054 /* Cocoa.framework in Frameworks */,
+				C2CC7A7908350BE700EB6054 /* ScreenSaver.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C2CC7A7808350BE700EB6054 /* ScreenSaver.framework */,
+				C2CC795B0833B01800EB6054 /* OpenGL.framework */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* GPULife.app */,
+				C2CC7A7008350BBD00EB6054 /* GPULife.saver */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* GPULife */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = GPULife;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* GPULife_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+				C2CC78770833A2DC00EB6054 /* GPULifeView.h */,
+				C2CC78780833A2DC00EB6054 /* GPULifeView.m */,
+				C2CC7A9608350C5A00EB6054 /* GPULifeSaverView.h */,
+				C2CC7A9708350C5A00EB6054 /* GPULifeSaverView.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C2CC7A7108350BBD00EB6054 /* GPULife saver-Info.plist */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+				C2CC78700833A2A300EB6054 /* LifeShader */,
+				C2CC7B2E0835127B00EB6054 /* ScreenSaver.nib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* GPULife */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C2D8204E0897ABEC008CB8EC /* Build configuration list for PBXNativeTarget "GPULife" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GPULife;
+			productInstallPath = "$(HOME)/Applications";
+			productName = GPULife;
+			productReference = 8D1107320486CEB800E47090 /* GPULife.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C2CC7A6F08350BBD00EB6054 /* GPULife saver */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C2D820520897ABEC008CB8EC /* Build configuration list for PBXNativeTarget "GPULife saver" */;
+			buildPhases = (
+				C2CC7A6C08350BBD00EB6054 /* Resources */,
+				C2CC7A6D08350BBD00EB6054 /* Sources */,
+				C2CC7A6E08350BBD00EB6054 /* Frameworks */,
+				C26797C20B0B937E00FD6A40 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "GPULife saver";
+			productName = "GPULife saver";
+			productReference = C2CC7A7008350BBD00EB6054 /* GPULife.saver */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C2D820560897ABEC008CB8EC /* Build configuration list for PBXProject "GPULife" */;
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* GPULife */;
+			projectDirPath = "";
+			targets = (
+				8D1107260486CEB800E47090 /* GPULife */,
+				C2CC7A6F08350BBD00EB6054 /* GPULife saver */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				C2CC78710833A2A300EB6054 /* LifeShader in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2CC7A6C08350BBD00EB6054 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2CC7ADD08350E6E00EB6054 /* LifeShader in Resources */,
+				C2CC7B300835127B00EB6054 /* ScreenSaver.nib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				C2CC78790833A2DC00EB6054 /* GPULifeView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C2CC7A6D08350BBD00EB6054 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2CC7A9808350C5A00EB6054 /* GPULifeSaverView.m in Sources */,
+				C2CC7A9908350C6300EB6054 /* GPULifeView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				29B97319FDCFA39411CA2CEA /* English */,
+			);
+			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+		C2CC7B2E0835127B00EB6054 /* ScreenSaver.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C2CC7B2F0835127B00EB6054 /* English */,
+			);
+			name = ScreenSaver.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C2D8204F0897ABEC008CB8EC /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GPULife_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PREBINDING = NO;
+				PRODUCT_NAME = GPULife;
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+					"-Wno-unused-parameter",
+				);
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		C2D820500897ABEC008CB8EC /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GPULife_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PREBINDING = NO;
+				PRODUCT_NAME = GPULife;
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+					"-Wno-unused-parameter",
+				);
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		C2D820510897ABEC008CB8EC /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GPULife_Prefix.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = GPULife;
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+					"-Wno-unused-parameter",
+				);
+				WRAPPER_EXTENSION = app;
+			};
+			name = Default;
+		};
+		C2D820530897ABEC008CB8EC /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G4;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				INFOPLIST_FILE = "GPULife saver-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_STYLE = BUNDLE;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = GPULife;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+					"-Wno-unused-parameter",
+				);
+				WRAPPER_EXTENSION = saver;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		C2D820540897ABEC008CB8EC /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				INFOPLIST_FILE = "GPULife saver-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_STYLE = BUNDLE;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = GPULife;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+					"-Wno-unused-parameter",
+				);
+				WRAPPER_EXTENSION = saver;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		C2D820550897ABEC008CB8EC /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G4;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				INFOPLIST_FILE = "GPULife saver-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_STYLE = BUNDLE;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = GPULife;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-W",
+					"-Wall",
+					"-Wno-unused-parameter",
+				);
+				WRAPPER_EXTENSION = saver;
+			};
+			name = Default;
+		};
+		C2D820570897ABEC008CB8EC /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Development;
+		};
+		C2D820580897ABEC008CB8EC /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_VERSION = 4.0;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Deployment;
+		};
+		C2D820590897ABEC008CB8EC /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C2D8204E0897ABEC008CB8EC /* Build configuration list for PBXNativeTarget "GPULife" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2D8204F0897ABEC008CB8EC /* Development */,
+				C2D820500897ABEC008CB8EC /* Deployment */,
+				C2D820510897ABEC008CB8EC /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		C2D820520897ABEC008CB8EC /* Build configuration list for PBXNativeTarget "GPULife saver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2D820530897ABEC008CB8EC /* Development */,
+				C2D820540897ABEC008CB8EC /* Deployment */,
+				C2D820550897ABEC008CB8EC /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		C2D820560897ABEC008CB8EC /* Build configuration list for PBXProject "GPULife" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2D820570897ABEC008CB8EC /* Development */,
+				C2D820580897ABEC008CB8EC /* Deployment */,
+				C2D820590897ABEC008CB8EC /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

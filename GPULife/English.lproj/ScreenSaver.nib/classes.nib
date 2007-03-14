@@ -1,0 +1,31 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                cancel = id; 
+                limitFPSChecked = id; 
+                limitFPSField = id; 
+                limitFPSSlider = id; 
+                ok = id; 
+            }; 
+            CLASS = GPULifeSaverView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                colorWellBox = NSBox; 
+                configureSheet = NSWindow; 
+                displayFPSCheckbox = NSButton; 
+                fpsField = NSTextField; 
+                fpsSlider = NSSlider; 
+                generationField = NSTextField; 
+                initialFillSlider = NSSlider; 
+                limitFPSCheckbox = NSButton; 
+                zoomField = NSTextField; 
+                zoomSlider = NSSlider; 
+            }; 
+            SUPERCLASS = ScreenSaverView; 
+        }, 
+        {CLASS = ScreenSaverView; LANGUAGE = ObjC; SUPERCLASS = NSView; }
+    ); 
+    IBVersion = 1; 
+}
