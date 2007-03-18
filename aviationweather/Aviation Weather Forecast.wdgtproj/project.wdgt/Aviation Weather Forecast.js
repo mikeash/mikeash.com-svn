@@ -64,7 +64,7 @@ function showFront(event)
 function loadWeather()
 {
 	xmlhttp = new XMLHttpRequest();
-	// http://www.nws.noaa.gov/cgi-bin/mos/getmav.pl?sta=KOKV
+	//xmlhttp.open("GET", "http://www.nws.noaa.gov/cgi-bin/mos/getmav.pl?sta=KOKV", true);
 	xmlhttp.open("GET", "http://www.mikeash.com/tmp/weather.html", true);
 	xmlhttp.onreadystatechange = function()
 	{
@@ -106,14 +106,15 @@ function parseWeather(txt)
 		{
 			var name = elements[0];
 			var values = elements.slice(1, -1);
-			
+			var raw = lines[i].slice(4);
 			dict[name] = values;
+			dict[name + "_raw"] = raw;
 		}
 	}
 	return dict;
 }
 
-function ensureNumberStringLength(num, len)
+function padNum(num, len)
 {
 	num = "" + num;
 	while(num.length < len)
@@ -135,6 +136,8 @@ function loadResults(weatherResults)
 	templateHTML +=		'</div>';
 	var tableBox = document.getElementById("tableBox");
 	
+	var dates = weatherDates(weatherResults);
+	
 	var hours = weatherResults["HR"];
 	var tablestr = "";
 	for(i = 0; i < hours.length; i++)
@@ -147,9 +150,8 @@ function loadResults(weatherResults)
 	for(i = 0; i < hours.length; i++)
 	{
 		var cell = document.getElementById("result" + i);
-		var minutes = ((hours[i] * 60) - new Date().getTimezoneOffset() + 24 * 60) % (24 * 60);
-		var time = ensureNumberStringLength(minutes / 60, 2) + ensureNumberStringLength(minutes % 60, 2);
-		cell.children.namedItem("time").innerHTML = time;
+		cell.children.namedItem("time").innerHTML = padNum(dates[i].getMonth(), 2) + "/" + padNum(dates[i].getDate(), 2) + "<br>" +
+													padNum(dates[i].getHours(), 2) + "00";
 		
 		var temp = weatherResults["TMP"][i];
 		setTemp(cell.children.namedItem("temp"), temp);
@@ -170,6 +172,55 @@ function loadResults(weatherResults)
 		var cloudbasetext = cloudBaseText(cloudbaseraw);
 		cell.children.namedItem("cloudbasetext").innerHTML = cloudbasetext;
 	}
+}
+
+function weatherDates(weatherResults)
+{
+	var hours = weatherResults["HR"];
+	var date = weatherResults["DT_raw"].split("/")[1];
+	date = parseDateStr(date);
+	date.setUTCHours(0);
+	date.setUTCMinutes(0);
+	
+	var dates = new Array();
+	if(hours[0] == "00")
+		date.setUTCDate(date.getUTCDate() - 1);
+	for(i = 0; i < hours.length; i++)
+	{
+		var hour = hours[i];
+		if(hour == "00")
+			date.setUTCDate(date.getUTCDate() + 1);
+		date.setUTCHours(hour);
+		
+		var newDate = new Date();
+		newDate.setTime(date.getTime());
+		dates[i] = newDate;
+	}
+	return dates;
+}
+
+function parseDateStr(date)
+{
+	var array = new Array();
+	array["JAN"] = 1;
+	array["FEB"] = 2;
+	array["MAR"] = 3;
+	array["APR"] = 4;
+	array["MAY"] = 5;
+	array["JUN"] = 6;
+	array["JUL"] = 7;
+	array["AUG"] = 8;
+	array["SEP"] = 9;
+	array["OCT"] = 10;
+	array["NOV"] = 11;
+	array["DEC"] = 12;
+	
+	var month = array[date.slice(0, 3)];
+	var day = date.slice(3);
+	var date = new Date();
+	date.setUTCMonth(month - 1);
+	date.setUTCDate(day);
+	return date;
 }
 
 function setWind(elt, val, speed)

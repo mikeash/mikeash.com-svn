@@ -107,7 +107,7 @@ body {
 .temptext {
 	position: absolute;
 	z-index: 1;
-	top: 20px;
+	top: 30px;
 	text-align: center;
 	width: 32px;
 }
