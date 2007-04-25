@@ -1,0 +1,13 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {addNewEntry = id; }; 
+            CLASS = GBLogBookDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {mTableView = NSTableView; }; 
+            SUPERCLASS = NSDocument; 
+        }
+    ); 
+    IBVersion = 1; 
+}
