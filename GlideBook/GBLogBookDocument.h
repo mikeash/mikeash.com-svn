@@ -13,7 +13,12 @@
 
 @interface GBLogBookDocument : NSDocument
 {
-	IBOutlet NSTableView*	mTableView;
+	IBOutlet NSTableView*		mTableView;
+	IBOutlet NSTextFieldCell*	mTotalDualCell;
+	IBOutlet NSTextFieldCell*	mTotalPICCell;
+	IBOutlet NSTextFieldCell*	mTotalSoloCell;
+	IBOutlet NSTextFieldCell*	mTotalInstCell;
+	IBOutlet NSTextFieldCell*	mTotalTotalCell;
 	
 	GBLogBook*		mLogBook;
 }

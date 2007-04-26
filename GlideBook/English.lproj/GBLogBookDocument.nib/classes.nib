@@ -5,7 +5,14 @@
             ACTIONS = {addNewEntry = id; }; 
             CLASS = GBLogBookDocument; 
             LANGUAGE = ObjC; 
-            OUTLETS = {mTableView = NSTableView; }; 
+            OUTLETS = {
+                mTableView = NSTableView; 
+                mTotalDualCell = NSTextFieldCell; 
+                mTotalInstCell = NSTextFieldCell; 
+                mTotalPICCell = NSTextFieldCell; 
+                mTotalSoloCell = NSTextFieldCell; 
+                mTotalTotalCell = NSTextFieldCell; 
+            }; 
             SUPERCLASS = NSDocument; 
         }
     ); 

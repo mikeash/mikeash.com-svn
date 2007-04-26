@@ -11,6 +11,13 @@
 #import "GBLogBook.h"
 
 
+@interface GBLogBookDocument (Private)
+
+- (void)_logbookChanged;
+
+@end
+
+
 @implementation GBLogBookDocument
 
 - (id)initWithType: (NSString *)typeName error: (NSError **)outError
@@ -52,18 +59,37 @@
 											 selector: @selector( _logbookChanged )
 												 name: GBLogBookDidChangeNotification
 											   object: mLogBook];
-}
-
-#pragma mark -
-
-- (void)_logbookChanged
-{
-	[mTableView reloadData];
+	[self _logbookChanged];
 }
 
 - (IBAction)addNewEntry: (id)sender
 {
 	[mLogBook makeNewEntry];
+}
+
+@end
+
+@implementation GBLogBookDocument (Private)
+
+- (void)_updateTotals
+{
+	int dual = [mLogBook totalForIdentifier: @"dual_time"];
+	int pic  = [mLogBook totalForIdentifier: @"pilot_in_command_time"];
+	int solo = [mLogBook totalForIdentifier: @"solo_time"];
+	int inst = [mLogBook totalForIdentifier: @"instruction_given_time"];
+	
+	[mTotalDualCell setIntValue: dual];
+	[mTotalPICCell  setIntValue: pic];
+	[mTotalSoloCell setIntValue: solo];
+	[mTotalInstCell setIntValue: inst];
+	
+	[mTotalTotalCell setIntValue: dual + pic + solo + inst];
+}
+
+- (void)_logbookChanged
+{
+	[mTableView reloadData];
+	[self _updateTotals];
 }
 
 - (int)numberOfRowsInTableView: (NSTableView *)tableView

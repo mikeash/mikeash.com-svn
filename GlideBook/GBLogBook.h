@@ -26,5 +26,6 @@ extern NSString * const GBLogBookDidChangeNotification;
 - (void)makeNewEntry;
 - (id)valueForEntry: (int)entryIndex identifier: (NSString *)identifier;
 - (void)setValue: (id)value forEntry: (int)entryIndex identifier: (NSString *)identifier;
+- (int)totalForIdentifier: (NSString *)identifier;
 
 @end
