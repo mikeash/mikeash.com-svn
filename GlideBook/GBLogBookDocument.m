@@ -24,7 +24,7 @@
 {
 	if( (self = [super initWithType: typeName error: outError]) )
 	{
-		mLogBook = [[GBLogBook alloc] init];
+		mLogBook = [[GBLogBook alloc] initWithUndoManager: [self undoManager]];
 	}
 	return self;
 }
