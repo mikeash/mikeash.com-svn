@@ -30,10 +30,14 @@ NSString * const GBLogBookDidChangeNotification = @"GBLogBookDidChangeNotificati
 		NSString *errorString = nil;
 		
 		[mEntries release];
-		mEntries = [[NSPropertyListSerialization propertyListFromData: data
-													 mutabilityOption: NSPropertyListMutableContainers
-															   format: NULL
-													 errorDescription: &errorString] retain];
+		NSDictionary *dict = [[NSPropertyListSerialization propertyListFromData: data
+															   mutabilityOption: NSPropertyListMutableContainers
+																		 format: NULL
+															   errorDescription: &errorString] retain];
+		if( dict )
+			errorString = nil;
+		
+		mEntries = [[dict objectForKey: @"entries"] retain];
 		
 		if( !mEntries || ![mEntries isKindOfClass: [NSMutableArray class]] )
 		{
@@ -60,7 +64,10 @@ NSString * const GBLogBookDidChangeNotification = @"GBLogBookDidChangeNotificati
 
 - (NSData *)data
 {
-	return [NSPropertyListSerialization dataFromPropertyList: mEntries format: NSPropertyListXMLFormat_v1_0 errorDescription: NULL];
+	NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+		mEntries, @"entries",
+		nil];
+	return [NSPropertyListSerialization dataFromPropertyList: dict format: NSPropertyListXMLFormat_v1_0 errorDescription: NULL];
 }
 
 #pragma mark -
