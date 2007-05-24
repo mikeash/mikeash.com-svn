@@ -2,10 +2,11 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {addNewEntry = id; }; 
+            ACTIONS = {addNewEntry = id; filter = id; }; 
             CLASS = GBLogBookDocument; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                mSearchField = NSSearchField; 
                 mTableView = NSTableView; 
                 mTotalDualCell = NSTextFieldCell; 
                 mTotalInstCell = NSTextFieldCell; 

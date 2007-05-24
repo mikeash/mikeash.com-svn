@@ -13,19 +13,13 @@ extern NSString * const GBLogBookDidChangeNotification;
 
 @interface GBLogBook : NSObject
 {
-	NSUndoManager*		mUndoManager;
 	NSMutableArray*		mEntries;
 }
 
-- (id)initWithUndoManager: (NSUndoManager *)undoManager;
-- (id)initWithUndoManager: (NSUndoManager *)undoManager data: (NSData *)data error: (NSError **)outError;
+- (id)initWithData: (NSData *)data error: (NSError **)outError;
 
 - (NSData *)data;
 
-- (int)entriesCount;
-- (void)makeNewEntry;
-- (id)valueForEntry: (int)entryIndex identifier: (NSString *)identifier;
-- (void)setValue: (id)value forEntry: (int)entryIndex identifier: (NSString *)identifier;
-- (int)totalForIdentifier: (NSString *)identifier;
+- (NSMutableArray *)entries;
 
 @end

@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
+@class GBDataView;
 @class GBLogBook;
 
 @interface GBLogBookDocument : NSDocument
@@ -20,9 +21,14 @@
 	IBOutlet NSTextFieldCell*	mTotalInstCell;
 	IBOutlet NSTextFieldCell*	mTotalTotalCell;
 	
+	IBOutlet NSSearchField*		mSearchField;
+	
 	GBLogBook*		mLogBook;
+	GBDataView*		mDataView;
 }
 
 - (IBAction)addNewEntry: (id)sender;
+
+- (IBAction)filter: (id)sender;
 
 @end

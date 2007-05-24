@@ -13,19 +13,18 @@ NSString * const GBLogBookDidChangeNotification = @"GBLogBookDidChangeNotificati
 
 @implementation GBLogBook
 
-- (id)initWithUndoManager: (NSUndoManager *)undoManager;
+- (id)init
 {
-	if( (self = [self init]) )
+	if( (self = [super init]) )
 	{
-		mUndoManager = undoManager;
 		mEntries = [[NSMutableArray alloc] init];
 	}
 	return self;
 }
 
-- (id)initWithUndoManager: (NSUndoManager *)undoManager data: (NSData *)data error: (NSError **)outError
+- (id)initWithData: (NSData *)data error: (NSError **)outError
 {
-	if( (self = [self initWithUndoManager: undoManager]) )
+	if( (self = [self init]) )
 	{
 		NSString *errorString = nil;
 		
@@ -70,83 +69,9 @@ NSString * const GBLogBookDidChangeNotification = @"GBLogBookDidChangeNotificati
 	return [NSPropertyListSerialization dataFromPropertyList: dict format: NSPropertyListXMLFormat_v1_0 errorDescription: NULL];
 }
 
-#pragma mark -
-
-- (void)_noteDidChange
+- (NSMutableArray *)entries
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName: GBLogBookDidChangeNotification
-														object: self];
-}
-
-- (int)entriesCount
-{
-	return [mEntries count];
-}
-
-- (void)_removeLastEntry
-{
-	[[mUndoManager prepareWithInvocationTarget: self] makeNewEntry];
-	[mEntries removeLastObject];
-	[self _noteDidChange];
-}
-
-- (void)makeNewEntry
-{
-	[[mUndoManager prepareWithInvocationTarget: self] _removeLastEntry];
-	[mEntries addObject: [NSMutableDictionary dictionary]];
-	[self _noteDidChange];
-}
-
-- (id)_totalTimeForEntry: (int)entryIndex
-{
-	NSDictionary *dict = [mEntries objectAtIndex: entryIndex];
-	NSString *timeKeys[] = { @"dual_time", @"pilot_in_command_time", @"solo_time", @"instruction_given_time", nil };
-	
-	int total = 0;
-	
-	NSString **key;
-	for( key = timeKeys; *key; key++ )
-		total += [[dict objectForKey: *key] intValue];
-	
-	return [NSNumber numberWithInt: total];
-}
-
-- (id)valueForEntry: (int)entryIndex identifier: (NSString *)identifier
-{
-	if( [identifier isEqualToString: @"number"] )
-		return [NSNumber numberWithInt: entryIndex + 1];
-	if( [identifier isEqualToString: @"total_time"] )
-		return [self _totalTimeForEntry: entryIndex];
-	
-	return [[mEntries objectAtIndex: entryIndex] objectForKey: identifier];
-}
-
-- (void)setValue: (id)value forEntry: (int)entryIndex identifier: (NSString *)identifier
-{
-	if( !identifier )
-		return;
-	
-	id oldValue = [self valueForEntry: entryIndex identifier: identifier];
-	if( ![oldValue isEqual: value] )
-	{
-		[[mUndoManager prepareWithInvocationTarget: self] setValue: oldValue
-														  forEntry: entryIndex
-														identifier: identifier];
-		[[mEntries objectAtIndex: entryIndex] setValue: value forKey: identifier];
-		
-		[self _noteDidChange];
-	}
-}
-
-- (int)totalForIdentifier: (NSString *)identifier
-{
-	int total = 0;
-	forall( dict, mEntries )
-	{
-		id val = [dict objectForKey: identifier];
-		total += [val intValue];
-	}
-	return total;
+	return mEntries;
 }
 
 @end

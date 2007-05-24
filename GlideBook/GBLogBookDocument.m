@@ -8,12 +8,15 @@
 
 #import "GBLogBookDocument.h"
 
+#import "GBDataView.h"
+#import "GBFilter.h"
 #import "GBLogBook.h"
 
 
 @interface GBLogBookDocument (Private)
 
 - (void)_logbookChanged;
+- (void)_setFilterString: (NSString *)str;
 
 @end
 
@@ -24,7 +27,8 @@
 {
 	if( (self = [super initWithType: typeName error: outError]) )
 	{
-		mLogBook = [[GBLogBook alloc] initWithUndoManager: [self undoManager]];
+		mLogBook = [[GBLogBook alloc] init];
+		[self _setFilterString: nil];
 	}
 	return self;
 }
@@ -32,6 +36,9 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	
+	[mLogBook release];
+	[mDataView release];
 	
 	[super dealloc];
 }
@@ -48,8 +55,9 @@
 
 - (BOOL)readFromData: (NSData *)data ofType: (NSString *)typeName error: (NSError **)outError
 {
-	mLogBook = [[GBLogBook alloc] initWithUndoManager: [self undoManager] data: data error: outError];
-	
+	mLogBook = [[GBLogBook alloc] initWithData: data error: outError];
+	[self _setFilterString: nil];
+
 	return mLogBook != nil;
 }
 
@@ -64,7 +72,12 @@
 
 - (IBAction)addNewEntry: (id)sender
 {
-	[mLogBook makeNewEntry];
+	[mDataView makeNewEntry];
+}
+
+- (IBAction)filter: (id)sender
+{
+	[self _setFilterString: [mSearchField stringValue]];
 }
 
 @end
@@ -73,10 +86,10 @@
 
 - (void)_updateTotals
 {
-	int dual = [mLogBook totalForIdentifier: @"dual_time"];
-	int pic  = [mLogBook totalForIdentifier: @"pilot_in_command_time"];
-	int solo = [mLogBook totalForIdentifier: @"solo_time"];
-	int inst = [mLogBook totalForIdentifier: @"instruction_given_time"];
+	int dual = [mDataView totalForIdentifier: @"dual_time"];
+	int pic  = [mDataView totalForIdentifier: @"pilot_in_command_time"];
+	int solo = [mDataView totalForIdentifier: @"solo_time"];
+	int inst = [mDataView totalForIdentifier: @"instruction_given_time"];
 	
 	[mTotalDualCell setIntValue: dual];
 	[mTotalPICCell  setIntValue: pic];
@@ -92,19 +105,36 @@
 	[self _updateTotals];
 }
 
+- (void)_setDataView: (GBDataView *)dataView
+{
+	if( dataView != mDataView )
+	{
+		[mDataView release];
+		mDataView = [dataView retain];
+	}
+}
+
+- (void)_setFilterString: (NSString *)str
+{
+	[self _setDataView: [GBDataView dataViewWithUndoManager: [self undoManager]
+													logBook: mLogBook
+													 filter: [GBFilter filterWithString: str]]];
+	[self _logbookChanged];
+}
+
 - (int)numberOfRowsInTableView: (NSTableView *)tableView
 {
-	return [mLogBook entriesCount];
+	return [mDataView entriesCount];
 }
 
 - (id)tableView: (NSTableView *)tableView objectValueForTableColumn: (NSTableColumn *)tableColumn row: (int)row
 {
-	return [mLogBook valueForEntry: row identifier: [tableColumn identifier]];
+	return [mDataView valueForEntry: row identifier: [tableColumn identifier]];
 }
 
 - (void)tableView: (NSTableView *)tableView setObjectValue: (id)object forTableColumn: (NSTableColumn *)tableColumn row: (int)row
 {
-	[mLogBook setValue: object forEntry: row identifier: [tableColumn identifier]];
+	[mDataView setValue: object forEntry: row identifier: [tableColumn identifier]];
 }
 
 
