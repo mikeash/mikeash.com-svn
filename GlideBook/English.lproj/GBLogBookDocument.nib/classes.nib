@@ -15,7 +15,8 @@
                 mTotalTotalCell = NSTextFieldCell; 
             }; 
             SUPERCLASS = NSDocument; 
-        }
+        }, 
+        {CLASS = GBTotalsTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }
     ); 
     IBVersion = 1; 
 }

@@ -84,25 +84,21 @@
 
 @implementation GBLogBookDocument (Private)
 
-- (void)_updateTotals
+- (id)_totalForIdentifier: (NSString *)identifier
 {
-	int dual = [mDataView totalForIdentifier: @"dual_time"];
-	int pic  = [mDataView totalForIdentifier: @"pilot_in_command_time"];
-	int solo = [mDataView totalForIdentifier: @"solo_time"];
-	int inst = [mDataView totalForIdentifier: @"instruction_given_time"];
+	static NSSet *totalIDs = nil;
+	if( !totalIDs )
+		totalIDs = [[NSSet alloc] initWithObjects: @"dual_time", @"pilot_in_command_time", @"solo_time", @"instruction_given_time", @"total_time", nil];
 	
-	[mTotalDualCell setIntValue: dual];
-	[mTotalPICCell  setIntValue: pic];
-	[mTotalSoloCell setIntValue: solo];
-	[mTotalInstCell setIntValue: inst];
-	
-	[mTotalTotalCell setIntValue: dual + pic + solo + inst];
+	if( ![totalIDs containsObject: identifier] )
+		return @"";
+	else
+		return [NSNumber numberWithInt: [mDataView totalForIdentifier: identifier]];
 }
 
 - (void)_logbookChanged
 {
 	[mTableView reloadData];
-	[self _updateTotals];
 }
 
 - (void)_setDataView: (GBDataView *)dataView
@@ -124,12 +120,15 @@
 
 - (int)numberOfRowsInTableView: (NSTableView *)tableView
 {
-	return [mDataView entriesCount];
+	return [mDataView entriesCount] + 1;
 }
 
 - (id)tableView: (NSTableView *)tableView objectValueForTableColumn: (NSTableColumn *)tableColumn row: (int)row
 {
-	return [mDataView valueForEntry: row identifier: [tableColumn identifier]];
+	if( row == [mDataView entriesCount] )
+		return [self _totalForIdentifier: [tableColumn identifier]];
+	else
+		return [mDataView valueForEntry: row identifier: [tableColumn identifier]];
 }
 
 - (void)tableView: (NSTableView *)tableView setObjectValue: (id)object forTableColumn: (NSTableColumn *)tableColumn row: (int)row
@@ -137,5 +136,15 @@
 	[mDataView setValue: object forEntry: row identifier: [tableColumn identifier]];
 }
 
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row
+{
+	if( [cell isKindOfClass: [NSButtonCell class]] )
+		[cell setTransparent: row == [mDataView entriesCount]];
+}
+
+- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(int)row
+{
+	return row != [mDataView entriesCount];
+}
 
 @end

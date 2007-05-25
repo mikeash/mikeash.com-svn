@@ -68,7 +68,7 @@
 	[self _noteDidChange];
 }
 
-- (id)_totalTimeForEntry: (int)entryIndex
+- (int)_totalTimeForEntry: (int)entryIndex
 {
 	NSDictionary *dict = [mEntries objectAtIndex: entryIndex];
 	NSString *timeKeys[] = { @"dual_time", @"pilot_in_command_time", @"solo_time", @"instruction_given_time", nil };
@@ -79,7 +79,7 @@
 	for( key = timeKeys; *key; key++ )
 		total += [[dict objectForKey: *key] intValue];
 	
-	return [NSNumber numberWithInt: total];
+	return total;
 }
 
 - (id)valueForEntry: (int)entryIndex identifier: (NSString *)identifier
@@ -87,7 +87,7 @@
 	if( [identifier isEqualToString: @"number"] )
 		return [NSNumber numberWithInt: [[mLogBook entries] indexOfObjectIdenticalTo: [mEntries objectAtIndex: entryIndex]] + 1];
 	if( [identifier isEqualToString: @"total_time"] )
-		return [self _totalTimeForEntry: entryIndex];
+		return [NSNumber numberWithInt: [self _totalTimeForEntry: entryIndex]];
 	
 	return [[mEntries objectAtIndex: entryIndex] objectForKey: identifier];
 }
@@ -111,12 +111,14 @@
 
 - (int)totalForIdentifier: (NSString *)identifier
 {
+	BOOL isTotalTime = [identifier isEqualToString: @"total_item"];
 	int total = 0;
-	forall( dict, mEntries )
-	{
-		id val = [dict objectForKey: identifier];
-		total += [val intValue];
-	}
+	int count = [self entriesCount];
+	int i;
+	for( i = 0; i < count; i++ )
+		total += (isTotalTime
+				  ? [self _totalTimeForEntry: i]
+				  : [[self valueForEntry: i identifier: identifier] intValue]);
 	return total;
 }
 

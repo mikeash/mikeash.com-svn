@@ -15,6 +15,7 @@
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		C21899DE0BDFF4CB0021D7AE /* GBLogBookDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C21899DD0BDFF4CB0021D7AE /* GBLogBookDocument.m */; };
 		C2189A0A0BDFF5860021D7AE /* GBLogBook.m in Sources */ = {isa = PBXBuildFile; fileRef = C2189A090BDFF5860021D7AE /* GBLogBook.m */; };
+		C22ADFFD0C072A4800012BE7 /* GBTotalsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C22ADFFC0C072A4800012BE7 /* GBTotalsTableView.m */; };
 		C2EC14550C053F33008C3519 /* GBDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = C2EC14540C053F33008C3519 /* GBDataView.m */; };
 		C2EC14940C0541D2008C3519 /* GBFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = C2EC14930C0541D2008C3519 /* GBFilter.m */; };
 /* End PBXBuildFile section */
@@ -36,6 +37,8 @@
 		C21899DD0BDFF4CB0021D7AE /* GBLogBookDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBLogBookDocument.m; sourceTree = "<group>"; };
 		C2189A080BDFF5860021D7AE /* GBLogBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBLogBook.h; sourceTree = "<group>"; };
 		C2189A090BDFF5860021D7AE /* GBLogBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBLogBook.m; sourceTree = "<group>"; };
+		C22ADFFB0C072A4800012BE7 /* GBTotalsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBTotalsTableView.h; sourceTree = "<group>"; };
+		C22ADFFC0C072A4800012BE7 /* GBTotalsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBTotalsTableView.m; sourceTree = "<group>"; };
 		C2EC14530C053F33008C3519 /* GBDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBDataView.h; sourceTree = "<group>"; };
 		C2EC14540C053F33008C3519 /* GBDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBDataView.m; sourceTree = "<group>"; };
 		C2EC14920C0541D2008C3519 /* GBFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBFilter.h; sourceTree = "<group>"; };
@@ -103,6 +106,8 @@
 				C2EC14540C053F33008C3519 /* GBDataView.m */,
 				C2EC14920C0541D2008C3519 /* GBFilter.h */,
 				C2EC14930C0541D2008C3519 /* GBFilter.m */,
+				C22ADFFB0C072A4800012BE7 /* GBTotalsTableView.h */,
+				C22ADFFC0C072A4800012BE7 /* GBTotalsTableView.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -197,6 +202,7 @@
 				C2189A0A0BDFF5860021D7AE /* GBLogBook.m in Sources */,
 				C2EC14550C053F33008C3519 /* GBDataView.m in Sources */,
 				C2EC14940C0541D2008C3519 /* GBFilter.m in Sources */,
+				C22ADFFD0C072A4800012BE7 /* GBTotalsTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
