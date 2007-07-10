@@ -34,6 +34,7 @@
 - (void)setDestination: (ChemicalBurnNode *)destination;
 - (ChemicalBurnNode *)destination;
 - (ChemicalBurnConnection *)curConnection;
+- (ChemicalBurnNode *)curConnectionDestination; // returns next node to transit
 - (ChemicalBurnNode *)curNode; // nil if in transit
 - (unsigned)startStep;
 - (void)step; // only works if in transit

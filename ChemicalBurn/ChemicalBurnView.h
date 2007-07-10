@@ -18,7 +18,7 @@
 	
 	NSMutableArray*					mNodes;
 	NSMutableArray*					mDestroyNodes;
-	NSMutableDictionary*			mNodeConnectionDict; // maps node -> NSArray containing connections
+	NSMutableDictionary*			mNodeConnectionDict; // maps node -> NSMutableArray containing connections
 	NSMutableSet*					mPackages;
 	
 	int								mNumRoutingThreads;

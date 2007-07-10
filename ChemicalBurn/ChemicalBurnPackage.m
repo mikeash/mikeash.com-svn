@@ -61,12 +61,17 @@
 	return mCurConnection;
 }
 
+- (ChemicalBurnNode *)curConnectionDestination
+{
+	return mForward ? [mCurConnection node2] : [mCurConnection node1];
+}
+
 - (ChemicalBurnNode *)curNode
 {
 	if( mProportion < 1.0 )
 		return nil;
 	
-	ChemicalBurnNode *n = mForward ? [mCurConnection node2] : [mCurConnection node1];
+	ChemicalBurnNode *n = [self curConnectionDestination];
 	if( !n )
 		n = mSource;
 	return n;

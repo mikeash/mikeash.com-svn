@@ -13,12 +13,21 @@
 #import <OpenGL/GL.h>
 #import <OpenGL/glu.h>
 
+#import <unistd.h>
+
 #import "ChemicalBurnConnection.h"
 #import "ChemicalBurnNode.h"
 #import "ChemicalBurnOrderedQueue.h"
 #import "ChemicalBurnPackage.h"
 #import "ChemicalBurnSafeQueue.h"
 
+#define DEBUG_LOGGING 1
+
+#if DEBUG_LOGGING
+#define DEBUG_LOG( fmt, ... ) NSLog( fmt, ## __VA_ARGS__ )
+#else
+#define DEBUG_LOG( fmt, ... )
+#endif
 
 static const int kNodeChangeInterval = 45;
 static const int kPackageGenerateInterval = 60;
@@ -40,6 +49,12 @@ static const int kPackageGenerateInterval = 60;
 
 		[self setDefaultValues];
 		[self loadFromUserDefaults];
+		
+#if DEBUG_LOGGING
+		int fd = open("/tmp/cblog", O_WRONLY | O_CREAT | O_TRUNC | O_APPEND, 0777);
+		dup2( fd, 2 );
+		close( fd );
+#endif
 	}
     return self;
 }
@@ -64,6 +79,17 @@ static const int kPackageGenerateInterval = 60;
 }
 
 #pragma mark -
+
+- (NSString *)printNodes
+{
+	NSMutableString *str = [NSMutableString string];
+	int threadID = NodeGetThreadID( self );
+	forall_array( n, mNodes )
+	{
+		[str appendFormat: @"%@ cost:%u prev:%@\n", n, NODE_COST( threadID, n ), NODE_PREV( threadID, n )];
+	}
+	return str;
+}
 
 - (ChemicalBurnConnection *)searchConnectionFrom: (ChemicalBurnNode *)src to: (ChemicalBurnNode *)dst
 {
@@ -158,6 +184,14 @@ static const int kPackageGenerateInterval = 60;
 		[array addObject: c];
 		[[mNodeConnectionDict objectForKey: on] addObject: c];
 	}
+	forall_array( on, mDestroyNodes )
+	{
+		ChemicalBurnConnection *c = [ChemicalBurnConnection connectionWithNode: n andNode: on];
+		[c setWillRemove];
+		[array addObject: c];
+		[[mNodeConnectionDict objectForKey: on] addObject: c];
+	}
+	
 	[mNodeConnectionDict setObject: array forKey: n];
 	
 	[mNodes addObject: n];
@@ -201,6 +235,8 @@ static const int kPackageGenerateInterval = 60;
 	
 	[mPackages addObject: pkg];
 	
+	DEBUG_LOG( @"Generated %@ with destination %@", pkg, [pkg destination] );
+	
 	[pkg release];
 	
 	return pkg;
@@ -230,6 +266,7 @@ static const int kPackageGenerateInterval = 60;
 
 - (void)addNodeToDestroyList: (ChemicalBurnNode *)n
 {
+	DEBUG_LOG( @"adding %@ to destroy list", n );
 	[mDestroyNodes addObject: n];
 	[mNodes removeObject: n];
 	
@@ -240,9 +277,18 @@ static const int kPackageGenerateInterval = 60;
 	{
 		// redirect packages whose destination is here but
 		// who aren't yet on a direct connection
-		if( [p destination] == n && ![[p curConnection] containsNode: n] )
+		if( [p destination] == n )
 		{
-			[self redirectPackage: p awayFromNode: n];
+			if( [p curConnectionDestination] != n )
+			{
+				DEBUG_LOG( @"redirecting %@ away from %@", p, n );
+				[self redirectPackage: p awayFromNode: n];
+				DEBUG_LOG( @"%@ has new destination %@", p, [p destination] );
+			}
+			else
+			{
+				DEBUG_LOG( @"%@ is on %@<->%@ (forward=%@) and will not redirect away from %@", p, [[p curConnection] node1], [[p curConnection] node2], [p valueForKey: @"mForward"], n );
+			}
 		}
 	}
 }
@@ -391,6 +437,7 @@ static const int kPackageGenerateInterval = 60;
 				}
 				
 				[mNodeConnectionDict removeObjectForKey: n];
+				DEBUG_LOG( @"finalizing destruction of %@", n );
 				[mDestroyNodes removeObject: n];
 			}
 		}
