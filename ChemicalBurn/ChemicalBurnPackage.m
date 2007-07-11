@@ -147,14 +147,23 @@
 
 - (void)drawGL
 {
-	NSPoint p1 = [[mCurConnection node1] pos];
-	NSPoint p2 = [[mCurConnection node2] pos];
+	NSPoint p;
 	
-	float proportion = mForward ? mProportion : 1.0 - mProportion;
+	if( mCurConnection )
+	{
+		NSPoint p1 = [[mCurConnection node1] pos];
+		NSPoint p2 = [[mCurConnection node2] pos];
+		
+		float proportion = mForward ? mProportion : 1.0 - mProportion;
+		
+		p.x = p1.x * (1.0 - proportion) + p2.x * proportion;
+		p.y = p1.y * (1.0 - proportion) + p2.y * proportion;
+	}
+	else
+	{
+		p = [mSource pos];
+	}
 	
-	NSPoint p = { 	p1.x * (1.0 - proportion) + p2.x * proportion,
-					p1.y * (1.0 - proportion) + p2.y * proportion };
-
 	float size = mIsPackageOfDeath ? 4.0 : 2.0;
 	
 	glLineWidth( 0.5 );
