@@ -49,7 +49,7 @@ class Parser:
                 value = self.regexes[r](t)
                 if value:
                     value.process(self.infixStack, self.postfixStack)
-                self.lastValue = value
+                    self.lastValue = value
                 return True
         print "unknown token %s" % t
         return False
