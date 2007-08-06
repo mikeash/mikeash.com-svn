@@ -6,6 +6,9 @@ class Operator:
     def __str__(self):
         return self.operator
     
+    def isNumber(self):
+        return False
+    
     def precedence(self):
         return { '(':-1,
                  '+':1,
