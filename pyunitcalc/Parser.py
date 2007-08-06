@@ -16,7 +16,8 @@ class Parser:
         self.regexes = {
             re.compile("[-+\\*/]"):self.parseOperator,
             re.compile("[-+]?[0-9]+\\.?[0-9]*"):self.parseNumber,
-            re.compile("[-+]?[0-9]*\\.?[0-9]+"):self.parseNumber
+            re.compile("[-+]?[0-9]*\\.?[0-9]+"):self.parseNumber,
+            re.compile("[()]"):self.parseOperator
         }
             
     
