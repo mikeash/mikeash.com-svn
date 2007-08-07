@@ -59,6 +59,7 @@ class Number:
                 del self.units[unit]
     
     def makeBaseUnits(self):
+        print "making base units", self
         changed = False
         for unit in self.units.keys():
             base = unit.baseUnits
@@ -70,6 +71,7 @@ class Number:
                 break
         if changed:
             self.makeBaseUnits()
+        print "made base units", self
         return changed
     
     def addBaseUnits(self, base, baseQuantity, count):
@@ -80,7 +82,7 @@ class Number:
     
     def checkCompatibleUnits(self, other):
         if not self.units == other.units:
-            if self.makeBaseUnits():
+            if self.makeBaseUnits() or other.makeBaseUnits():
                 self.checkCompatibleUnits(other)
             else:
                 raise CalcException("incompatible units in %s and %s" % (self, other))
@@ -92,29 +94,28 @@ class Number:
         stack.append(self)
     
     def eval(self, op, other):
-        a = self.value
-        b = other.value
-        res = None
-        if op == '+':
-            res = a + b
-        elif op == '-':
-            res = a - b
-        elif op == '*':
-            res = a * b
-        elif op == '/':
-            res = a / b
-        n = Number(res)
         if op == '+' or op == '-':
+            self.checkCompatibleUnits(other)
+            a = self.value
+            b = other.value
+            if op == '+':
+                n = Number(a + b)
+            elif op == '-':
+                n = Number(a - b)
             n.addUnits(self.units)
-            n.checkCompatibleUnits(other)
-        elif op == '*':
-            n.addUnits(self.units)
-            n.addUnits(other.units)
-            n.makeBaseUnits()
-        elif op == '/':
-            n.addUnits(self.units)
-            n.subtractUnits(other.units)
-            n.makeBaseUnits()
+        else:
+            a = self.value
+            b = other.value
+            if op == '*':
+                n = Number(a * b)
+                n.addUnits(self.units)
+                n.addUnits(other.units)
+                n.makeBaseUnits()
+            elif op == '/':
+                n = Number(a / b)
+                n.addUnits(self.units)
+                n.subtractUnits(other.units)
+                n.makeBaseUnits()
         return n
             
 
