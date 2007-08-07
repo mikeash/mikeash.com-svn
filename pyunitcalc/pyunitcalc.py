@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
 import sys
+
+from CalcException import CalcException
 import Parser
 
 def calc(str):
@@ -11,4 +13,8 @@ def calc(str):
 if len(sys.argv) < 2:
     print "please supply an argument"
 else:
-    print calc(sys.argv[1])
+    try:
+        print calc(sys.argv[1])
+    except CalcException, inst:
+        print "error:", inst
+

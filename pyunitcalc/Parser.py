@@ -1,7 +1,8 @@
 
-import Tokenizer
+import CalcException
 import Number
 import Operator
+import Tokenizer
 
 import re
 
@@ -43,7 +44,7 @@ class Parser:
     def parseToken(self, t):
         print "parsing", t
         if len(t) < 1:
-            print "empty token!"
+            return False
         for r in self.regexes:
             if r.match(t):
                 value = self.regexes[r](t)
@@ -51,7 +52,7 @@ class Parser:
                     value.process(self.infixStack, self.postfixStack)
                     self.lastValue = value
                 return True
-        print "unknown token %s" % t
+        raise CalcException("unknown token %s" % t)
         return False
     
     def parseNumber(self, t):
@@ -63,7 +64,7 @@ class Parser:
     def parseUnit(self, t):
         if not self.lastValue or not self.lastValue.isNumber():
             self.parseToken('1')
-        self.lastValue.addUnit(t)
+        self.lastValue.addUnitStr(t)
         return None
     
     def calc(self):
