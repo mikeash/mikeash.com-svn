@@ -17,13 +17,13 @@ class Parser:
         self.unitRegex = re.compile("[a-zA-Z]")
         
         self.regexes = {
-            re.compile("[-+\\*/\^]"):			self.parseOperator,
+            re.compile("[-+\\*/\^()]|in"):		self.parseOperator,
             re.compile("[-+]?[0-9]+\\.?[0-9]*"):self.parseNumber,
             re.compile("[-+]?[0-9]*\\.?[0-9]+"):self.parseNumber,
-            re.compile("[()]"):					self.parseOperator,
             self.unitRegex:						self.parseUnit
         }
-            
+        
+        self.parsingConversion = False 
     
     def nextToken(self):
         return self.tokenizer.nextToken()
@@ -45,6 +45,8 @@ class Parser:
     
     def parseToken(self, t):
         print "parsing", t
+        if t == "in":
+            self.parsingConversion = True
         if len(t) < 1:
             return False
         for r in self.regexes:
@@ -61,7 +63,7 @@ class Parser:
             self.lastValue = value
     
     def parseNumber(self, t):
-        return Number.Number(t)
+        return Number.Number(t, self.parsingConversion)
     
     def parseOperator(self, t):
         if t == '/' and self.unitRegex.match(self.tokenizer.peek()):

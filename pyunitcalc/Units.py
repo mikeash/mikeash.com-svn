@@ -68,8 +68,10 @@ derivedUnits = [
     
     Unit('min', 'minute', 60, {'second':1}),
     Unit('h', 'hour', 3600, {'second':1}),
+    Unit('Hz', 'hertz', 1, {'second':-1}),
     
     Unit('ft', 'foot', 0.3048, {'meter':1}),
+    Unit(None, 'mile', 5280, {'foot':1}),
     Unit('lb', 'pound', 0.45359237, {'kilo':1, 'gram':1}),
     
     Unit(None, 'speed of light', 299792458, {'meter':1, 'second':-1}),
@@ -77,8 +79,13 @@ derivedUnits = [
 ]
 
 prefixes = [
+    Unit('T', 'tera', 1000000000000),
+    Unit('G', 'giga', 1000000000),
+    Unit('M', 'mega', 1000000),
     Unit('k', 'kilo', 1000),
     Unit('m', 'milli', 0.001),
+    Unit('u', 'micro', 0.000001),
+    Unit('n', 'nano', 0.000000001)
 ]
 
 def buildUnitDict(list):

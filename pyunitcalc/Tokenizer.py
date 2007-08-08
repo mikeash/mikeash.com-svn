@@ -11,6 +11,8 @@ class Tokenizer:
             re.compile("[a-zA-Z]+([a-zA-Z ]+[a-zA-Z])*"), # unit
             re.compile(".") # catchall
         ]
+        keywords = ['in']
+        self.keywordRegexes = re.compile("(^| )(" + "|".join(keywords) + ")($| )")
     
     def nextToken(self):
         if self.stack:
@@ -21,8 +23,16 @@ class Tokenizer:
             if match:
                 ret = match.group()
                 self.str = self.str[len(ret):]
-                return ret
+                self.pushTokensInString(ret)
+                return self.stack.pop()
         return None
+    
+    def pushTokensInString(self, s):
+        components = self.keywordRegexes.split(s)
+        components.reverse()
+        components = [x.strip() for x in components]
+        components = filter(lambda x: len(x) > 0, components)
+        self.stack.extend(components)
     
     def pushBack(self, token):
         self.stack.append(token)

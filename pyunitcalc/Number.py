@@ -1,10 +1,13 @@
 
+import copy
+
 from CalcException import CalcException
 import Units
 
 class Number:
-    def __init__(self, str):
+    def __init__(self, str, isConversion):
         self.value = float(str)
+        self.isConversion = isConversion
         self.units = {}
     
     def __str__(self):
@@ -92,41 +95,67 @@ class Number:
         stack.append(self)
     
     def eval(self, op, other):
-        if op == '+' or op == '-':
-            self.checkCompatibleUnits(other)
-            a = self.value
-            b = other.value
-            if op == '+':
-                n = Number(a + b)
-            elif op == '-':
-                n = Number(a - b)
-            n.addUnits(self.units)
+        n = None
+        funcs = {
+          '+':self.addSub, '-':self.addSub,
+          '*':self.divMul, '/':self.divMul,
+          '^':self.pow,
+          'in':self.convert
+        }
+        if funcs.has_key(op):
+            return funcs[op](op, other)
         else:
-            a = self.value
-            b = other.value
-            if op == '*':
-                n = Number(a * b)
-                n.addUnits(self.units)
-                n.addUnits(other.units)
-                if self.units and other.units:
-                    n.makeBaseUnits()
-            elif op == '/':
-                n = Number(a / b)
-                n.addUnits(self.units)
-                n.subtractUnits(other.units)
-                if self.units and other.units:
-                    n.makeBaseUnits()
-            elif op == '^':
-                if other.units:
-                    raise CalcException("exponent is not allowed to have units in (%s)^%s" % (self, other))
-                n = Number(a ** b)
-                for unit in self.units:
-                    count = self.units[unit]
-                    count *= b
-                    if abs(count - round(count)) > 0.0001:
-                        raise CalcException("exponent/unit mismatch in (%s)^%s" % (self, other))
-                    n.addUnitCount(unit, int(round(count)))
+            raise CalcException("unimplemented operator %s" % op)
+    
+    def addSub(self, op, other):
+        self.checkCompatibleUnits(other)
+        a = self.value
+        b = other.value
+        if op == '+':
+            n = Number(a + b, self.isConversion)
+        elif op == '-':
+            n = Number(a - b, self.isConversion)
+        n.addUnits(self.units)
         return n
-            
+    
+    def divMul(self, op, other):
+        a = self.value
+        b = other.value
+        if op == '*':
+            n = Number(a * b, self.isConversion)
+        elif op == '/':
+            n = Number(a / b, self.isConversion)
+        n.addUnits(self.units)
+        if op == '*':
+            n.addUnits(other.units)
+        elif op == '/':
+            n.subtractUnits(other.units)
+        if self.units and other.units and not self.isConversion:
+            n.makeBaseUnits()
+        return n
+    
+    def pow(self, op, other):
+        if other.units:
+            raise CalcException("exponent is not allowed to have units in (%s)^%s" % (self, other))
+        a = self.value
+        b = other.value
+        n = Number(a ** b, self.isConversion)
+        for unit in self.units:
+            count = self.units[unit]
+            count *= b
+            if abs(count - round(count)) > 0.0001:
+                raise CalcException("exponent/unit mismatch in (%s)^%s" % (self, other))
+            n.addUnitCount(unit, int(round(count)))
+        return n
+    
+    def convert(self, op, other):
+        units = copy.copy(other.units)
+        self.checkCompatibleUnits(other)
+        n = Number(self.value / other.value, True)
+        n.addUnits(units)
+        return n
+
+    
+
 
 
