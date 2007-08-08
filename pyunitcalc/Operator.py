@@ -1,20 +1,33 @@
 
+precedencesList = [
+    ('(', ')'),
+    ('+', '-'),
+    ('*', '/'),
+    ('*unit', '/unit'),
+    '^'
+]
+
+i = 0
+precedences = {}
+for x in precedencesList:
+    if type(x) != tuple:
+        x = (x, )
+    for op in x:
+        precedences[op] = i
+    i += 1
+
 class Operator:
-    def __init__(self, str):
+    def __init__(self, str, precedence = None):
         self.operator = str
-    
+        if not precedence:
+            precedence = precedences[self.operator]
+        self.precedence = precedence
+        
     def __str__(self):
         return self.operator
     
     def isNumber(self):
         return False
-    
-    def precedence(self):
-        return { '(':-1,
-                 '+':1,
-        		 '-':1,
-        		 '*':2,
-        		 '/':2 }[self.operator]
     
     def process(self, infixStack, postfixStack):
         if self.operator == '(':
@@ -27,7 +40,7 @@ class Operator:
             infixStack.append(self)
         else:
             top = infixStack[-1]
-            if self.precedence() > top.precedence():
+            if self.precedence > top.precedence:
                 infixStack.append(self)
             else:
                 postfixStack.append(infixStack.pop())
@@ -38,4 +51,8 @@ class Operator:
         val1 = stack.pop()
         stack.append(val1.eval(self.operator, val2))
 
+def unitMultiplyOperator():
+    return Operator('*', precedences['*unit'])
 
+def unitDivideOperator():
+    return Operator('/', precedences['/unit'])

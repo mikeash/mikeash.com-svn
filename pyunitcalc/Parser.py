@@ -1,5 +1,5 @@
 
-import CalcException
+from CalcException import CalcException
 import Number
 import Operator
 import Tokenizer
@@ -14,12 +14,14 @@ class Parser:
         self.kOperator = "operator"
         self.kNumber = "number"
         
+        self.unitRegex = re.compile("[a-zA-Z]")
+        
         self.regexes = {
-            re.compile("[-+\\*/]"):				self.parseOperator,
+            re.compile("[-+\\*/\^]"):			self.parseOperator,
             re.compile("[-+]?[0-9]+\\.?[0-9]*"):self.parseNumber,
             re.compile("[-+]?[0-9]*\\.?[0-9]+"):self.parseNumber,
             re.compile("[()]"):					self.parseOperator,
-            re.compile("[a-zA-Z]"):				self.parseUnit
+            self.unitRegex:						self.parseUnit
         }
             
     
@@ -48,22 +50,29 @@ class Parser:
         for r in self.regexes:
             if r.match(t):
                 value = self.regexes[r](t)
-                if value:
-                    value.process(self.infixStack, self.postfixStack)
-                    self.lastValue = value
+                self.processValue(value)
                 return True
         raise CalcException("unknown token %s" % t)
         return False
+    
+    def processValue(self, value):
+        if value:
+            value.process(self.infixStack, self.postfixStack)
+            self.lastValue = value
     
     def parseNumber(self, t):
         return Number.Number(t)
     
     def parseOperator(self, t):
-        return Operator.Operator(t)
+        if t == '/' and self.unitRegex.match(self.tokenizer.peek()):
+            return Operator.unitDivideOperator()
+        else:
+            return Operator.Operator(t)
     
     def parseUnit(self, t):
-        if not self.lastValue or not self.lastValue.isNumber():
-            self.parseToken('1')
+        if self.lastValue and self.lastValue.isNumber():
+            self.processValue(Operator.unitMultiplyOperator())
+        self.parseToken('1')
         self.lastValue.addUnitStr(t)
         return None
     

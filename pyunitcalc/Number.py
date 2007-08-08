@@ -108,12 +108,24 @@ class Number:
                 n = Number(a * b)
                 n.addUnits(self.units)
                 n.addUnits(other.units)
-                n.makeBaseUnits()
+                if self.units and other.units:
+                    n.makeBaseUnits()
             elif op == '/':
                 n = Number(a / b)
                 n.addUnits(self.units)
                 n.subtractUnits(other.units)
-                n.makeBaseUnits()
+                if self.units and other.units:
+                    n.makeBaseUnits()
+            elif op == '^':
+                if other.units:
+                    raise CalcException("exponent is not allowed to have units in (%s)^%s" % (self, other))
+                n = Number(a ** b)
+                for unit in self.units:
+                    count = self.units[unit]
+                    count *= b
+                    if abs(count - round(count)) > 0.0001:
+                        raise CalcException("exponent/unit mismatch in (%s)^%s" % (self, other))
+                    n.addUnitCount(unit, int(round(count)))
         return n
             
 
