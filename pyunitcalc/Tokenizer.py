@@ -8,7 +8,7 @@ class Tokenizer:
         self.regexes = [
             re.compile("[-+]?[0-9]+\\.?[0-9]*"), # number
             re.compile("[-+]?[0-9]*\\.?[0-9]+"), # number with leading .
-            re.compile("[a-zA-Z]+"), # unit
+            re.compile("[a-zA-Z]+([a-zA-Z ]+[a-zA-Z])*"), # unit
             re.compile(".") # catchall
         ]
     

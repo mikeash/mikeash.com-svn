@@ -8,6 +8,8 @@ class Unit:
         # if three parameters are provided then you get a baseUnits
         # of {} to indicate a prefix
         # if four parameters are provided it indicates a composite unit
+        if not shortname:
+            shortname = longname
         self.shortname = shortname
         self.longname = longname
         if baseQuantity == None:
@@ -30,6 +32,7 @@ def get(str):
         raise CalcException("unknown unit %s" % str)
 
 def parseUnits(str):
+    str = str.strip()
     for l in range(len(str), 0, -1):
         unit = None
         substr = str[:l]
@@ -63,10 +66,14 @@ derivedUnits = [
     Unit('J', 'joule', 1, {'newton':1, 'meter':1}),
     Unit('W', 'watt', 1, {'joule':1, 'second':-1}),
     
+    Unit('min', 'minute', 60, {'second':1}),
     Unit('h', 'hour', 3600, {'second':1}),
     
     Unit('ft', 'foot', 0.3048, {'meter':1}),
-    Unit('lb', 'pound', 0.45359237, {'kilo':1, 'gram':1})
+    Unit('lb', 'pound', 0.45359237, {'kilo':1, 'gram':1}),
+    
+    Unit(None, 'speed of light', 299792458, {'meter':1, 'second':-1}),
+    Unit('au', 'astronomical unit', 149598000000, {'meter':1})
 ]
 
 prefixes = [
