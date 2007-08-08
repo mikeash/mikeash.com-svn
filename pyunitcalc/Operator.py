@@ -1,7 +1,10 @@
 
+from CalcException import CalcException
+
 precedencesList = [
     ('(', ')'),
     ('+', '-'),
+    '-unary',
     ('*', '/'),
     ('*unit', '/unit'),
     '^'
@@ -19,6 +22,8 @@ for x in precedencesList:
 class Operator:
     def __init__(self, str, precedence = None):
         self.operator = str
+        if not precedences.has_key(str):
+            raise CalcException("unknown operator %s" % str)
         if not precedence:
             precedence = precedences[self.operator]
         self.precedence = precedence
@@ -56,3 +61,6 @@ def unitMultiplyOperator():
 
 def unitDivideOperator():
     return Operator('/', precedences['/unit'])
+
+def unaryMinusOperator():
+    return Operator('-', precedences['-unary'])

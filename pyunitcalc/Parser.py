@@ -66,6 +66,9 @@ class Parser:
     def parseOperator(self, t):
         if t == '/' and self.unitRegex.match(self.tokenizer.peek()):
             return Operator.unitDivideOperator()
+        elif t == '-' and not (self.lastValue and self.lastValue.isNumber()):
+            self.parseToken('0')
+            return Operator.unaryMinusOperator()
         else:
             return Operator.Operator(t)
     
