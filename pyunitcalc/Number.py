@@ -59,7 +59,6 @@ class Number:
                 del self.units[unit]
     
     def makeBaseUnits(self):
-        print "making base units", self
         changed = False
         for unit in self.units.keys():
             base = unit.baseUnits
@@ -71,7 +70,6 @@ class Number:
                 break
         if changed:
             self.makeBaseUnits()
-        print "made base units", self
         return changed
     
     def addBaseUnits(self, base, baseQuantity, count):
