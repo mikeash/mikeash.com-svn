@@ -44,6 +44,8 @@ class Number:
         if not self.units.has_key(unit):
             self.units[unit] = 0
         self.units[unit] = self.units[unit] + count
+        if unit.shouldDeriveImmediately:
+            self.makeBaseUnit(unit)
     
     def addUnits(self, units):
         for unit in units:
@@ -64,16 +66,20 @@ class Number:
     def makeBaseUnits(self):
         changed = False
         for unit in self.units.keys():
-            base = unit.baseUnits
-            if base != None:
+            if makeBaseUnit(self, unit):
                 changed = True
-                count = self.units[unit]
-                del self.units[unit]
-                self.addBaseUnits(base, unit.baseQuantity, count)
                 break
         if changed:
             self.makeBaseUnits()
         return changed
+    
+    def makeBaseUnit(self, unit):
+        base = unit.baseUnits
+        if base != None:
+            count = self.units[unit]
+            del self.units[unit]
+            self.addBaseUnits(base, unit.baseQuantity, count)
+        return base != None
     
     def addBaseUnits(self, base, baseQuantity, count):
         self.value *= baseQuantity ** count
@@ -143,8 +149,14 @@ class Number:
         for unit in self.units:
             count = self.units[unit]
             count *= b
-            if abs(count - round(count)) > 0.0001:
-                raise CalcException("exponent/unit mismatch in (%s)^%s" % (self, other))
+            if abs(count - round(count)) > 0.000001:
+                n.units = self.units
+                n.value = self.value
+                n.makeBaseUnits()
+                n.value = n.value ** other.value
+                if n.units:
+                    raise CalcException("exponent/unit mismatch in (%s)^%s" % (self, other))
+                break
             n.addUnitCount(unit, int(round(count)))
         return n
     

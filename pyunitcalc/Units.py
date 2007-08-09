@@ -21,9 +21,13 @@ class Unit:
                 self.baseUnits = {}
             else:
                 self.baseUnits = baseUnits
+        self.shouldDeriveImmediately = False
     
     def __str__(self):
         return self.shortname
+    
+    def setShouldDeriveImmediately(self):
+        self.shouldDeriveImmediately = True
     
 def get(str):
     if units.has_key(str):
@@ -40,6 +44,8 @@ def parseUnits(str):
             unit = prefixes[substr]
         elif units.has_key(substr):
             unit = units[substr]
+        elif constants.has_key(substr):
+            unit = constants[substr]
         if unit != None:
             if l == len(str):
                 return [unit]
@@ -58,7 +64,8 @@ def getBaseUnit(str):
 baseUnits = [
 	Unit('m', 'meter'),
 	Unit('s', 'second'),
-	Unit('g', 'gram')
+	Unit('g', 'gram'),
+	Unit('B', 'byte'),
 ]
 
 derivedUnits = [
@@ -74,8 +81,17 @@ derivedUnits = [
     Unit(None, 'mile', 5280, {'foot':1}),
     Unit('lb', 'pound', 0.45359237, {'kilo':1, 'gram':1}),
     
+    Unit('b', 'bit', 0.125, {'byte':1}),
+    Unit('bps', 'bit per second', 1, {'bit':1, 'second':-1}),
+    Unit('Bps', 'byte per second', 1, {'byte':1, 'second':-1}),
+]
+
+constants = [
     Unit(None, 'speed of light', 299792458, {'meter':1, 'second':-1}),
-    Unit('au', 'astronomical unit', 149598000000, {'meter':1})
+    Unit('au', 'astronomical unit', 149598000000, {'meter':1}),
+    
+    Unit('e', 'euler number', 2.71828183),
+    Unit(None, 'pi', 3.1415926535897932384626),
 ]
 
 prefixes = [
@@ -85,7 +101,7 @@ prefixes = [
     Unit('k', 'kilo', 1000),
     Unit('m', 'milli', 0.001),
     Unit('u', 'micro', 0.000001),
-    Unit('n', 'nano', 0.000000001)
+    Unit('n', 'nano', 0.000000001),
 ]
 
 def buildUnitDict(list):
@@ -96,5 +112,10 @@ def buildUnitDict(list):
     return dict
 
 units = buildUnitDict(baseUnits + derivedUnits)
+
+for c in constants:
+    c.setShouldDeriveImmediately()
+constants = buildUnitDict(constants)
+
 prefixes = buildUnitDict(prefixes)
 
