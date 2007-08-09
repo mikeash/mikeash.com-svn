@@ -66,7 +66,7 @@ class Number:
     def makeBaseUnits(self):
         changed = False
         for unit in self.units.keys():
-            if makeBaseUnit(self, unit):
+            if self.makeBaseUnit(unit):
                 changed = True
                 break
         if changed:
