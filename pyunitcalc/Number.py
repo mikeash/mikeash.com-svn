@@ -13,7 +13,9 @@ class Number:
     def __str__(self):
         topList = []
         botList = []
-        for unit in self.units:
+        unitsList = self.units.keys()
+        unitsList.sort()
+        for unit in unitsList:
             exponent = abs(self.units[unit])
             if exponent > 1:
                 s = "%s^%s " % (unit, exponent)

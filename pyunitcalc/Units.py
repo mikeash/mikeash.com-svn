@@ -22,12 +22,29 @@ class Unit:
             else:
                 self.baseUnits = baseUnits
         self.shouldDeriveImmediately = False
+        self.isPrefix = False
     
     def __str__(self):
         return self.shortname
     
+    def __cmp__(self, other):
+        if self.__class__ != other.__class__:
+            return -1
+        if self.isPrefix and not other.isPrefix:
+            return -1
+        elif not self.isPrefix and other.isPrefix:
+            return 1
+        else:
+            return cmp(self.longname, other.longname)
+    
+    def __hash__(self):
+        return hash(self.longname)
+    
     def setShouldDeriveImmediately(self):
         self.shouldDeriveImmediately = True
+    
+    def setIsPrefix(self):
+        self.isPrefix = True
     
 def get(str):
     if units.has_key(str):
@@ -76,6 +93,10 @@ derivedUnits = [
     
     Unit('min', 'minute', 60, {'second':1}),
     Unit('h', 'hour', 3600, {'second':1}),
+    Unit(None, 'day', 24, {'hour':1}),
+    Unit(None, 'month', 30.4368499, {'day':1}),
+    Unit(None, 'year', 365.242199, {'day':1}),
+    
     Unit('Hz', 'hertz', 1, {'second':-1}),
     
     Unit('ft', 'foot', 0.3048, {'meter':1}),
@@ -85,6 +106,8 @@ derivedUnits = [
     Unit('b', 'bit', 0.125, {'byte':1}),
     Unit('bps', 'bit per second', 1, {'bit':1, 'second':-1}),
     Unit('Bps', 'byte per second', 1, {'byte':1, 'second':-1}),
+    Unit('mbps', 'megabit per second', 1000000, {'bit':1, 'second':-1}),
+    Unit('mBps', 'megabyte per second', 1000000, {'byte':1, 'second':-1}),
 ]
 
 constants = [
@@ -120,9 +143,9 @@ def buildUnitDict(list):
 
 units = buildUnitDict(baseUnits + derivedUnits)
 
-for c in constants:
-    c.setShouldDeriveImmediately()
+for c in constants: c.setShouldDeriveImmediately()
 constants = buildUnitDict(constants)
 
+for p in prefixes: p.setIsPrefix()
 prefixes = buildUnitDict(prefixes)
 
