@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import DebugPrint
 import StringIO
 import sys
 
@@ -10,6 +11,8 @@ def calc(str):
     parser = Parser.Parser(str)
     parser.parse()
     return parser.calc()
+
+DebugPrint.enable()
 
 if len(sys.argv) < 2:
     input = sys.stdin

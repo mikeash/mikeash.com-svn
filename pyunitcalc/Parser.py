@@ -1,5 +1,6 @@
 
 from CalcException import CalcException
+from DebugPrint import debugPrint
 import Number
 import Operator
 import Tokenizer
@@ -44,7 +45,7 @@ class Parser:
         return self.parseToken(t)
     
     def parseToken(self, t):
-        print "parsing", t
+        debugPrint("parsing %s" % t)
         if t == "in":
             self.parsingConversion = True
         if len(t) < 1:
@@ -82,7 +83,7 @@ class Parser:
         return None
     
     def calc(self):
-        print [x.__str__() for x in self.postfixStack]
+        debugPrint(str([x.__str__() for x in self.postfixStack]))
         finalStack = []
         for x in self.postfixStack:
             x.calc(finalStack)
