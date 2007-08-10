@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import StringIO
 import sys
 
 from CalcException import CalcException
@@ -11,10 +12,18 @@ def calc(str):
     return parser.calc()
 
 if len(sys.argv) < 2:
-    print "please supply an argument"
+    input = sys.stdin
 else:
-    try:
-        print calc(sys.argv[1])
-    except CalcException, inst:
-        print "error:", inst
+    input = StringIO.StringIO('\n'.join(sys.argv[1:]))
+
+while True:
+    str = input.readline()
+    if not str:
+        break
+    str = str.strip()
+    if str:
+        try:
+            print calc(str)
+        except CalcException, inst:
+            print "error:", inst
 

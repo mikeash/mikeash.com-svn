@@ -66,6 +66,7 @@ baseUnits = [
 	Unit('s', 'second'),
 	Unit('g', 'gram'),
 	Unit('B', 'byte'),
+	Unit('USD', 'dollar'),
 ]
 
 derivedUnits = [
@@ -92,6 +93,8 @@ constants = [
     
     Unit('e', 'euler number', 2.71828183),
     Unit(None, 'pi', 3.1415926535897932384626),
+    
+    Unit('ramius', 'RamiusJMoose', 532.7, {'pound':1}),
 ]
 
 prefixes = [
@@ -99,6 +102,10 @@ prefixes = [
     Unit('G', 'giga', 1000000000),
     Unit('M', 'mega', 1000000),
     Unit('k', 'kilo', 1000),
+    Unit('h', 'hecto', 100),
+    Unit('da', 'deka', 10),
+    Unit('d', 'deci', 0.1),
+    Unit('c', 'centi', 0.01),
     Unit('m', 'milli', 0.001),
     Unit('u', 'micro', 0.000001),
     Unit('n', 'nano', 0.000000001),
