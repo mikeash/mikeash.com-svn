@@ -18,7 +18,7 @@ class Parser:
         self.unitRegex = re.compile("[a-zA-Z]")
         
         self.regexes = {
-            re.compile("[-+\\*/\^()]|in"):		self.parseOperator,
+            re.compile("[-+\\*/\^()]|in$"):		self.parseOperator,
             re.compile("[-+]?[0-9]+\\.?[0-9]*"):self.parseNumber,
             re.compile("[-+]?[0-9]*\\.?[0-9]+"):self.parseNumber,
             self.unitRegex:						self.parseUnit
