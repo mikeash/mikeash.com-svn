@@ -11,7 +11,7 @@ class Tokenizer:
             re.compile("[a-zA-Z]+([a-zA-Z ]+[a-zA-Z])*"), # unit
             re.compile(".") # catchall
         ]
-        keywords = ['in']
+        keywords = ['in', 'to']
         self.keywordRegexes = re.compile("(^| )(" + "|".join(keywords) + ")($| )")
     
     def nextToken(self):

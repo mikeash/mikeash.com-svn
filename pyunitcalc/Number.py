@@ -108,7 +108,7 @@ class Number:
           '+':self.addSub, '-':self.addSub,
           '*':self.divMul, '/':self.divMul,
           '^':self.pow,
-          'in':self.convert
+          'in':self.convert, 'to':self.convert
         }
         if funcs.has_key(op):
             return funcs[op](op, other)

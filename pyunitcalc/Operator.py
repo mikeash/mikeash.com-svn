@@ -2,7 +2,7 @@
 from CalcException import CalcException
 
 precedencesList = [
-    'in',
+    ('in', 'to'), 
     ('(', ')'),
     ('+', '-'),
     '-unary',

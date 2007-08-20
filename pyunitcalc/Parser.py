@@ -18,7 +18,7 @@ class Parser:
         self.unitRegex = re.compile("[a-zA-Z]")
         
         self.regexes = {
-            re.compile("[-+\\*/\^()]|in|to$"):	self.parseOperator,
+            re.compile("[-+\\*/\^()]|in$|to$"):	self.parseOperator,
             re.compile("[-+]?[0-9]+\\.?[0-9]*"):self.parseNumber,
             re.compile("[-+]?[0-9]*\\.?[0-9]+"):self.parseNumber,
             self.unitRegex:						self.parseUnit
@@ -46,7 +46,7 @@ class Parser:
     
     def parseToken(self, t):
         debugPrint("parsing %s" % t)
-        if t == "in":
+        if (t == "in") or (t == "to"):
             self.parsingConversion = True
         if len(t) < 1:
             return False
