@@ -40,7 +40,8 @@ class TestParser(unittest.TestCase):
                  ('1mbps * 1 day', '10800000000.0B'),
                  ('10kt * 1', '10.0kt'),
                  ('10kt + 0m/s', '5.14444444444m/s'),
-                 ('1*10^9ugm/s^2 in N', '1.0N')]
+                 ('1*10^9ugm/s^2 in N', '1.0N'),
+                 ('1*10^9ugm/s^2 to N', '1.0N')]
         self._testTuples(tests)
 
 unittest.main()
