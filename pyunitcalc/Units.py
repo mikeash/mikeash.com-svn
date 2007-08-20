@@ -109,7 +109,7 @@ derivedUnits = [
     Unit('min', 'minute', 60, {'second':1}),
     Unit('h', 'hour', 3600, {'second':1}),
     Unit(None, 'day', 24, {'hour':1}),
-    Unit(None, 'month', 30.4368499, {'day':1}),
+    Unit(None, 'month', 1.0/12.0, {'year':1}),
     Unit(None, 'year', 365.242199, {'day':1}),
     
     Unit('Hz', 'hertz', 1, {'second':-1}),
