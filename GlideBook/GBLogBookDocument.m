@@ -138,6 +138,8 @@
 
 - (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row
 {
+	if( row == [mDataView entriesCount] )
+		NSLog( @"Will display cell %@ in last row", cell );
 	if( [cell isKindOfClass: [NSButtonCell class]] )
 		[cell setTransparent: row == [mDataView entriesCount]];
 }

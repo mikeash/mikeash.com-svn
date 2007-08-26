@@ -9,6 +9,13 @@
 #import "GBTotalsTableView.h"
 
 
+@interface NSTableView (PrivateDelegateSupportEvil)
+
+- (void)_delegateWillDisplayCell: (id)cell forColumn: (NSTableColumn *)column row: (int)row;
+- (NSRect)clipForDrawingRow: (int)row column: (NSTableColumn *)column;
+
+@end
+
 @implementation GBTotalsTableView
 
 - (void)awakeFromNib
@@ -33,15 +40,37 @@
 		[super drawRow: row clipRect: rect];
 }
 
+- (void)_delegateWillDisplayCell: (id)cell forColumn: (NSTableColumn *)column row: (int)row
+{
+//	int lastRow = [self numberOfRows] - 1;
+//	if( row == lastRow )
+//	{
+//		if( !mDidDrawLastRowBackground )
+//		{
+//			[[NSColor whiteColor] setFill];
+//			[NSBezierPath fillRect: [self rectOfRow: lastRow]];
+//			mDidDrawLastRowBackground = YES;
+//		}
+//	}
+	[super _delegateWillDisplayCell: cell forColumn: column row: row];
+}
+
+- (NSRect)clipForDrawingRow: (int)row column: (NSTableColumn *)column
+{
+	NSRect rect = [super clipForDrawingRow: row column: column];
+	NSLog( @"%s: %@", __func__, NSStringFromRect( rect ) );
+	return rect;
+}
+
 - (void)drawRect: (NSRect)rect
 {
 	[super drawRect: rect];
 	
-	NSRect rectToDraw = [self _GBTotalRowRect];
+	NSRect totalRowRect = [self _GBTotalRowRect];
 	
-	float lineY = NSMinY( rectToDraw ) - 0.5;
-	NSPoint p1 = NSMakePoint( NSMinX( rectToDraw ), lineY );
-	NSPoint p2 = NSMakePoint( NSMaxX( rectToDraw ), lineY );
+	float lineY = NSMinY( totalRowRect ) - 0.5;
+	NSPoint p1 = NSMakePoint( NSMinX( totalRowRect ), lineY );
+	NSPoint p2 = NSMakePoint( NSMaxX( totalRowRect ), lineY );
 	[[NSColor grayColor] setStroke];
 	[NSBezierPath strokeLineFromPoint: p1 toPoint: p2];
 	
@@ -49,11 +78,12 @@
 	NSRect lastRowRect = [self rectOfRow: lastRow];
 	
 	NSAffineTransform *transform = [NSAffineTransform transform];
-	[transform translateXBy: 0 yBy: NSMaxY( rectToDraw ) - NSMaxY( lastRowRect )];
+	[transform translateXBy: 0 yBy: NSMaxY( totalRowRect ) - NSMaxY( lastRowRect )];
 	[transform concat];
 	
+	mDidDrawLastRowBackground = NO;
 	[[NSColor whiteColor] setFill];
-	[NSBezierPath fillRect: lastRowRect];
+	[NSBezierPath fillRect: [self rectOfRow: lastRow]];
 	[super drawRow: lastRow clipRect: [self bounds]];
 }
 

@@ -45,6 +45,7 @@ static const int kPackageGenerateInterval = 60;
 		mPackages = [[NSMutableSet alloc] init];
 		
         [self setAnimationTimeInterval: 1/30.0];
+		[NSTimer scheduledTimerWithTimeInterval: 0 target: self selector: @selector( step ) userInfo: nil repeats: YES];
 		mNumRoutingThreads = [ChemicalBurnNode numRoutingThreads];
 
 		[self setDefaultValues];
@@ -584,7 +585,7 @@ static const int kPackageGenerateInterval = 60;
 	 */
 }
 
-- (void)animateOneFrame
+- (void)step
 {
 	[self decayStats];
 	[self stepPackages];
@@ -599,6 +600,11 @@ static const int kPackageGenerateInterval = 60;
 	[self generatePackages];
 	
 	mStep++;
+}
+
+- (void)animateOneFrame
+{
+	[self step];
 	
 	[self setNeedsDisplay: YES];
 }

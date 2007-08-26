@@ -1,0 +1,13 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = SeamAppController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {mImageView = SeamImageView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = SeamImageView; LANGUAGE = ObjC; SUPERCLASS = NSView; }
+    ); 
+    IBVersion = 1; 
+}

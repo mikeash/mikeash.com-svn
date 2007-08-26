@@ -27,25 +27,25 @@
 	<key>Dashboard Widget Prefs</key>
 	<dict>
 		<key>id</key>
-		<string>bfd37cf98159a741</string>
+		<string>a33b689c8076a841</string>
 		<key>in-layer</key>
 		<true/>
 		<key>path</key>
-		<string>/private/tmp/Dashcode/.Aviation Weather Forecast.wdgtprojKrTosA/Aviation Weather Forecast.wdgtproj/project.wdgt/</string>
+		<string>/private/tmp/Dashcode/.Aviation Weather Forecast.wdgtproj8soo4h/Aviation Weather Forecast.wdgtproj/project.wdgt/</string>
 		<key>percent-offset-x</key>
 		<integer>0</integer>
 		<key>percent-offset-y</key>
-		<integer>0</integer>
+		<integer>101</integer>
 		<key>percent-type</key>
 		<integer>4</integer>
 		<key>percent-x</key>
-		<real>0.0098958332091569901</real>
+		<real>0.037500001490116119</real>
 		<key>percent-y</key>
-		<real>0.019166667014360428</real>
+		<real>0.0</real>
 		<key>pos-x</key>
-		<integer>19</integer>
+		<integer>72</integer>
 		<key>pos-y</key>
-		<integer>919</integer>
+		<integer>1043</integer>
 		<key>rosetta</key>
 		<false/>
 	</dict>

@@ -9,7 +9,9 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface GBTotalsTableView : NSTableView {
+@interface GBTotalsTableView : NSTableView
+{
+	BOOL	mDidDrawLastRowBackground;
 }
 
 @end
