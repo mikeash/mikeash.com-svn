@@ -1,5 +1,5 @@
 //
-//  SeamMaxPlusFilter.h
+//  SeamKernelFilter.h
 //  Seams
 //
 //  Created by Michael Ash on 8/29/07.
@@ -17,7 +17,7 @@
 	CIKernel*	kernel;
 }
 
-+ (id)maxPlusFilter;
++ (id)minPlusFilter;
 + (id)sliceFilter;
 
 @end

@@ -1,5 +1,5 @@
 //
-//  SeamMaxPlusFilter.m
+//  SeamKernelFilter.m
 //  Seams
 //
 //  Created by Michael Ash on 8/29/07.
@@ -9,7 +9,11 @@
 #import "SeamKernelFilter.h"
 
 
-@interface SeamMaxPlusFilter : SeamKernelFilter {} @end
+@interface SeamMinPlusFilter : SeamKernelFilter
+{
+	NSNumber*	y;
+}
+@end
 @interface SeamSliceFilter : SeamKernelFilter
 {
 	CIImage*	sliceImage;
@@ -18,7 +22,7 @@
 
 @implementation SeamKernelFilter
 
-static CIKernel *gMaxPlusKernel;
+static CIKernel *gMinPlusKernel;
 static CIKernel *gSliceKernel;
 
 + (CIKernel *)_kernelForResourceName: (NSString *)name
@@ -31,15 +35,15 @@ static CIKernel *gSliceKernel;
 
 + (void)initialize
 {
-	if( !gMaxPlusKernel )
-		gMaxPlusKernel = [[self _kernelForResourceName: @"maxpluskernel"] retain];
+	if( !gMinPlusKernel )
+		gMinPlusKernel = [[self _kernelForResourceName: @"minpluskernel"] retain];
 	if( !gSliceKernel )
 		gSliceKernel = [[self _kernelForResourceName: @"slicekernel"] retain];
 }
 
-+ (id)maxPlusFilter
++ (id)minPlusFilter
 {
-	return [[[SeamMaxPlusFilter alloc] init] autorelease];
+	return [[[SeamMinPlusFilter alloc] init] autorelease];
 }
 
 + (id)sliceFilter
@@ -49,12 +53,19 @@ static CIKernel *gSliceKernel;
 
 @end
 
-@implementation SeamMaxPlusFilter
+@implementation SeamMinPlusFilter
+
+- (void)dealloc
+{
+	[self setValue: nil forKey: @"y"];
+	
+	[super dealloc];
+}
 
 - (CIImage *)outputImage
 {
 	CISampler *src = [CISampler samplerWithImage: inputImage];
-	return [self apply: gMaxPlusKernel, src, nil];
+	return [self apply: gMinPlusKernel, src, y, nil];
 }
 
 @end

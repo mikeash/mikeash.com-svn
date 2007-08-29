@@ -343,7 +343,7 @@ struct FPixel { float r, g, b, a; };
 	return values;
 }
 
-- (CIImage *)_shrinkCI: (CIImage *)image
+- (CIImage *)_shrinkCI: (CIImage *)image getDisplayImage: (CIImage **)outDisplayImage;
 {
 	CIFilter *energyFilter = [self _energyFilter];
 	[energyFilter setValue: image forKey: @"inputImage"];
@@ -354,19 +354,32 @@ struct FPixel { float r, g, b, a; };
 	CIImageAccumulator *accumulator = [CIImageAccumulator imageAccumulatorWithExtent: extent format: kCIFormatRGBAf];
 	[accumulator setImage: energyImage];
 	
-	CIFilter *maxPlusFilter = [SeamKernelFilter maxPlusFilter];
+	CIFilter *minPlusFilter = [SeamKernelFilter minPlusFilter];
+	CIFilter *cropFilter = [CIFilter filterWithName: @"CICrop"];
 	
 	float y;
-	for( y = CGRectGetMinY( extent ) + 1; y < CGRectGetMaxY( extent ); y++ )
+	for( y = CGRectGetMaxY( extent ) - 1; y >= CGRectGetMinY( extent ); y-- )
 	{
-		[maxPlusFilter setValue: [accumulator image] forKey: @"inputImage"];
+		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		
-		CIImage *newImage = [maxPlusFilter valueForKey: @"outputImage"];
+//		if( fmodf( y, 10.0 ) < 0.5 )
+//		{
+//			CIImage *curImg = [accumulator image];
+//			NSBitmapImageRep *rep = [self _repForCIImage: curImg];
+//			[[rep TIFFRepresentation] writeToFile: [NSString stringWithFormat: @"/tmp/%.0f.tiff", y] atomically: NO];
+//		}
+		
+		[minPlusFilter setValue: [accumulator image] forKey: @"inputImage"];
+		[minPlusFilter setValue: [NSNumber numberWithFloat: y] forKey: @"y"];
+		
+		CIImage *newImage = [minPlusFilter valueForKey: @"outputImage"];
 		CGRect dirtyRect = extent;
 		dirtyRect.origin.y = y;
-		dirtyRect.size.height = 1.0;
+		dirtyRect.size.height = 1;
 		
 		[accumulator setImage: newImage dirtyRect: dirtyRect];
+		
+		[pool release];
 	}
 	
 	CIImage *pathsImage = [accumulator image];
@@ -398,7 +411,6 @@ struct FPixel { float r, g, b, a; };
 	
 	CIImage *slicedImage = [sliceFilter valueForKey: @"outputImage"];
 	
-	CIFilter *cropFilter = [CIFilter filterWithName: @"CICrop"];
 	CIVector *cropRect = [CIVector vectorWithX: extent.origin.x
 											 Y: extent.origin.y
 											 Z: extent.size.width - 1
@@ -419,6 +431,7 @@ struct FPixel { float r, g, b, a; };
 //		[outRep setColor: [NSColor redColor] atX: path[v] y: v];
 //	}
 	
+	*outDisplayImage = pathsImage;
 	NSLog( @"bump" );
 	
 	return outImage;
@@ -431,12 +444,14 @@ struct FPixel { float r, g, b, a; };
 
 - (void)_updateImage
 {
-	CIImage *newImage = [self _shrinkCI: mImage];
+	CIImage *displayImage;
+	CIImage *newImage = [self _shrinkCI: mImage getDisplayImage: &displayImage];
 	if( newImage )
 	{
 		[mImage release];
 		mImage = [newImage retain];
 		
+		//[mImageView setImage: displayImage];
 		[self _setImage];
 	}
 	else
@@ -449,10 +464,11 @@ struct FPixel { float r, g, b, a; };
 
 - (void)awakeFromNib
 {
-	NSOpenPanel *p = [NSOpenPanel openPanel];
-	[p runModalForTypes: nil];
-	NSString *path = [p filename];
+//	NSOpenPanel *p = [NSOpenPanel openPanel];
+//	[p runModalForTypes: nil];
+//	NSString *path = [p filename];
 //	NSString *path = @"/Users/mikeash/bob_eggleton_adeepnessinthesky.jpg";
+	NSString *path = @"/tmp/foo.bmp";
 	NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithData: [NSData dataWithContentsOfFile: path]];
 	mImage = [[CIImage alloc] initWithBitmapImageRep: rep];
 	

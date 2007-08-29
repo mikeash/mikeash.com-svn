@@ -1,0 +1,19 @@
+kernel vec4 minPlus(sampler image, float y)
+{
+	vec4 samplerExtent = samplerExtent(image);
+	
+	vec2 c = samplerCoord(image);
+	vec2 cup = c + vec2(0.0, 1.0);
+	vec2 cupl = c + vec2(-1.0, 1.0);
+	vec2 cupr = c + vec2(1.0, 1.0);
+	
+	float best = sample(image, cup);
+	float upl = sample(image, cupl);
+	float upr = sample(image, cupr);
+	best = c.x <= samplerExtent.x + 1.0 ? best : min(best, upl);
+	best = c.x >= samplerExtent.x + samplerExtent.w ? best : min(best, upr);
+	
+	float me = sample(image, c);
+	float ret = best + me;
+	return vec4(ret, ret, ret, 1.0);
+}
