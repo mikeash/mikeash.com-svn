@@ -11,6 +11,10 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		C22203B00C85DE960048CB75 /* maxpluskernel.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = C22203AF0C85DE960048CB75 /* maxpluskernel.cikernel */; };
+		C22203B50C85DEF30048CB75 /* SeamKernelFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = C22203B40C85DEF30048CB75 /* SeamKernelFilter.m */; };
+		C222059B0C85F19B0048CB75 /* CIImageExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C22205990C85F19B0048CB75 /* CIImageExtensions.m */; };
+		C222060E0C85F72C0048CB75 /* slicekernel.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = C222060D0C85F72B0048CB75 /* slicekernel.cikernel */; };
 		C24FBC8D0C81079600901AF5 /* SeamAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = C24FBC8C0C81079600901AF5 /* SeamAppController.m */; };
 		C24FBCD90C8109DF00901AF5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C24FBCD80C8109DF00901AF5 /* QuartzCore.framework */; };
 		C288B10A0C81DF710061218B /* SeamImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C288B1090C81DF710061218B /* SeamImageView.m */; };
@@ -27,6 +31,12 @@
 		32CA4F630368D1EE00C91783 /* Seams_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Seams_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Seams.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seams.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C22203AF0C85DE960048CB75 /* maxpluskernel.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = maxpluskernel.cikernel; sourceTree = "<group>"; };
+		C22203B30C85DEF30048CB75 /* SeamKernelFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeamKernelFilter.h; sourceTree = "<group>"; };
+		C22203B40C85DEF30048CB75 /* SeamKernelFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeamKernelFilter.m; sourceTree = "<group>"; };
+		C22205990C85F19B0048CB75 /* CIImageExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CIImageExtensions.m; path = ../../../../Downloads/zipM51t8bnkRV/CIImageExtensions.m; sourceTree = SOURCE_ROOT; };
+		C222059A0C85F19B0048CB75 /* CIImageExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CIImageExtensions.h; path = ../../../../Downloads/zipM51t8bnkRV/CIImageExtensions.h; sourceTree = SOURCE_ROOT; };
+		C222060D0C85F72B0048CB75 /* slicekernel.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = slicekernel.cikernel; sourceTree = "<group>"; };
 		C24FBC8B0C81079600901AF5 /* SeamAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeamAppController.h; sourceTree = "<group>"; };
 		C24FBC8C0C81079600901AF5 /* SeamAppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeamAppController.m; sourceTree = "<group>"; };
 		C24FBCD80C8109DF00901AF5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
@@ -54,6 +64,10 @@
 				C24FBC8C0C81079600901AF5 /* SeamAppController.m */,
 				C288B1080C81DF710061218B /* SeamImageView.h */,
 				C288B1090C81DF710061218B /* SeamImageView.m */,
+				C22203B30C85DEF30048CB75 /* SeamKernelFilter.h */,
+				C22203B40C85DEF30048CB75 /* SeamKernelFilter.m */,
+				C222059A0C85F19B0048CB75 /* CIImageExtensions.h */,
+				C22205990C85F19B0048CB75 /* CIImageExtensions.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -112,6 +126,8 @@
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+				C22203AF0C85DE960048CB75 /* maxpluskernel.cikernel */,
+				C222060D0C85F72B0048CB75 /* slicekernel.cikernel */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -168,6 +184,8 @@
 			files = (
 				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				C22203B00C85DE960048CB75 /* maxpluskernel.cikernel in Resources */,
+				C222060E0C85F72C0048CB75 /* slicekernel.cikernel in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,6 +199,8 @@
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				C24FBC8D0C81079600901AF5 /* SeamAppController.m in Sources */,
 				C288B10A0C81DF710061218B /* SeamImageView.m in Sources */,
+				C22203B50C85DEF30048CB75 /* SeamKernelFilter.m in Sources */,
+				C222059B0C85F19B0048CB75 /* CIImageExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

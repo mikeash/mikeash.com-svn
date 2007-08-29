@@ -10,7 +10,9 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+#import "CIImageExtensions.h"
 #import "SeamImageView.h"
+#import "SeamKernelFilter.h"
 
 
 @implementation SeamAppController
@@ -58,6 +60,13 @@ struct Pixel { uint8_t r, g, b, a; };
 		}
 	
 	return [outRep autorelease];
+}
+
+- (CIFilter *)_energyFilter
+{
+	CIFilter *filter = [CIFilter filterWithName: @"CIEdges"];
+	[filter setDefaults];
+	return filter;
 }
 
 - (NSBitmapImageRep *)_repByApplyingCIFilter: (NSString *)filterName arguments: (NSDictionary *)args toRep: (NSBitmapImageRep *)rep
@@ -250,18 +259,183 @@ struct Pixel { uint8_t r, g, b, a; };
 	return returnRep;
 }
 
+- (NSBitmapImageRep *)_repForCIImage: (CIImage *)image
+{
+	CGRect extent = [image extent];
+	CGColorSpaceRef colorspace = CGColorSpaceCreateWithName( kCGColorSpaceUserRGB );
+	size_t rowbytes;
+	float *bmp = [image getRGBAfBitmap: colorspace
+							  fromRect: extent
+							  rowBytes: &rowbytes];
+	CGColorSpaceRelease( colorspace );
+	
+	NSBitmapImageRep *outRep = [[NSBitmapImageRep alloc]
+		initWithBitmapDataPlanes: NULL
+					  pixelsWide: CGRectGetWidth( extent )
+					  pixelsHigh: CGRectGetHeight( extent )
+				   bitsPerSample: 32
+				 samplesPerPixel: 4
+						hasAlpha: YES
+						isPlanar: NO
+				  colorSpaceName: NSCalibratedRGBColorSpace
+					bitmapFormat: NSFloatingPointSamplesBitmapFormat
+					 bytesPerRow: rowbytes
+					bitsPerPixel: 128];
+	
+	memcpy( [outRep bitmapData], bmp, rowbytes * CGRectGetHeight( extent ) );
+	free( bmp );
+	
+	return [outRep autorelease];
+}
+
+struct FPixel { float r, g, b, a; };
+- (float *)_pathInBitmap: (NSBitmapImageRep *)pathsRep
+{
+	int width = [pathsRep pixelsWide];
+	int height = [pathsRep pixelsHigh];
+	int rowbytes = [pathsRep bytesPerRow];
+	void *ptr = [pathsRep bitmapData];
+	
+	// generate a path, bottom up
+	float *values = malloc( height * sizeof( *values ) );
+	
+#define COST(x) (p[x].r + p[x].b + p[x].b)
+	
+	// first, find the minimum point at the very bottom
+	void *rowPtr = ptr + rowbytes * (height - 1);
+	float bestBottom = 1e50;
+	int x;
+	for( x = 0; x < width; x++ )
+	{
+		struct FPixel *p = rowPtr;
+		float cost = COST(x);
+		if( cost < bestBottom )
+		{
+			bestBottom = cost;
+			values[height - 1] = x;
+		}
+	}
+	
+	// now find minimum points after that
+	int y;
+	for( y = height - 2; y >= 0; y-- )
+	{
+		rowPtr -= rowbytes;
+		
+		struct FPixel *p = rowPtr;
+		int x = values[y + 1];
+		float bestCost = COST(x);
+		int bestValue = x;
+		if( x > 0 && COST(x - 1) < bestCost )
+		{
+			bestCost = COST(x - 1);
+			bestValue = x - 1;
+		}
+		if( x < width - 1 && COST(x + 1) < bestCost )
+		{
+			bestCost = COST(x + 1);
+			bestValue = x + 1;
+		}
+		
+		values[y] = bestValue;
+	}
+	
+	return values;
+}
+
+- (CIImage *)_shrinkCI: (CIImage *)image
+{
+	CIFilter *energyFilter = [self _energyFilter];
+	[energyFilter setValue: image forKey: @"inputImage"];
+	
+	CIImage *energyImage = [energyFilter valueForKey: @"outputImage"];
+	
+	CGRect extent = [image extent];
+	CIImageAccumulator *accumulator = [CIImageAccumulator imageAccumulatorWithExtent: extent format: kCIFormatRGBAf];
+	[accumulator setImage: energyImage];
+	
+	CIFilter *maxPlusFilter = [SeamKernelFilter maxPlusFilter];
+	
+	float y;
+	for( y = CGRectGetMinY( extent ) + 1; y < CGRectGetMaxY( extent ); y++ )
+	{
+		[maxPlusFilter setValue: [accumulator image] forKey: @"inputImage"];
+		
+		CIImage *newImage = [maxPlusFilter valueForKey: @"outputImage"];
+		CGRect dirtyRect = extent;
+		dirtyRect.origin.y = y;
+		dirtyRect.size.height = 1.0;
+		
+		[accumulator setImage: newImage dirtyRect: dirtyRect];
+	}
+	
+	CIImage *pathsImage = [accumulator image];
+	
+	NSBitmapImageRep *pathsRep = [self _repForCIImage: pathsImage];
+	float *path = [self _pathInBitmap: pathsRep];
+	int height = [pathsRep pixelsHigh];
+	
+	NSMutableData *pathImageData = [NSMutableData dataWithLength: height * 4 * sizeof( float )];
+	float *pathImagePtr = [pathImageData mutableBytes];
+	
+	int i;
+	for( i = 0; i < height; i++ )
+	{
+		pathImagePtr[i * 4] = path[i];
+		pathImagePtr[i * 4 + 3] = 1.0;
+	}
+	free( path );
+	
+	CIImage *pathImage = [CIImage imageWithBitmapData: pathImageData
+										  bytesPerRow: [pathImageData length]
+												 size: CGSizeMake( height, 1.0 )
+											   format: kCIFormatRGBAf
+										   colorSpace: nil];
+	
+	CIFilter *sliceFilter = [SeamKernelFilter sliceFilter];
+	[sliceFilter setValue: image forKey: @"inputImage"];
+	[sliceFilter setValue: pathImage forKey: @"sliceImage"];
+	
+	CIImage *slicedImage = [sliceFilter valueForKey: @"outputImage"];
+	
+	CIFilter *cropFilter = [CIFilter filterWithName: @"CICrop"];
+	CIVector *cropRect = [CIVector vectorWithX: extent.origin.x
+											 Y: extent.origin.y
+											 Z: extent.size.width - 1
+											 W: extent.size.height];
+	[cropFilter setValue: slicedImage forKey: @"inputImage"];
+	[cropFilter setValue: cropRect forKey: @"inputRectangle"];
+	
+	CIImage *croppedImage = [cropFilter valueForKey: @"outputImage"];
+	CIImageAccumulator *finalAccumulator = [CIImageAccumulator imageAccumulatorWithExtent: [croppedImage extent] format: kCIFormatRGBAf];
+	[finalAccumulator setImage: croppedImage];
+	CIImage *outImage = [finalAccumulator image];
+	
+//	NSBitmapImageRep *outRep = [self _repForCIImage: image];
+//	
+//	int v;
+//	for( v = 0; v < MIN( [pathsRep pixelsHigh], [outRep pixelsHigh] ); v++ )
+//	{
+//		[outRep setColor: [NSColor redColor] atX: path[v] y: v];
+//	}
+	
+	NSLog( @"bump" );
+	
+	return outImage;
+}
+
 - (void)_setImage
 {
-	[mImageView setRep: mRep];
+	[mImageView setImage: mImage];
 }
 
 - (void)_updateImage
 {
-	NSBitmapImageRep *newRep = [self _shrinkRep: mRep];
-	if( newRep )
+	CIImage *newImage = [self _shrinkCI: mImage];
+	if( newImage )
 	{
-		[mRep release];
-		mRep = [newRep retain];
+		[mImage release];
+		mImage = [newImage retain];
 		
 		[self _setImage];
 	}
@@ -277,14 +451,15 @@ struct Pixel { uint8_t r, g, b, a; };
 {
 	NSOpenPanel *p = [NSOpenPanel openPanel];
 	[p runModalForTypes: nil];
-	NSImage *image = [[NSImage alloc] initWithContentsOfFile: [p filename]];
-	[image setScalesWhenResized: YES];
-	//[image setSize: NSMakeSize( 640, 480 )];
-	mRep = [[self _repForImage: image] retain];
-	[image release];
+	NSString *path = [p filename];
+//	NSString *path = @"/Users/mikeash/bob_eggleton_adeepnessinthesky.jpg";
+	NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithData: [NSData dataWithContentsOfFile: path]];
+	mImage = [[CIImage alloc] initWithBitmapImageRep: rep];
 	
 	[self _setImage];
+	//[self _updateImage];
 	[mImageView setDelegate: self];
+	[NSTimer scheduledTimerWithTimeInterval: 0 target: self selector: @selector( _updateImage ) userInfo: nil repeats: YES];
 }
 
 - (void)mouseDownAtPoint: (NSPoint)p
@@ -306,27 +481,27 @@ struct Pixel { uint8_t r, g, b, a; };
 	r.size.width = MAX( r.size.width, 1 );
 	r.size.height = MAX( r.size.height, 1 );
 	
-	int width = [mRep pixelsWide];
-	int height = [mRep pixelsHigh];
-	int rowbytes = [mRep bytesPerRow];
-	void *ptr = [mRep bitmapData];
-	
-	NSRect repRect = { NSZeroPoint, { width, height } };
-	r = NSIntersectionRect( r, repRect );
-	
-	int x, y;
-	for( y = NSMinY( r ); y < NSMaxY( r ); y++ )
-		for( x = NSMinX( r ); x < NSMaxX( r ); x++ )
-		{
-			struct Pixel *p = ptr + x * sizeof( struct Pixel ) + y * rowbytes;
-			p->r = 0;
-			p->g = 0;
-			p->b = 0;
-		}
-	
-	[mImageView setNeedsDisplay: YES];
-	
-	mTimer = [[NSTimer scheduledTimerWithTimeInterval: 0 target: self selector: @selector( _updateImage ) userInfo: nil repeats: YES] retain];
+//	int width = [mRep pixelsWide];
+//	int height = [mRep pixelsHigh];
+//	int rowbytes = [mRep bytesPerRow];
+//	void *ptr = [mRep bitmapData];
+//	
+//	NSRect repRect = { NSZeroPoint, { width, height } };
+//	r = NSIntersectionRect( r, repRect );
+//	
+//	int x, y;
+//	for( y = NSMinY( r ); y < NSMaxY( r ); y++ )
+//		for( x = NSMinX( r ); x < NSMaxX( r ); x++ )
+//		{
+//			struct Pixel *p = ptr + x * sizeof( struct Pixel ) + y * rowbytes;
+//			p->r = 0;
+//			p->g = 0;
+//			p->b = 0;
+//		}
+//	
+//	[mImageView setNeedsDisplay: YES];
+//	
+//	mTimer = [[NSTimer scheduledTimerWithTimeInterval: 0 target: self selector: @selector( _updateImage ) userInfo: nil repeats: YES] retain];
 }
 
 @end

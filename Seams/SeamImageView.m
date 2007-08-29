@@ -8,12 +8,24 @@
 
 #import "SeamImageView.h"
 
+#import <QuartzCore/QuartzCore.h>
+
+
+inline static NSRect CGRectToNS( CGRect r )
+{
+	return *(NSRect *)&r;
+}
+
+inline static CGRect NSRectToCG( NSRect r )
+{
+	return *(CGRect *)&r;
+}
 
 @implementation SeamImageView
 
 - (void)dealloc
 {
-	[mRep release];
+	[mImage release];
 	
 	[super dealloc];
 }
@@ -26,14 +38,15 @@
 - (NSRect)_imageRectGetScale: (float *)outScale
 {
 	NSRect bounds = [self bounds];
+	NSRect extent = CGRectToNS( [mImage extent] );
 	
-	float xScale = NSWidth( bounds ) / [mRep pixelsWide];
-	float yScale = NSHeight( bounds ) / [mRep pixelsHigh];
+	float xScale = NSWidth( bounds ) / NSWidth( extent );
+	float yScale = NSHeight( bounds ) / NSHeight( extent );
 	float scale = MIN( xScale, yScale );
 	
 	NSRect imageRect;
-	imageRect.size.width = [mRep pixelsWide] * scale;
-	imageRect.size.height = [mRep pixelsHigh] * scale;
+	imageRect.size.width = NSWidth( extent ) * scale;
+	imageRect.size.height = NSHeight( extent ) * scale;
 	
 	float dx = NSWidth( bounds ) - NSWidth( imageRect );
 	float dy = NSHeight( bounds ) - NSHeight( imageRect );
@@ -47,20 +60,20 @@
 	return imageRect;
 }
 
-- (void)setRep: (NSBitmapImageRep *)rep
+- (void)setImage: (CIImage *)image
 {
-	if( rep != mRep )
+	if( image != mImage )
 	{
-		[mRep release];
-		mRep = [rep retain];
-		
-		[self setNeedsDisplay: YES];
+		[mImage release];
+		mImage = [image retain];
 	}
+	[self setNeedsDisplay: YES];
 }
 
 - (void)drawRect: (NSRect)rect
 {
-	[mRep drawInRect: [self _imageRectGetScale: NULL]];
+	CIContext *ctx = [[NSGraphicsContext currentContext] CIContext];
+	[ctx drawImage: mImage inRect: NSRectToCG( [self _imageRectGetScale: NULL] ) fromRect: [mImage extent]];
 }
 
 - (NSPoint)_imagePointForEvent: (NSEvent *)event
@@ -77,7 +90,7 @@
 	p.x /= scale;
 	p.y /= scale;
 	
-	p.y = [mRep pixelsHigh] - p.y - 1;
+	p.y = CGRectGetHeight( [mImage extent] ) - p.y - 1;
 	
 	return p;
 }

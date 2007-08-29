@@ -12,12 +12,12 @@
 @interface SeamImageView : NSView
 {
 	id					mDelegate;
-	NSBitmapImageRep*	mRep;
+	CIImage*			mImage;
 	NSRect				mImageRect;
 }
 
 - (void)setDelegate: (id)delegate;
-- (void)setRep: (NSBitmapImageRep *)rep;
+- (void)setImage: (CIImage *)image;
 
 @end
 

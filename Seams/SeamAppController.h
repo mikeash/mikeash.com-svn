@@ -14,7 +14,7 @@
 {
 	IBOutlet SeamImageView*	mImageView;
 	
-	NSBitmapImageRep*		mRep;
+	CIImage*				mImage;
 	
 	NSRect					mErasureRect;
 	
