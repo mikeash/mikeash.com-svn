@@ -143,6 +143,8 @@ derivedUnits = [
     
     Unit('kt', 'knot', 1, {'nautical mile':1, 'hour':-1}),
     
+    Unit('cal', 'calorie', 4.184, {'joule':1}),
+    
     Unit('BTU', 'british thermal unit', 1055.05585, {'joule':1}),
     
     Unit('b', 'bit', 0.125, {'byte':1}),
