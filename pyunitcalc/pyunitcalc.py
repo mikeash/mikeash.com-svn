@@ -1,6 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import DebugPrint
+import readline
 import StringIO
 import sys
 
@@ -15,12 +16,12 @@ def calc(str):
 DebugPrint.enable()
 
 if len(sys.argv) < 2:
-    input = sys.stdin
+    readfun = raw_input
 else:
-    input = StringIO.StringIO('\n'.join(sys.argv[1:]))
+    readfun = StringIO.StringIO('\n'.join(sys.argv[1:])).readline
 
 while True:
-    str = input.readline()
+    str = readfun()
     if not str:
         break
     str = str.strip()
