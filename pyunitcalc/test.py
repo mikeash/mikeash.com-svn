@@ -2,6 +2,7 @@
 
 import unittest
 
+from CalcException import CalcException
 import Parser
 
 class TestParser(unittest.TestCase):
@@ -12,7 +13,11 @@ class TestParser(unittest.TestCase):
     
     def _testTuples(self, tuples):
         for t in tuples:
-            self.assertEqual(self.calc(t[0]), t[1])
+            try:
+                self.assertEqual(self.calc(t[0]), t[1])
+            except CalcException, inst:
+                print "error in %s, expected %s, got exception: %s" % (t[0], t[1], inst)
+                raise inst
     
     def testOperators(self):
         tests = [('2+3', '5.0'), ('2-3', '-1.0'),
@@ -42,6 +47,12 @@ class TestParser(unittest.TestCase):
                  ('10kt + 0m/s', '5.14444444444m/s'),
                  ('1*10^9ugm/s^2 in N', '1.0N'),
                  ('1*10^9ugm/s^2 to N', '1.0N')]
+        self._testTuples(tests)
+    
+    def testUnitPlurals(self):
+        tests = [('12 inches in feet', '1.0feet'),
+                 ('120 miles / 2 hours in MPH', '60.0MPH'),
+                 ('1 calorie in joules', '4.184J')]
         self._testTuples(tests)
 
 unittest.main()

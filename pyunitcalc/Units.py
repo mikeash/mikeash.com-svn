@@ -155,6 +155,15 @@ derivedUnits = [
     Unit('mbps', 'megabit per second', 1000000, {'bit':1, 'second':-1}),
     Unit('mBps', 'megabyte per second', 1000000, {'byte':1, 'second':-1}),
     
+    Unit('MPH', 'mile per hour', 1, {'mile':1, 'hour':-1}),
+    Unit('mph', 'mile per hour', 1, {'mile':1, 'hour':-1}),
+    Unit('fpm', 'foot per minute', 1, {'foot':1, 'minute':-1}),
+    
+    Unit(None, 'feet', 1, {'foot':1}),
+    Unit(None, 'feet per minute', 1, {'foot per minute':1}),
+    Unit(None, 'inches', 1, {'inch':1}),
+    Unit(None, 'kts', 1, {'knot':1}),
+    
     Unit(None, 'hamburger', 15000, {'g':1, 'day':1}),
 ]
 
@@ -215,6 +224,11 @@ prefixes = [
 
 def buildUnitDict(list):
     dict = {}
+    
+    # set plurals first so that a unit name which ends in s will take precedence
+    for u in list:
+        dict[u.longname + 's'] = u
+    
     for u in list:
         dict[u.shortname] = u
         dict[u.longname] = u
