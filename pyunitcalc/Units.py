@@ -67,7 +67,10 @@ def parseUnits(str):
             if l == len(str):
                 return [unit]
             else:
-                return [unit] + parseUnits(str[l:])
+                try:
+                    return [unit] + parseUnits(str[l:])
+                except CalcException, inst:
+                    pass
     raise CalcException("unknown unit %s" % str)
 
 def getBaseUnit(str):
