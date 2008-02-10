@@ -15,7 +15,7 @@ class TestParser(unittest.TestCase):
         for t in tuples:
             try:
                 self.assertEqual(self.calc(t[0]), t[1])
-            except CalcException, inst:
+            except Exception, inst:
                 print "error in %s, expected %s, got exception: %s" % (t[0], t[1], inst)
                 raise inst
     
@@ -53,6 +53,12 @@ class TestParser(unittest.TestCase):
         tests = [('12 inches in feet', '1.0feet'),
                  ('120 miles / 2 hours in MPH', '60.0MPH'),
                  ('1 calorie in joules', '4.184J')]
+        self._testTuples(tests)
+    
+    def testReciprocalConversions(self):
+        tests = [('1 hour/1 mile in mph', '1.0mph'),
+                 ('1 hour/60 mile in mph', '60.0mph'),
+                 ('2 days/gallon in mL/s', '0.0219063183158mL/s')]
         self._testTuples(tests)
 
 unittest.main()

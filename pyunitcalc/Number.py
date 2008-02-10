@@ -89,12 +89,18 @@ class Number:
             self.addUnitCount(Units.getBaseUnit(baseStr), base[baseStr] * count)
         self.reduceUnits()
     
-    def checkCompatibleUnits(self, other):
-        if not self.units == other.units:
-            if self.makeBaseUnits() or other.makeBaseUnits():
-                self.checkCompatibleUnits(other)
-            else:
-                raise CalcException("incompatible units in %s and %s" % (self, other))
+    def convertToCompatibleUnits(self, other):
+        if self.units == other.units:
+            return other
+        
+        recip = other.reciprocal()
+        if recip and self.units == recip.units:
+            return recip
+
+        if self.makeBaseUnits() or other.makeBaseUnits():
+            return self.convertToCompatibleUnits(other)
+        
+        raise CalcException("incompatible units in %s and %s" % (self, other))
     
     def process(self, infixStack, postfixStack):
         postfixStack.append(self)
@@ -116,7 +122,7 @@ class Number:
             raise CalcException("unimplemented operator %s" % op)
     
     def addSub(self, op, other):
-        self.checkCompatibleUnits(other)
+        other = self.convertToCompatibleUnits(other)
         a = self.value
         b = other.value
         if op == '+':
@@ -142,6 +148,13 @@ class Number:
             n.makeBaseUnits()
         return n
     
+    def reciprocal(self):
+        if not self.value:
+            return None
+        
+        ret = Number('1', False).divMul('/', self)
+        return ret
+    
     def pow(self, op, other):
         if other.units:
             raise CalcException("exponent is not allowed to have units in (%s)^%s" % (self, other))
@@ -164,7 +177,7 @@ class Number:
     
     def convert(self, op, other):
         units = copy.copy(other.units)
-        self.checkCompatibleUnits(other)
+        self = other.convertToCompatibleUnits(self)
         n = Number(self.value / other.value, True)
         n.addUnits(units)
         return n
