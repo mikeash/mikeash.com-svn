@@ -13,7 +13,7 @@
 
 + (id)filterWithString: (NSString *)string
 {
-	return [[[self alloc] initWithString: string] autorelease];
+	return [[self alloc] initWithString: string];
 }
 
 - (id)initWithString: (NSString *)string
@@ -23,13 +23,6 @@
 		mString = [string copy];
 	}
 	return self;
-}
-
-- (void)dealloc
-{
-	[mString release];
-	
-	[super dealloc];
 }
 
 - (BOOL)matches: (NSDictionary *)dict

@@ -96,7 +96,6 @@
 		NSMutableIndexSet *mut = [indexes mutableCopy];
 		[mut removeIndex: lastRow];
 		[self selectRowIndexes: mut byExtendingSelection: NO];
-		[mut release];
 	}
 	[super highlightSelectionInClipRect: rect];
 }

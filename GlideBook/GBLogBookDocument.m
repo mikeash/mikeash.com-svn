@@ -33,16 +33,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[[NSNotificationCenter defaultCenter] removeObserver: self];
-	
-	[mLogBook release];
-	[mDataView release];
-	
-	[super dealloc];
-}
-
 - (NSString *)windowNibName
 {
     return @"GBLogBookDocument";
@@ -57,7 +47,7 @@
 {
 	mLogBook = [[GBLogBook alloc] initWithData: data error: outError];
 	[self _setFilterString: nil];
-
+	
 	return mLogBook != nil;
 }
 
@@ -103,11 +93,7 @@
 
 - (void)_setDataView: (GBDataView *)dataView
 {
-	if( dataView != mDataView )
-	{
-		[mDataView release];
-		mDataView = [dataView retain];
-	}
+	mDataView = dataView;
 }
 
 - (void)_setFilterString: (NSString *)str

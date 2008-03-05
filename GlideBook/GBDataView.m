@@ -16,27 +16,18 @@
 
 + (id)dataViewWithUndoManager: (NSUndoManager *)undoManager logBook: (GBLogBook *)logBook filter: (GBFilter *)filter
 {
-	return [[[self alloc] initWithUndoManager: undoManager logBook: logBook filter: filter] autorelease];
+	return [[self alloc] initWithUndoManager: undoManager logBook: logBook filter: filter];
 }
 
 - (id)initWithUndoManager: (NSUndoManager *)undoManager logBook: (GBLogBook *)logBook filter: (GBFilter *)filter
 {
 	if( (self = [self init]) )
 	{
-		mUndoManager = [undoManager retain];
-		mLogBook = [logBook retain];
+		mUndoManager = undoManager;
+		mLogBook = logBook;
 		mEntries = [[filter filterArray: [logBook entries]] mutableCopy];
 	}
 	return self;
-}
-
-- (void)dealloc
-{
-	[mUndoManager release];
-	[mLogBook release];
-	[mEntries release];
-	
-	[super dealloc];
 }
 
 #pragma mark -

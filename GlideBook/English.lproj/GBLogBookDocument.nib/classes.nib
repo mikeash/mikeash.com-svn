@@ -1,22 +1,59 @@
-{
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            ACTIONS = {addNewEntry = id; filter = id; }; 
-            CLASS = GBLogBookDocument; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                mSearchField = NSSearchField; 
-                mTableView = NSTableView; 
-                mTotalDualCell = NSTextFieldCell; 
-                mTotalInstCell = NSTextFieldCell; 
-                mTotalPICCell = NSTextFieldCell; 
-                mTotalSoloCell = NSTextFieldCell; 
-                mTotalTotalCell = NSTextFieldCell; 
-            }; 
-            SUPERCLASS = NSDocument; 
-        }, 
-        {CLASS = GBTotalsTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>GBTotalsTableView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTableView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>addNewEntry</key>
+				<string>id</string>
+				<key>filter</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>GBLogBookDocument</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>mSearchField</key>
+				<string>NSSearchField</string>
+				<key>mTableView</key>
+				<string>NSTableView</string>
+				<key>mTotalDualCell</key>
+				<string>NSTextFieldCell</string>
+				<key>mTotalInstCell</key>
+				<string>NSTextFieldCell</string>
+				<key>mTotalPICCell</key>
+				<string>NSTextFieldCell</string>
+				<key>mTotalSoloCell</key>
+				<string>NSTextFieldCell</string>
+				<key>mTotalTotalCell</key>
+				<string>NSTextFieldCell</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSDocument</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

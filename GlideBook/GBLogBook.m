@@ -28,15 +28,15 @@ NSString * const GBLogBookDidChangeNotification = @"GBLogBookDidChangeNotificati
 	{
 		NSString *errorString = nil;
 		
-		[mEntries release];
-		NSDictionary *dict = [[NSPropertyListSerialization propertyListFromData: data
-															   mutabilityOption: NSPropertyListMutableContainers
-																		 format: NULL
-															   errorDescription: &errorString] retain];
+		NSDictionary *dict = [NSPropertyListSerialization
+							  propertyListFromData: data
+							  mutabilityOption: NSPropertyListMutableContainers
+							  format: NULL
+							  errorDescription: &errorString];
 		if( dict )
 			errorString = nil;
 		
-		mEntries = [[dict objectForKey: @"entries"] retain];
+		mEntries = [dict objectForKey: @"entries"];
 		
 		if( !mEntries || ![mEntries isKindOfClass: [NSMutableArray class]] )
 		{
@@ -46,19 +46,11 @@ NSString * const GBLogBookDidChangeNotification = @"GBLogBookDidChangeNotificati
 					errorString, NSLocalizedDescriptionKey,
 					nil];
 				*outError = [NSError errorWithDomain: NSCocoaErrorDomain code: 0 userInfo: userInfo];
-				[errorString release];
 			}
-			[self release];
 			self = nil;
 		}
 	}
 	return self;
-}
-
-- (void)dealloc
-{
-	[mEntries release];
-	[super dealloc];
 }
 
 - (NSData *)data
