@@ -18,6 +18,8 @@
 		C22ADFFD0C072A4800012BE7 /* GBTotalsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C22ADFFC0C072A4800012BE7 /* GBTotalsTableView.m */; };
 		C2EC14550C053F33008C3519 /* GBDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = C2EC14540C053F33008C3519 /* GBDataView.m */; };
 		C2EC14940C0541D2008C3519 /* GBFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = C2EC14930C0541D2008C3519 /* GBFilter.m */; };
+		C2F347D70D7F53F700D4C2FA /* Add.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C2F347D50D7F53F700D4C2FA /* Add.tiff */; };
+		C2F347D80D7F53F700D4C2FA /* Remove.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C2F347D60D7F53F700D4C2FA /* Remove.tiff */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +45,8 @@
 		C2EC14540C053F33008C3519 /* GBDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBDataView.m; sourceTree = "<group>"; };
 		C2EC14920C0541D2008C3519 /* GBFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBFilter.h; sourceTree = "<group>"; };
 		C2EC14930C0541D2008C3519 /* GBFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBFilter.m; sourceTree = "<group>"; };
+		C2F347D50D7F53F700D4C2FA /* Add.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Add.tiff; sourceTree = "<group>"; };
+		C2F347D60D7F53F700D4C2FA /* Remove.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Remove.tiff; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +128,8 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C2F347D50D7F53F700D4C2FA /* Add.tiff */,
+				C2F347D60D7F53F700D4C2FA /* Remove.tiff */,
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
 				2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */,
 				2A37F4B4FDCFA73011CA2CEA /* GBLogBookDocument.nib */,
@@ -189,6 +195,8 @@
 				8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */,
 				8D15AC2E0486D014006FF6A4 /* GBLogBookDocument.nib in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
+				C2F347D70D7F53F700D4C2FA /* Add.tiff in Resources */,
+				C2F347D80D7F53F700D4C2FA /* Remove.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

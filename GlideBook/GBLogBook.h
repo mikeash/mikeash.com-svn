@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-extern NSString * const GBLogBookDidChangeNotification;
+extern NSString * const GBLogBookDidChangeNotification; // userinfo "indexes" gives index of what changed
 
 @interface GBLogBook : NSObject
 {

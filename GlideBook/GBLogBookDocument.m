@@ -8,6 +8,8 @@
 
 #import "GBLogBookDocument.h"
 
+#import <objc/objc-runtime.h>
+
 #import "GBDataView.h"
 #import "GBFilter.h"
 #import "GBLogBook.h"
@@ -15,7 +17,7 @@
 
 @interface GBLogBookDocument (Private)
 
-- (void)_logbookChanged;
+- (void)_logbookChanged: (NSNotification *)note;
 - (void)_setFilterString: (NSString *)str;
 
 @end
@@ -51,18 +53,43 @@
 	return mLogBook != nil;
 }
 
+- (void)_setupToolbarItems
+{
+	NSSize size = [mSearchField frame].size;
+	[mSearchToolbarItem setView: mSearchField];
+	[mSearchToolbarItem setMinSize: size];
+	[mSearchToolbarItem setMaxSize: NSMakeSize( 300, size.height )];
+}
+
 - (void)awakeFromNib
 {
+	[self _setupToolbarItems];
+	
 	[[NSNotificationCenter defaultCenter] addObserver: self
-											 selector: @selector( _logbookChanged )
+											 selector: @selector( _logbookChanged: )
 												 name: GBLogBookDidChangeNotification
 											   object: mLogBook];
-	[self _logbookChanged];
+	[self _logbookChanged: nil];
 }
 
 - (IBAction)addNewEntry: (id)sender
 {
 	[mDataView makeNewEntry];
+}
+
+- (IBAction)delete: (id)sender
+{
+	int row = [mTableView selectedRow];
+	if( row >= 0 )
+	{
+		[mDataView removeEntryAtIndex: row];
+		[mTableView selectRowIndexes: [NSIndexSet indexSet] byExtendingSelection: NO];
+	}
+}
+
+- (BOOL)_validate_delete: (id)obj
+{
+	return [mTableView selectedRow] >= 0;
 }
 
 - (IBAction)filter: (id)sender
@@ -86,9 +113,16 @@
 		return [NSNumber numberWithInt: [mDataView totalForIdentifier: identifier]];
 }
 
-- (void)_logbookChanged
+- (void)_logbookChanged: (NSNotification *)note
 {
 	[mTableView reloadData];
+	
+	NSIndexSet *indexes = [[note userInfo] objectForKey: @"indexes"];
+	if( indexes )
+	{
+		int index = [mDataView entryIndexForLogbookIndex: [indexes lastIndex]];
+		[mTableView scrollRowToVisible: index + 1];
+	}
 }
 
 - (void)_setDataView: (GBDataView *)dataView
@@ -101,7 +135,7 @@
 	[self _setDataView: [GBDataView dataViewWithUndoManager: [self undoManager]
 													logBook: mLogBook
 													 filter: [GBFilter filterWithString: str]]];
-	[self _logbookChanged];
+	[self _logbookChanged: nil];
 }
 
 - (int)numberOfRowsInTableView: (NSTableView *)tableView
@@ -124,8 +158,6 @@
 
 - (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row
 {
-	if( row == [mDataView entriesCount] )
-		NSLog( @"Will display cell %@ in last row", cell );
 	if( [cell isKindOfClass: [NSButtonCell class]] )
 		[cell setTransparent: row == [mDataView entriesCount]];
 }
@@ -133,6 +165,20 @@
 - (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(int)row
 {
 	return row != [mDataView entriesCount];
+}
+
+#pragma mark -
+
+- (BOOL)validateUserInterfaceItem: (id <NSValidatedUserInterfaceItem>)item
+{
+	NSString *actionStr = NSStringFromSelector( [item action] );
+	NSString *selStr = [@"_validate_" stringByAppendingString: actionStr];
+	SEL sel = NSSelectorFromString( selStr );
+	
+	if( [self respondsToSelector: sel] )
+		return ((BOOL (*)(id self, SEL _cmd, id item))objc_msgSend)(self, sel, item);
+	
+	return [super validateUserInterfaceItem: item];
 }
 
 @end

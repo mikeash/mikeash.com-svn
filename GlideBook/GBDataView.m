@@ -32,10 +32,14 @@
 
 #pragma mark -
 
-- (void)_noteDidChange
+- (void)_noteDidChangeAtIndex: (int)entryIndex
 {
+	NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+							  [NSIndexSet indexSetWithIndex: [self logbookIndexForEntryIndex: entryIndex]], @"indexes",
+							  nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName: GBLogBookDidChangeNotification
-														object: mLogBook];
+														object: mLogBook
+													  userInfo: userInfo];
 }
 
 - (int)entriesCount
@@ -48,7 +52,7 @@
 	[[mUndoManager prepareWithInvocationTarget: self] makeNewEntry];
 	[[mLogBook entries] removeObjectIdenticalTo: [mEntries lastObject]];
 	[mEntries removeLastObject];
-	[self _noteDidChange];
+	[self _noteDidChangeAtIndex: [mEntries count] - 1];
 }
 
 - (void)makeNewEntry
@@ -56,7 +60,37 @@
 	[[mUndoManager prepareWithInvocationTarget: self] _removeLastEntry];
 	[mEntries addObject: [NSMutableDictionary dictionary]];
 	[[mLogBook entries] addObject: [mEntries lastObject]];
-	[self _noteDidChange];
+	[self _noteDidChangeAtIndex: [mEntries count] - 1];
+}
+
+- (void)_addEntry: (NSMutableDictionary *)entry atIndex: (int)entryIndex logbookIndex: (int)logbookIndex
+{
+	[[mUndoManager prepareWithInvocationTarget: self] removeEntryAtIndex: entryIndex];
+	
+	[mEntries insertObject: entry atIndex: entryIndex];
+	[[mLogBook entries] insertObject: entry atIndex: logbookIndex];
+	[self _noteDidChangeAtIndex: entryIndex];
+}
+
+- (void)removeEntryAtIndex: (int)entryIndex
+{
+	NSMutableDictionary *entry = [mEntries objectAtIndex: entryIndex];
+	int logbookIndex = [self logbookIndexForEntryIndex: entryIndex];
+	[[mUndoManager prepareWithInvocationTarget: self] _addEntry: entry atIndex: entryIndex logbookIndex: logbookIndex];
+	
+	[mEntries removeObjectAtIndex: entryIndex];
+	[[mLogBook entries] removeObjectAtIndex: logbookIndex];
+	[self _noteDidChangeAtIndex: entryIndex];
+}
+
+- (int)logbookIndexForEntryIndex: (int)entryIndex
+{
+	return [[mLogBook entries] indexOfObjectIdenticalTo: [mEntries objectAtIndex: entryIndex]];
+}
+
+- (int)entryIndexForLogbookIndex: (int)logbookIndex
+{
+	return [mEntries indexOfObjectIdenticalTo: [[mLogBook entries] objectAtIndex: logbookIndex]];
 }
 
 - (int)_totalTimeForEntry: (int)entryIndex
@@ -96,7 +130,7 @@
 														identifier: identifier];
 		[[mEntries objectAtIndex: entryIndex] setValue: value forKey: identifier];
 		
-		[self _noteDidChange];
+		[self _noteDidChangeAtIndex: entryIndex];
 	}
 }
 

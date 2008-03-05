@@ -25,6 +25,9 @@
 
 - (int)entriesCount;
 - (void)makeNewEntry;
+- (void)removeEntryAtIndex: (int)entryIndex;
+- (int)logbookIndexForEntryIndex: (int)entryIndex;
+- (int)entryIndexForLogbookIndex: (int)logbookIndex;
 - (id)valueForEntry: (int)entryIndex identifier: (NSString *)identifier;
 - (void)setValue: (id)value forEntry: (int)entryIndex identifier: (NSString *)identifier;
 - (int)totalForIdentifier: (NSString *)identifier;

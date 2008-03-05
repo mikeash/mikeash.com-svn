@@ -24,6 +24,28 @@
 		[super awakeFromNib];
 	
 	[[[self enclosingScrollView] contentView] setCopiesOnScroll: NO];
+	
+	[[NSNotificationCenter defaultCenter] addObserver: self
+											 selector: @selector( _windowMainStatusChanged )
+												 name: NSWindowDidBecomeMainNotification
+											   object: [self window]];
+	[[NSNotificationCenter defaultCenter] addObserver: self
+											 selector: @selector( _windowMainStatusChanged )
+												 name: NSWindowDidResignMainNotification
+											   object: [self window]];
+	[[NSNotificationCenter defaultCenter] addObserver: self
+											 selector: @selector( _windowMainStatusChanged )
+												 name: NSWindowDidBecomeKeyNotification
+											   object: [self window]];
+	[[NSNotificationCenter defaultCenter] addObserver: self
+											 selector: @selector( _windowMainStatusChanged )
+												 name: NSWindowDidResignKeyNotification
+											   object: [self window]];
+}
+
+- (void)_windowMainStatusChanged
+{
+	[self setNeedsDisplay: YES];
 }
 
 - (NSRect)_GBTotalRowRect

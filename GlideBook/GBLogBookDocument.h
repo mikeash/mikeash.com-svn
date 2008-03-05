@@ -16,6 +16,9 @@
 {
 	IBOutlet NSTableView*		mTableView;
 	
+	IBOutlet NSToolbarItem*		mSearchToolbarItem;
+	IBOutlet NSToolbarItem*		mAddEntryToolbarItem;
+	IBOutlet NSToolbarItem*		mRemoveEntryToolbarItem;
 	IBOutlet NSSearchField*		mSearchField;
 	
 	GBLogBook*		mLogBook;
@@ -23,6 +26,7 @@
 }
 
 - (IBAction)addNewEntry: (id)sender;
+- (IBAction)delete: (id)sender;
 
 - (IBAction)filter: (id)sender;
 
