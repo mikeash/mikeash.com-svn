@@ -36,6 +36,13 @@
 	return self;
 }
 
+- (void)dealloc
+{
+	[mSource release];
+	[super dealloc];
+}
+
+
 - (void)setConnection: (ChemicalBurnConnection *)connection forward: (BOOL)forward
 {
 	[mCurConnection removePackage: self];
