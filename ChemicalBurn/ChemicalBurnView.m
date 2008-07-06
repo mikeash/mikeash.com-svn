@@ -21,7 +21,9 @@
 #import "ChemicalBurnPackage.h"
 #import "ChemicalBurnSafeQueue.h"
 
+#if DEBUG
 #define DEBUG_LOGGING 1
+#endif
 
 #if DEBUG_LOGGING
 #define DEBUG_LOG( fmt, ... ) NSLog( fmt, ## __VA_ARGS__ )
