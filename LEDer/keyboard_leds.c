@@ -5,9 +5,6 @@
  * keyboard_leds.c
  * Manipulate keyboard LEDs (capslock and numlock) programmatically.
  *
- * gcc -Wall -o keyboard_leds keyboard_leds.c -framework IOKit
- *     -framework CoreFoundation
- *
  * Copyright (c) 2007,2008 Amit Singh. All Rights Reserved.
  *
  *  Redistribution and use in source and binary forms, with or without

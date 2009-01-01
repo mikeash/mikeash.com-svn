@@ -3,7 +3,7 @@
 //  LEDer
 //
 //  Created by Michael Ash on 12/31/08.
-//  Copyright 2008 Rogue Amoeba Software, LLC. All rights reserved.
+//  Copyright 2008 Michael Ash. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
