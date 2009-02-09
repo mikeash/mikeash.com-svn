@@ -30,4 +30,6 @@
 
 - (IBAction)filter: (id)sender;
 
+- (void)setFilterPredicate: (NSPredicate *)predicate;
+
 @end

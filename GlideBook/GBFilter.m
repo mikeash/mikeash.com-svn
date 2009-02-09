@@ -25,16 +25,16 @@
 	return self;
 }
 
-- (BOOL)matches: (NSDictionary *)dict
+- (BOOL)evaluateWithObject: (id)object
 {
 	if( !mString || [mString isEqualToString: @""] )
 		return YES;
 	
-	NSEnumerator *enumerator = [dict keyEnumerator];
+	NSEnumerator *enumerator = [object keyEnumerator];
 	id key;
 	while( (key = [enumerator nextObject]) )
 	{
-		id obj = [dict objectForKey: key];
+		id obj = [object objectForKey: key];
 		if( [obj isKindOfClass: [NSString class]] )
 		{
 			if( [obj rangeOfString: mString].location != NSNotFound )
@@ -43,15 +43,6 @@
 	}
 	
 	return NO;
-}
-
-- (NSArray *)filterArray: (NSArray *)array
-{
-	NSMutableArray *ret = [NSMutableArray array];
-	forall( obj, array )
-		if( [self matches: obj] )
-			[ret addObject: obj];
-	return ret;
 }
 
 @end

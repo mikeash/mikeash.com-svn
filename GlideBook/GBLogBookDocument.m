@@ -18,7 +18,7 @@
 @interface GBLogBookDocument (Private)
 
 - (void)_logbookChanged: (NSNotification *)note;
-- (void)_setFilterString: (NSString *)str;
+- (void)_setDataView: (GBDataView *)dataView;
 
 @end
 
@@ -30,7 +30,7 @@
 	if( (self = [super initWithType: typeName error: outError]) )
 	{
 		mLogBook = [[GBLogBook alloc] init];
-		[self _setFilterString: nil];
+		[self setFilterPredicate: [NSPredicate predicateWithValue: YES]];
 	}
 	return self;
 }
@@ -48,7 +48,7 @@
 - (BOOL)readFromData: (NSData *)data ofType: (NSString *)typeName error: (NSError **)outError
 {
 	mLogBook = [[GBLogBook alloc] initWithData: data error: outError];
-	[self _setFilterString: nil];
+	[self setFilterPredicate: [NSPredicate predicateWithValue: YES]];
 	
 	return mLogBook != nil;
 }
@@ -94,7 +94,15 @@
 
 - (IBAction)filter: (id)sender
 {
-	[self _setFilterString: [mSearchField stringValue]];
+	[self setFilterPredicate: [GBFilter filterWithString: [mSearchField stringValue]]];
+}
+
+- (void)setFilterPredicate: (NSPredicate *)predicate
+{
+	[self _setDataView: [GBDataView dataViewWithUndoManager: [self undoManager]
+													logBook: mLogBook
+												  predicate: predicate]];
+	[self _logbookChanged: nil];
 }
 
 @end
@@ -128,14 +136,6 @@
 - (void)_setDataView: (GBDataView *)dataView
 {
 	mDataView = dataView;
-}
-
-- (void)_setFilterString: (NSString *)str
-{
-	[self _setDataView: [GBDataView dataViewWithUndoManager: [self undoManager]
-													logBook: mLogBook
-													 filter: [GBFilter filterWithString: str]]];
-	[self _logbookChanged: nil];
 }
 
 - (int)numberOfRowsInTableView: (NSTableView *)tableView

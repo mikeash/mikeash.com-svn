@@ -19,9 +19,9 @@
 	NSMutableArray*		mEntries;
 }
 
-+ (id)dataViewWithUndoManager: (NSUndoManager *)undoManager logBook: (GBLogBook *)logBook filter: (GBFilter *)filter;
++ (id)dataViewWithUndoManager: (NSUndoManager *)undoManager logBook: (GBLogBook *)logBook predicate: (NSPredicate *)predicate;
 
-- (id)initWithUndoManager: (NSUndoManager *)undoManager logBook: (GBLogBook *)logBook filter: (GBFilter *)filter;
+- (id)initWithUndoManager: (NSUndoManager *)undoManager logBook: (GBLogBook *)logBook predicate: (NSPredicate *)predicate;
 
 - (int)entriesCount;
 - (void)makeNewEntry;

@@ -12,20 +12,134 @@
 #import "GBLogBook.h"
 
 
-@implementation GBDataView
-
-+ (id)dataViewWithUndoManager: (NSUndoManager *)undoManager logBook: (GBLogBook *)logBook filter: (GBFilter *)filter
+static int TotalTimeForEntry( NSDictionary *entry )
 {
-	return [[self alloc] initWithUndoManager: undoManager logBook: logBook filter: filter];
+	NSString *timeKeys[] = { @"dual_time", @"pilot_in_command_time", @"solo_time", @"instruction_given_time", nil };
+	
+	int total = 0;
+	
+	NSString **key;
+	for( key = timeKeys; *key; key++ )
+		total += [[entry objectForKey: *key] intValue];
+	
+	return total;
 }
 
-- (id)initWithUndoManager: (NSUndoManager *)undoManager logBook: (GBLogBook *)logBook filter: (GBFilter *)filter
+static id ValueForEntry( NSDictionary *entry, NSString *key, GBLogBook *logBook )
+{
+	if( [key isEqualToString: @"number"] )
+		return [NSNumber numberWithInt: [[logBook entries] indexOfObjectIdenticalTo: entry] + 1];
+	if( [key isEqualToString: @"total_time"] )
+		return [NSNumber numberWithInt: TotalTimeForEntry( entry )];
+	
+	return [entry objectForKey: key];
+}	
+
+@interface GBDataViewDictionaryProxy : NSObject
+{
+	GBLogBook *_logBook;
+	NSDictionary *_origDict;
+}
+
++ (id)proxyWithLogBook: (GBLogBook *)logBook originalDictionary: (NSDictionary *)dict;
+- (id)initWithLogBook: (GBLogBook *)logBook originalDictionary: (NSDictionary *)dict;
+
+- (NSDictionary *)originalDictionary;
+
+@end
+
+@implementation GBDataViewDictionaryProxy
+
+static NSDictionary *kKeyMap;
+
++ (void)initialize
+{
+	if( !kKeyMap )
+	{
+		kKeyMap = [NSDictionary dictionaryWithObjectsAndKeys:
+				   @"_dateMap:", @"date",
+				   @"_checkedMap:", @"aerotow",
+				   @"_checkedMap:", @"winch",
+				   @"_numberMap:", @"dual_time",
+				   @"_numberMap:", @"pilot_in_command_time",
+				   @"_numberMap:", @"solo_time",
+				   @"_numberMap:", @"instruction_given_time",
+				   @"_numberMap:", @"total_time",
+				   nil];
+	}
+}
+
++ (id)proxyWithLogBook: (GBLogBook *)logBook originalDictionary: (NSDictionary *)dict
+{
+	return [[self alloc] initWithLogBook: logBook originalDictionary: dict];
+}
+
+- (id)initWithLogBook: (GBLogBook *)logBook originalDictionary: (NSDictionary *)dict
+{
+	if( (self = [self init]) )
+	{
+		_logBook = logBook;
+		_origDict = dict;
+	}
+	return self;
+}
+
+- (id)_dateMap: (id)obj
+{
+	return [NSCalendarDate dateWithString: obj calendarFormat: @"%m/%d/%y"];
+}
+
+- (id)_checkedMap: (id)obj
+{
+	return [obj boolValue] ? @"checked" : @"unchecked";
+}
+
+- (id)_numberMap: (id)obj
+{
+	return [NSNumber numberWithInt: [obj intValue]];
+}
+
+- (id)valueForKey: (NSString *)key
+{
+	id val = ValueForEntry( _origDict, key, _logBook );
+	
+	NSString *selStr = [kKeyMap objectForKey: key];
+	if( selStr )
+		val = [self performSelector: NSSelectorFromString( selStr ) withObject: val];
+	
+	return val;
+}
+
+- (NSDictionary *)originalDictionary
+{
+	return _origDict;
+}
+
+@end
+
+
+@implementation GBDataView
+
++ (id)dataViewWithUndoManager: (NSUndoManager *)undoManager logBook: (GBLogBook *)logBook predicate: (NSPredicate *)predicate
+{
+	return [[self alloc] initWithUndoManager: undoManager logBook: logBook predicate: predicate];
+}
+
+- (id)initWithUndoManager: (NSUndoManager *)undoManager logBook: (GBLogBook *)logBook predicate: (NSPredicate *)predicate
 {
 	if( (self = [self init]) )
 	{
 		mUndoManager = undoManager;
 		mLogBook = logBook;
-		mEntries = [[filter filterArray: [logBook entries]] mutableCopy];
+		
+		NSMutableArray *array = [NSMutableArray array];
+		for( NSDictionary *item in [logBook entries] )
+			[array addObject: [GBDataViewDictionaryProxy proxyWithLogBook: logBook originalDictionary: item]];
+		NSArray *filtered = [array filteredArrayUsingPredicate: predicate];
+		[array removeAllObjects];
+		for( id item in filtered )
+			[array addObject: [item originalDictionary]];
+		mEntries = array;
 	}
 	return self;
 }
@@ -93,28 +207,10 @@
 	return [mEntries indexOfObjectIdenticalTo: [[mLogBook entries] objectAtIndex: logbookIndex]];
 }
 
-- (int)_totalTimeForEntry: (int)entryIndex
-{
-	NSDictionary *dict = [mEntries objectAtIndex: entryIndex];
-	NSString *timeKeys[] = { @"dual_time", @"pilot_in_command_time", @"solo_time", @"instruction_given_time", nil };
-	
-	int total = 0;
-	
-	NSString **key;
-	for( key = timeKeys; *key; key++ )
-		total += [[dict objectForKey: *key] intValue];
-	
-	return total;
-}
-
 - (id)valueForEntry: (int)entryIndex identifier: (NSString *)identifier
 {
-	if( [identifier isEqualToString: @"number"] )
-		return [NSNumber numberWithInt: [[mLogBook entries] indexOfObjectIdenticalTo: [mEntries objectAtIndex: entryIndex]] + 1];
-	if( [identifier isEqualToString: @"total_time"] )
-		return [NSNumber numberWithInt: [self _totalTimeForEntry: entryIndex]];
-	
-	return [[mEntries objectAtIndex: entryIndex] objectForKey: identifier];
+	NSDictionary *entry = [mEntries objectAtIndex: entryIndex];
+	return ValueForEntry( entry, identifier, mLogBook );
 }
 
 - (void)setValue: (id)value forEntry: (int)entryIndex identifier: (NSString *)identifier
@@ -142,7 +238,7 @@
 	int i;
 	for( i = 0; i < count; i++ )
 		total += (isTotalTime
-				  ? [self _totalTimeForEntry: i]
+				  ? TotalTimeForEntry( [mEntries objectAtIndex: i] )
 				  : [[self valueForEntry: i identifier: identifier] intValue]);
 	return total;
 }

@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface GBFilter : NSObject
+@interface GBFilter : NSPredicate
 {
 	NSString*	mString;
 }
@@ -17,8 +17,5 @@
 + (id)filterWithString: (NSString *)string;
 
 - (id)initWithString: (NSString *)string;
-
-- (BOOL)matches: (NSDictionary *)dict;
-- (NSArray *)filterArray: (NSArray *)array;
 
 @end

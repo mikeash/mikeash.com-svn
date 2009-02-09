@@ -15,6 +15,8 @@
 		C21899DE0BDFF4CB0021D7AE /* GBLogBookDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C21899DD0BDFF4CB0021D7AE /* GBLogBookDocument.m */; };
 		C2189A0A0BDFF5860021D7AE /* GBLogBook.m in Sources */ = {isa = PBXBuildFile; fileRef = C2189A090BDFF5860021D7AE /* GBLogBook.m */; };
 		C22ADFFD0C072A4800012BE7 /* GBTotalsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = C22ADFFC0C072A4800012BE7 /* GBTotalsTableView.m */; };
+		C298F21D0F3FE18C000EA3CD /* GBFilterWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C298F21C0F3FE18C000EA3CD /* GBFilterWindowController.m */; };
+		C298F2200F3FE1D3000EA3CD /* GBFilterWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = C298F21E0F3FE1D3000EA3CD /* GBFilterWindow.nib */; };
 		C2EC14550C053F33008C3519 /* GBDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = C2EC14540C053F33008C3519 /* GBDataView.m */; };
 		C2EC14940C0541D2008C3519 /* GBFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = C2EC14930C0541D2008C3519 /* GBFilter.m */; };
 		C2F347D70D7F53F700D4C2FA /* Add.tiff in Resources */ = {isa = PBXBuildFile; fileRef = C2F347D50D7F53F700D4C2FA /* Add.tiff */; };
@@ -39,6 +41,9 @@
 		C2189A090BDFF5860021D7AE /* GBLogBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBLogBook.m; sourceTree = "<group>"; };
 		C22ADFFB0C072A4800012BE7 /* GBTotalsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBTotalsTableView.h; sourceTree = "<group>"; };
 		C22ADFFC0C072A4800012BE7 /* GBTotalsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBTotalsTableView.m; sourceTree = "<group>"; };
+		C298F21B0F3FE18C000EA3CD /* GBFilterWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBFilterWindowController.h; sourceTree = "<group>"; };
+		C298F21C0F3FE18C000EA3CD /* GBFilterWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBFilterWindowController.m; sourceTree = "<group>"; };
+		C298F21F0F3FE1D3000EA3CD /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/GBFilterWindow.nib; sourceTree = "<group>"; };
 		C2EC14530C053F33008C3519 /* GBDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBDataView.h; sourceTree = "<group>"; };
 		C2EC14540C053F33008C3519 /* GBDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBDataView.m; sourceTree = "<group>"; };
 		C2EC14920C0541D2008C3519 /* GBFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBFilter.h; sourceTree = "<group>"; };
@@ -110,6 +115,8 @@
 				C2EC14930C0541D2008C3519 /* GBFilter.m */,
 				C22ADFFB0C072A4800012BE7 /* GBTotalsTableView.h */,
 				C22ADFFC0C072A4800012BE7 /* GBTotalsTableView.m */,
+				C298F21B0F3FE18C000EA3CD /* GBFilterWindowController.h */,
+				C298F21C0F3FE18C000EA3CD /* GBFilterWindowController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -131,6 +138,7 @@
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
 				2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */,
 				2A37F4B4FDCFA73011CA2CEA /* GBLogBookDocument.nib */,
+				C298F21E0F3FE1D3000EA3CD /* GBFilterWindow.nib */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 			);
 			name = Resources;
@@ -193,6 +201,7 @@
 				8D15AC2E0486D014006FF6A4 /* GBLogBookDocument.nib in Resources */,
 				C2F347D70D7F53F700D4C2FA /* Add.tiff in Resources */,
 				C2F347D80D7F53F700D4C2FA /* Remove.tiff in Resources */,
+				C298F2200F3FE1D3000EA3CD /* GBFilterWindow.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +218,7 @@
 				C2EC14550C053F33008C3519 /* GBDataView.m in Sources */,
 				C2EC14940C0541D2008C3519 /* GBFilter.m in Sources */,
 				C22ADFFD0C072A4800012BE7 /* GBTotalsTableView.m in Sources */,
+				C298F21D0F3FE18C000EA3CD /* GBFilterWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,6 +247,14 @@
 				2A37F4BAFDCFA73011CA2CEA /* English */,
 			);
 			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		C298F21E0F3FE1D3000EA3CD /* GBFilterWindow.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C298F21F0F3FE1D3000EA3CD /* English */,
+			);
+			name = GBFilterWindow.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -275,6 +293,7 @@
 					i386,
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_GC = required;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PREFIX_HEADER = GlideBook_Prefix.pch;
