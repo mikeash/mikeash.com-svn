@@ -92,7 +92,7 @@ void NodeThreadIDCleanup( void *key )
 	return self;
 }
 
-- (unsigned)hash
+- (NSUInteger)hash
 {
 	return mID;
 }

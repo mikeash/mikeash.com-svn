@@ -47,7 +47,6 @@ static const int kPackageGenerateInterval = 60;
 		mPackages = [[NSMutableSet alloc] init];
 		
         [self setAnimationTimeInterval: 1/30.0];
-		[NSTimer scheduledTimerWithTimeInterval: 0 target: self selector: @selector( step ) userInfo: nil repeats: YES];
 		mNumRoutingThreads = [ChemicalBurnNode numRoutingThreads];
 
 		[self setDefaultValues];
@@ -506,6 +505,9 @@ static const int kPackageGenerateInterval = 60;
 - (void)startAnimation
 {
     [super startAnimation];
+    
+	mStepTimer = [NSTimer scheduledTimerWithTimeInterval: 0 target: self selector: @selector( step ) userInfo: nil repeats: YES];
+    
 	[self generateNodes];
 	if( mCreateDestroyNodes && mHasPackageOfDeath )
 		mPackageOfDeath = [self generatePackageIsDeath: YES];
@@ -520,6 +522,9 @@ static const int kPackageGenerateInterval = 60;
 - (void)stopAnimation
 {
     [super stopAnimation];
+    
+    [mStepTimer invalidate];
+    mStepTimer = nil;
 	
 	[mNodes removeAllObjects];
 	[mDestroyNodes removeAllObjects];

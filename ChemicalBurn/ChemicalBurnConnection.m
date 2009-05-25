@@ -53,7 +53,7 @@ static int gDistanceWeight;
 	return self;
 }
 
-- (unsigned)hash
+- (NSUInteger)hash
 {
 	unsigned h1 = [mNode1 hash];
 	unsigned h2 = [mNode2 hash];

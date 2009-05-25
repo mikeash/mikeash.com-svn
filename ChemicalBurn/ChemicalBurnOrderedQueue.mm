@@ -21,7 +21,7 @@ static bool NodeLessThan( struct CBOQNode &n1, struct CBOQNode &n2 )
 	if( n1.val != n2.val )
 		return n1.val > n2.val;
 	else
-		return (unsigned)n1.obj < (unsigned)n2.obj;
+		return (uintptr_t)n1.obj < (uintptr_t)n2.obj;
 }
 
 @implementation ChemicalBurnOrderedQueue

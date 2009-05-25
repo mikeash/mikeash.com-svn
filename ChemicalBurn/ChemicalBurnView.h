@@ -20,6 +20,8 @@
 	NSMutableArray*					mDestroyNodes;
 	NSMutableDictionary*			mNodeConnectionDict; // maps node -> NSMutableArray containing connections
 	NSMutableSet*					mPackages;
+    
+    NSTimer*                        mStepTimer;
 	
 	int								mNumRoutingThreads;
 	ChemicalBurnSafeQueue*  		mPackagesToRoute;
