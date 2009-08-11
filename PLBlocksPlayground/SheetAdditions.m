@@ -3,7 +3,6 @@
 //  PLBlocksPlayground
 //
 //  Created by Michael Ash on 8/9/09.
-//  Copyright 2009 Rogue Amoeba Software, LLC. All rights reserved.
 //
 
 #import "SheetAdditions.h"
