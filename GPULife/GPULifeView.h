@@ -11,8 +11,12 @@
 #import <OpenGL/gl.h>
 
 
+#if !CGFLOAT_DEFINED
+typedef float CGFloat;
+#endif
+
 typedef struct {
-	float r, g, b;
+	CGFloat r, g, b;
 } GPULifeColor3;
 
 @interface GPULifeView : NSOpenGLView {

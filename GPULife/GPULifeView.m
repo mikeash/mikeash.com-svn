@@ -156,7 +156,7 @@
 - (void)loadShader
 {
 	NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:@"LifeShader" ofType:@""];
-	NSString *source = [NSString stringWithContentsOfFile:path];
+	NSString *source = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];
 	const char *sourceC = [source UTF8String];
 	
 	glGenProgramsARB(1, &shader);
