@@ -28,7 +28,7 @@ static int gProcessorCount;
 int NodeGetThreadID( void *key )
 {
 	// we store ID + 1 because NULL is used to indicate "does not exist"
-	int threadID = (int)pthread_getspecific( gThreadIDKey );
+	long threadID = (long)pthread_getspecific( gThreadIDKey );
 	if( threadID == 0 )
 	{
 		pthread_mutex_lock( &gIDMutex );
@@ -62,6 +62,9 @@ void NodeThreadIDCleanup( void *key )
 
 + (void)initialize
 {
+	if( self != [ChemicalBurnNode class] )
+		return;
+	
 	MakeKey();
 	gIDs = CFBagCreateMutable( NULL, 0, NULL );
 	int err = pthread_mutex_init( &gIDMutex, NULL );
