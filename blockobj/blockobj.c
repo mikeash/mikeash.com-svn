@@ -22,7 +22,7 @@ struct String
     struct RootObject parent;
     
     struct String *(^initWithFormat)(char *fmt, ...);
-    char *(^cstring)(void);
+    const char *(^cstring)(void);
 };
 
 struct String *NewString(size_t size);
@@ -84,7 +84,7 @@ struct String *NewString(size_t size)
         
         return self;
     });
-    self->cstring = Block_copy(^{ return str; });
+    self->cstring = Block_copy(^{ return (const char *)str; });
     
     return self;
 }
