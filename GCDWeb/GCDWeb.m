@@ -2,6 +2,7 @@
 
 #include <dispatch/dispatch.h>
 #include <errno.h>
+#include <libkern/OSAtomic.h>
 #include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,6 +24,14 @@
 
 #define CHECK(call) Check(call, __FILE__, __LINE__, #call)
 
+
+struct Connection
+{
+    volatile int32_t refcount;
+    int sock;
+};
+
+
 static int Check(int retval, const char *file, int line, const char *name)
 {
     if(retval == -1)
@@ -40,6 +49,23 @@ static dispatch_source_t NewFDSource(int s, dispatch_source_type_t type, dispatc
     return source;
 }
 
+static struct Connection *NewConnection(int sock)
+{
+    struct Connection *c = malloc(sizeof(*c));
+    c->refcount = 2; // 1 read, 1 write
+    c->sock = sock;
+    return c;
+}
+
+static void ReleaseConnection(struct Connection *c)
+{
+    if(OSAtomicDecrement32(&c->refcount) == 0)
+    {
+        close(c->sock);
+        free(c);
+    }
+}
+
 static NSData *Data(NSString *s)
 {
     return [s dataUsingEncoding: NSUTF8StringEncoding];
@@ -50,11 +76,11 @@ GENERATOR(NSData *, ErrCodeWriter(int code), (void))
     GENERATOR_BEGIN(void)
     {
         if(code == 400)
-            GENERATOR_YIELD(Data(@"400 Bad Request"));
+            GENERATOR_YIELD(Data(@"HTTP/1.0 400 Bad Request"));
         else if(code == 501)
-            GENERATOR_YIELD(Data(@"501 Not Implemented"));
+            GENERATOR_YIELD(Data(@"HTTP/1.0 501 Not Implemented"));
         else
-            GENERATOR_YIELD(Data(@"500 Internal Server Error"));
+            GENERATOR_YIELD(Data(@"HTTP/1.0 500 Internal Server Error"));
         
         NSString *str = [NSString stringWithFormat:
             @"\r\n"
@@ -72,7 +98,7 @@ GENERATOR(NSData *, NotFoundHandler(NSString *resource), (void))
     GENERATOR_BEGIN(void)
     {
         NSString *str = [NSString stringWithFormat:
-            @"404 Not Found\r\n"
+            @"HTTP/1.0 404 Not Found\r\n"
             @"Content-type: text/html\r\n"
             @"\r\n"
             @"The resource %@ could not be found",
@@ -112,11 +138,11 @@ GENERATOR(int, ByteGenerator(NSData *(^contentGenerator)(void)), (void))
     GENERATOR_END
 }
 
-static void Write(int sock, NSData *(^contentGenerator)(void))
+static void Write(struct Connection *connection, NSData *(^contentGenerator)(void))
 {
     int (^byteGenerator)(void) = ByteGenerator(contentGenerator);
     __block dispatch_source_t source;
-    source = NewFDSource(sock, DISPATCH_SOURCE_TYPE_WRITE, ^{
+    source = NewFDSource(connection->sock, DISPATCH_SOURCE_TYPE_WRITE, ^{
         int byte = byteGenerator();
         BOOL err = NO;
         if(byte != -1) // EOF
@@ -125,7 +151,7 @@ static void Write(int sock, NSData *(^contentGenerator)(void))
             int howMuch;
             do
             {
-                howMuch = write(sock, &buf, 1);
+                howMuch = write(connection->sock, &buf, 1);
             }
             while(howMuch == -1 && (errno == EAGAIN || errno == EINTR));
             if(howMuch == -1)
@@ -136,25 +162,24 @@ static void Write(int sock, NSData *(^contentGenerator)(void))
         }
         if(byte == -1 || err)
         {
-            LOG("Done servicing %d", sock);
+            LOG("Done servicing %d", connection->sock);
             dispatch_source_cancel(source);
         }
     });
     dispatch_source_set_cancel_handler(source, ^{
-        LOG("closing %d", sock);
-        close(sock);
-        LOG("closed %d", sock);
+        CHECK(shutdown(connection->sock, SHUT_WR));
+        ReleaseConnection(connection);
         dispatch_release(source);
     });
     dispatch_resume(source);
 }
 
-static void ProcessResource(int sock, NSString *resource)
+static void ProcessResource(struct Connection *connection, NSString *resource)
 {
-    Write(sock, NotFoundHandler(resource));
+    Write(connection, NotFoundHandler(resource));
 }
 
-GENERATOR(int, RequestReader(int sock), (char))
+GENERATOR(int, RequestReader(struct Connection *connection), (char))
 {
     NSMutableData *buffer = [NSMutableData data];
     GENERATOR_BEGIN(char c)
@@ -169,8 +194,8 @@ GENERATOR(int, RequestReader(int sock), (char))
         // if the line ended before we got a space then we don't understand the request
         if(c != ' ')
         {
-            LOG("Got a bad request from the client on %d", sock);
-            Write(sock, ErrCodeWriter(400));
+            LOG("Got a bad request from the client on %d", connection->sock);
+            Write(connection, ErrCodeWriter(400));
             GENERATOR_YIELD(1); // signal that we got enough for a response
         }
         else
@@ -178,12 +203,15 @@ GENERATOR(int, RequestReader(int sock), (char))
             // we only support GET
             if([buffer length] != 3 || memcmp([buffer bytes], "GET", 3) != 0)
             {
-                LOG("Got an unknown method from the client on %d", sock);
-                Write(sock, ErrCodeWriter(501));
+                LOG("Got an unknown method from the client on %d", connection->sock);
+                Write(connection, ErrCodeWriter(501));
                 GENERATOR_YIELD(1); // signal that we got enough for a response
             }
             else
             {
+                // skip over the delimeter
+                GENERATOR_YIELD(0);
+                
                 // read the resource
                 [buffer setLength: 0];
                 while(c != '\r' && c != '\n' && c != ' ')
@@ -192,12 +220,12 @@ GENERATOR(int, RequestReader(int sock), (char))
                     GENERATOR_YIELD(0);
                 }
                 
-                LOG("Servicing request from the client on %d", sock);
+                LOG("Servicing request from the client on %d", connection->sock);
                 NSString *s = [[[NSString alloc] initWithData: buffer encoding: NSUTF8StringEncoding] autorelease];
                 if(!s)
-                    Write(sock, ErrCodeWriter(400));
+                    Write(connection, ErrCodeWriter(400));
                 else
-                    ProcessResource(sock, s);
+                    ProcessResource(connection, s);
                 GENERATOR_YIELD(1); // signal that we got enough for a response
             }
         }
@@ -216,7 +244,9 @@ static void AcceptConnection(int listenSock)
     int newSock = CHECK(accept(listenSock, &addr, &addrlen));
     LOG("new connection on socket %d, new socket is %d", listenSock, newSock);
     
-    int (^requestReader)(char) = RequestReader(newSock);
+    struct Connection *connection = NewConnection(newSock);
+    
+    int (^requestReader)(char) = RequestReader(connection);
     
     __block BOOL didSendResponse = NO;
     __block dispatch_source_t source; // gcc won't compile if the next line is an initializer?!
@@ -244,13 +274,13 @@ static void AcceptConnection(int listenSock)
         }
         if(howMuch == 0 || isErr)
         {
-            dispatch_source_cancel(source);
             if(!didSendResponse)
-                Write(newSock, ErrCodeWriter(400));
+                Write(connection, ErrCodeWriter(400));
+            dispatch_source_cancel(source);
         }
     });
     dispatch_source_set_cancel_handler(source, ^{
-        // FIXME: need to consolidate closing and source canceling all in one place after we're done writing the request, because this doesn't actually work right
+        ReleaseConnection(connection);
         dispatch_release(source);
     });
     dispatch_resume(source);
