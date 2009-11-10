@@ -249,9 +249,9 @@ static void AcceptConnection(int listenSock)
     __block BOOL didSendResponse = NO;
     __block dispatch_source_t source; // gcc won't compile if the next line is an initializer?!
     source = NewFDSource(newSock, DISPATCH_SOURCE_TYPE_READ, ^{
-        char buf[1024];
+        char c;
         LOG("reading from %d", newSock);
-        int howMuch = read(newSock, buf, sizeof(buf));
+        int howMuch = read(newSock, &c, 1);
         LOG("read from %d returned %d (errno is %d %s)", newSock, howMuch, errno, strerror(errno));
         
         BOOL isErr = NO;
@@ -262,13 +262,9 @@ static void AcceptConnection(int listenSock)
         }
         if(howMuch > 0)
         {
-            LOG("Processing buffer %.*s", howMuch, buf);
-            for(int i = 0; i < howMuch; i++)
-            {
-                int ret = requestReader(buf[i]);
-                if(ret)
-                    didSendResponse = YES;
-            }
+            int ret = requestReader(c);
+            if(ret)
+                didSendResponse = YES;
         }
         if(howMuch == 0 || isErr)
         {
