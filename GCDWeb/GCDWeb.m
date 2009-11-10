@@ -114,21 +114,19 @@ GENERATOR(int, ByteGenerator(NSData *(^contentGenerator)(void)), (void))
     __block NSUInteger cursor = 0;
     GENERATOR_BEGIN(void)
     {
-        data = [contentGenerator() retain];
-        while(data)
+        do
         {
-            // while loop lets us skip over zero-length datas
-            while(data && cursor >= [data length])
-            {
-                [data release];
-                data = [contentGenerator() retain];
-            }
-            if(data)
+            if(cursor < [data length])
             {
                 const unsigned char *ptr = [data bytes];
                 GENERATOR_YIELD((int)ptr[cursor++]);
             }
-        }
+            else
+            {
+                [data release];
+                data = [contentGenerator() retain];
+            }
+        } while(data);
         GENERATOR_YIELD(-1);
     }
     GENERATOR_CLEANUP
