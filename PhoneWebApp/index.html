@@ -6,10 +6,18 @@
     
     <link rel="apple-touch-icon-precomposed" href="icon.png">
     <link rel="apple-touch-startup-image" href="default.png">
+    
+    <script src="main.js" type="text/javascript" />
 </head>
 
-<body>
-    Hello, world!
+<body onload="load()">
+    <div id="loading">
+        Loading....
+    </div>
+    
+    <div id="loaded" style="visibility: hidden;">
+        Done loading!
+    </div>
 </body>
 
 </html>
