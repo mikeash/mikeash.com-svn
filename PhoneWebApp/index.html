@@ -11,12 +11,18 @@
 </head>
 
 <body onload="load()">
-    <div id="loading">
+    <div id="loading" style="position: absolute; left: 0; top: 0;">
         Loading....
     </div>
     
-    <div id="loaded" style="visibility: hidden;">
+    <div id="nonavigation" style="visibility: hidden; position: absolute; left: 0; top: 0;">
         Done loading!
+    </div>
+    
+    <div id="navigation" style="visibility: hidden; position: absolute; left: 0; top: 0;">
+        Longitude: <span id="longitude">N/A</span>
+        <br>
+        Latitude: <span id="latitude">N/A</span>
     </div>
 </body>
 
