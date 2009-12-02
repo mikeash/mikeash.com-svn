@@ -6,8 +6,8 @@ function hasNavigation()
 
 function positionWatcher(location)
 {
-    document.getElementById("longitude").firstChild.nodeValue = location.coords.longitude;
-    document.getElementById("latitude").firstChild.nodeValue = location.coords.latitude;
+    document.getElementById("longitude").textContent = location.coords.longitude;
+    document.getElementById("latitude").textContent = location.coords.latitude;
 }
 
 function load()
