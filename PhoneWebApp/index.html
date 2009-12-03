@@ -1,4 +1,5 @@
-<html manifest="cache.manifest">
+<!-- <html manifest="cache.manifest"> -->
+<html>
 <head>
     <title>PhoneWebApp</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -15,8 +16,16 @@
         Loading....
     </div>
     
+    <div id="noiphone" style="visibility: hidden; position: absolute; left: 0; top: 0;">
+        This is an iPhone web app. Load this page on an iPhone!
+    </div>
+    
+    <div id="notinstalled" style="visibility: hidden; position: absolute; left: 0; top: 0;">
+        To install this web app, tap the + button at the bottom of the page, then select "Add to Home Screen".
+    </div>
+    
     <div id="nonavigation" style="visibility: hidden; position: absolute; left: 0; top: 0;">
-        Done loading!
+        Location services aren't available for some reason.
     </div>
     
     <div id="navigation" style="visibility: hidden; position: absolute; left: 0; top: 0;">
