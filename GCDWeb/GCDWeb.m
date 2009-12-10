@@ -334,8 +334,6 @@ static void AcceptConnection(int listenSock)
         {
             if(!didSendResponse)
                 Write(connection, ErrCodeWriter(400));
-            else
-                ReleaseConnection(connection); // no writer is created, so kill it early
             dispatch_source_cancel(source);
         }
     });
