@@ -142,16 +142,12 @@ GENERATOR(NSData *, ListingHandler(NSString *resource), (void))
         
         NSFileManager *fm = [[NSFileManager alloc] init]; // +defaultManager is not thread safe
         NSArray *contents = [fm contentsOfDirectoryAtPath: @"/tmp" error: NULL];
-        NSLog(@"Contents: %@", contents);
         enumerator = [[contents objectEnumerator] retain];
         [fm release];
-        
-        NSLog(@"enumerator %@", enumerator);
         
         NSString *file;
         while((file = [enumerator nextObject]))
         {
-            NSLog(@"file %@", file);
             GENERATOR_YIELD(Data(file));
             // note: file is no longer valid after this point!
             
@@ -338,6 +334,8 @@ static void AcceptConnection(int listenSock)
         {
             if(!didSendResponse)
                 Write(connection, ErrCodeWriter(400));
+            else
+                ReleaseConnection(connection); // no writer is created, so kill it early
             dispatch_source_cancel(source);
         }
     });
