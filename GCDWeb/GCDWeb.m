@@ -22,14 +22,9 @@
 #define LOG(...) do { } while(0)
 #endif
 
+#pragma mark call checking
+
 #define CHECK(call) Check(call, __FILE__, __LINE__, #call)
-
-
-struct Connection
-{
-    volatile int32_t refcount;
-    int sock;
-};
 
 
 static int Check(int retval, const char *file, int line, const char *name)
@@ -42,12 +37,22 @@ static int Check(int retval, const char *file, int line, const char *name)
     return retval;
 }
 
+#pragma mark dispatch helper
+
 static dispatch_source_t NewFDSource(int s, dispatch_source_type_t type, dispatch_block_t block)
 {
     dispatch_source_t source = dispatch_source_create(type, s, 0, dispatch_get_global_queue(0, 0));
     dispatch_source_set_event_handler(source, block);
     return source;
 }
+
+#pragma mark connection management
+
+struct Connection
+{
+    volatile int32_t refcount;
+    int sock;
+};
 
 static struct Connection *NewConnection(int sock)
 {
@@ -66,10 +71,22 @@ static void ReleaseConnection(struct Connection *c)
     }
 }
 
+#pragma mark response generator helpers
+
 static NSData *Data(NSString *s)
 {
     return [s dataUsingEncoding: NSUTF8StringEncoding];
 }
+
+NSString *HTMLEscape(NSString *s)
+{
+    s = [s stringByReplacingOccurrencesOfString: @"&" withString: @"&amp;"];
+    s = [s stringByReplacingOccurrencesOfString: @"<" withString: @"&lt;"];
+    s = [s stringByReplacingOccurrencesOfString: @">" withString: @"&gt;"];
+    return s;
+}
+
+#pragma mark resource handlers
 
 GENERATOR(NSData *, ErrCodeWriter(int code), (void))
 {
@@ -91,14 +108,6 @@ GENERATOR(NSData *, ErrCodeWriter(int code), (void))
         GENERATOR_YIELD(Data(str));
     }
     GENERATOR_END
-}
-
-NSString *HTMLEscape(NSString *s)
-{
-    s = [s stringByReplacingOccurrencesOfString: @"&" withString: @"&amp;"];
-    s = [s stringByReplacingOccurrencesOfString: @"<" withString: @"&lt;"];
-    s = [s stringByReplacingOccurrencesOfString: @">" withString: @"&gt;"];
-    return s;
 }
 
 GENERATOR(NSData *, NotFoundHandler(NSString *resource), (void))
@@ -160,6 +169,8 @@ GENERATOR(NSData *, ListingHandler(NSString *resource), (void))
     }
     GENERATOR_END
 }
+
+#pragma mark response writing
 
 GENERATOR(int, ByteGenerator(NSData *(^contentGenerator)(void)), (void))
 {
@@ -240,6 +251,8 @@ static void ProcessResource(struct Connection *connection, NSString *resource)
 {
     Write(connection, ContentGeneratorForResource(resource));
 }
+
+#pragma mark request reading
 
 GENERATOR(int, RequestReader(struct Connection *connection), (char))
 {
@@ -343,6 +356,8 @@ static void AcceptConnection(int listenSock)
     });
     dispatch_resume(source);
 }
+
+#pragma mark initial setup
 
 static void SetupListenSource(int s)
 {
