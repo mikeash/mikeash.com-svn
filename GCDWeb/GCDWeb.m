@@ -14,7 +14,7 @@
 #include <MAGenerator.h>
 
 
-#define LOG_ENABLED 1
+#define LOG_ENABLED 0
 
 #if LOG_ENABLED
 #define LOG(fmt, ...) fprintf(stderr, fmt "\n", __VA_ARGS__)
@@ -93,6 +93,14 @@ GENERATOR(NSData *, ErrCodeWriter(int code), (void))
     GENERATOR_END
 }
 
+NSString *HTMLEscape(NSString *s)
+{
+    s = [s stringByReplacingOccurrencesOfString: @"&" withString: @"&amp;"];
+    s = [s stringByReplacingOccurrencesOfString: @"<" withString: @"&lt;"];
+    s = [s stringByReplacingOccurrencesOfString: @">" withString: @"&gt;"];
+    return s;
+}
+
 GENERATOR(NSData *, NotFoundHandler(NSString *resource), (void))
 {
     GENERATOR_BEGIN(void)
@@ -102,8 +110,57 @@ GENERATOR(NSData *, NotFoundHandler(NSString *resource), (void))
             @"Content-type: text/html\r\n"
             @"\r\n"
             @"The resource %@ could not be found",
-            resource];
+            HTMLEscape(resource)];
         GENERATOR_YIELD(Data(str));
+    }
+    GENERATOR_END
+}
+
+GENERATOR(NSData *, RootHandler(NSString *resource), (void))
+{
+    GENERATOR_BEGIN(void)
+    {
+        NSString *str = @"HTTP/1.0 200 OK\r\n"
+                        @"Content-type: text/html\r\n"
+                        @"\r\n"
+                        @"Welcome to GCDWeb. There isn't much here. <a href=\"listing\">Try the listing.</a>";
+        GENERATOR_YIELD(Data(str));
+    }
+    GENERATOR_END
+}
+
+GENERATOR(NSData *, ListingHandler(NSString *resource), (void))
+{
+    __block NSEnumerator *enumerator = nil;
+    GENERATOR_BEGIN(void)
+    {
+        NSString *str = @"HTTP/1.0 200 OK\r\n"
+                        @"Content-type: text/html; charset=utf-8\r\n"
+                        @"\r\n"
+                        @"Directory listing of <tt>/tmp</tt>:<p>";
+        GENERATOR_YIELD(Data(str));
+        
+        NSFileManager *fm = [[NSFileManager alloc] init]; // +defaultManager is not thread safe
+        NSArray *contents = [fm contentsOfDirectoryAtPath: @"/tmp" error: NULL];
+        NSLog(@"Contents: %@", contents);
+        enumerator = [[contents objectEnumerator] retain];
+        [fm release];
+        
+        NSLog(@"enumerator %@", enumerator);
+        
+        NSString *file;
+        while((file = [enumerator nextObject]))
+        {
+            NSLog(@"file %@", file);
+            GENERATOR_YIELD(Data(file));
+            // note: file is no longer valid after this point!
+            
+            GENERATOR_YIELD(Data(@"<br>"));
+        }
+    }
+    GENERATOR_CLEANUP
+    {
+        [enumerator release];
     }
     GENERATOR_END
 }
@@ -125,6 +182,7 @@ GENERATOR(int, ByteGenerator(NSData *(^contentGenerator)(void)), (void))
             {
                 [data release];
                 data = [contentGenerator() retain];
+                cursor = 0;
             }
         } while(data);
         GENERATOR_YIELD(-1);
@@ -172,9 +230,19 @@ static void Write(struct Connection *connection, NSData *(^contentGenerator)(voi
     dispatch_resume(source);
 }
 
+static NSData *(^ContentGeneratorForResource(NSString *resource))(void)
+{
+    if([resource isEqual: @"/"])
+        return RootHandler(resource);
+    if([resource isEqual: @"/listing"])
+        return ListingHandler(resource);
+    
+    return NotFoundHandler(resource);
+}
+
 static void ProcessResource(struct Connection *connection, NSString *resource)
 {
-    Write(connection, NotFoundHandler(resource));
+    Write(connection, ContentGeneratorForResource(resource));
 }
 
 GENERATOR(int, RequestReader(struct Connection *connection), (char))
