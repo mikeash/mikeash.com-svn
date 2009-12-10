@@ -150,8 +150,7 @@ GENERATOR(NSData *, ListingHandler(NSString *resource), (void))
         GENERATOR_YIELD(Data(str));
         
         NSFileManager *fm = [[NSFileManager alloc] init]; // +defaultManager is not thread safe
-        NSArray *contents = [fm contentsOfDirectoryAtPath: @"/tmp" error: NULL];
-        enumerator = [[contents objectEnumerator] retain];
+        enumerator = [[fm enumeratorAtPath: @"/tmp"] retain];
         [fm release];
         
         NSString *file;
