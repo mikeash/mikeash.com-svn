@@ -1,9 +1,46 @@
-#import <Foundation/Foundation.h>
+#import "BlockFptr.h"
 
 #include <dispatch/dispatch.h>
 #include <sys/types.h>
 #include <sys/mman.h>
 
+
+@implementation BlockFptr
+
++ (id)fptrWithBlock: (id)block
+{
+    return [[[self alloc] initWithBlock: block] autorelease];
+}
+
+- (id)initWithBlock: (id)block
+{
+    if((self = [super init]))
+    {
+        _fptr = CreateBlockFptr(block);
+    }
+    return self;
+}
+
+- (id)init
+{
+    NSLog(@"You cannot call -[%@ %@], use -initWithBlock: instead", [self class], NSStringFromSelector(_cmd));
+    [self autorelease];
+    [self doesNotRecognizeSelector: _cmd];
+    return nil;
+}
+
+- (void)dealloc
+{
+    DestroyBlockFptr(_fptr);
+    [super dealloc];
+}
+
+- (void *)fptr
+{
+    return _fptr;
+}
+
+@end
 
 // for debugging purposes only
 void DumpStack(uint64_t rbp, uint64_t rsp)
@@ -60,6 +97,17 @@ void *CreateBlockFptr(id block)
     return trampoline;
 }
 
+void DestroyBlockFptr(void *blockFptr)
+{
+    void *blockPtrPtr = blockFptr + TrampolineAddrOffset();
+    void *blockPtr = *(void **)blockPtrPtr;
+    void *block = *(void **)blockPtr;
+    
+    [(id)block release];
+    
+    // TODO: recycle the rest
+}
+
 int main (int argc, const char * argv[])
 {
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
@@ -81,6 +129,18 @@ int main (int argc, const char * argv[])
     void *trampoline = CreateBlockFptr(block);
 #endif
     ((void (*)(int, int, int, int, int))trampoline)(0xdead0001, 0xdead0002, 0xdead0003, 0xdead0004, 0xdead0005);
+    
+    BlockFptr *fptr = [[BlockFptr alloc] initWithBlock: block];
+    ((void (*)(int, int, int, int, int))[fptr fptr])(0xdead0001, 0xdead0002, 0xdead0003, 0xdead0004, 0xdead0005);
+    
+    NSMutableArray *array = [NSMutableArray array];
+    for(int i = 0; i < 10000; i++)
+    {
+        BlockFptr *fptr = [[BlockFptr alloc] initWithBlock: block];
+        [array addObject: fptr];
+        [fptr release];
+    }
+    [array removeAllObjects];
     
     [pool release];
     return 0;
