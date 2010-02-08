@@ -163,11 +163,12 @@ void DestroyBlockFptr(void *blockFptr)
     EnqueueCachedFptr(blockFptr);
 }
 
-void *AutoBlockPtr(id block)
+void *AutoBlockFptr(id block)
 {
     return [[BlockFptr fptrWithBlock: block] fptr];
 }
 
+/*
 int main (int argc, const char * argv[])
 {
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
@@ -205,3 +206,4 @@ int main (int argc, const char * argv[])
     [pool release];
     return 0;
 }
+*/
