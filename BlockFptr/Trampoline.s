@@ -3,7 +3,6 @@
  * BlockFptr
  *
  * Created by Mike Ash on 2/8/10.
- * Copyright 2010 Rogue Amoeba Software, LLC. All rights reserved.
  */
 
 
