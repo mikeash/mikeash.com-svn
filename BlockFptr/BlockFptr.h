@@ -23,3 +23,6 @@
 // C API
 void *CreateBlockFptr(id block);
 void DestroyBlockFptr(void *blockFptr);
+
+// a mix; this returns an "autoreleased" fptr, nice for inline use in one-shots
+void *AutoBlockPtr(id block);
