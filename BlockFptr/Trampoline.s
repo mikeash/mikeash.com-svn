@@ -18,7 +18,6 @@ _Trampoline:
     mov %rsi, %rdx
     mov %rdi, %rsi
     
-    
     // move ptr-to-block-ptr into r11, dummy value is replaced at runtime
     movabsq $0xdeadbeefcafebabe, %r11
     // dereference ptr-to-block-ptr, move block ptr into %rdi

@@ -97,25 +97,25 @@ struct Intermediary
 // the block is copied as part of this
 static void *DequeueCachedFptr(id block)
 {
-    struct Intermediary *elt = OSAtomicDequeue(&gFptrCache, 0);
-    if(!elt)
+    struct Intermediary *intermediary = OSAtomicDequeue(&gFptrCache, 0);
+    if(!intermediary)
         return NULL;
     
-    elt->nextPtrOrBlock = [block copy];
-    return elt->trampoline;
+    intermediary->nextPtrOrBlock = [block copy];
+    return intermediary->trampoline;
 }
 
 // enqueue an fptr
 // the associated block is released as part of this
 static void EnqueueCachedFptr(void *trampoline)
 {
-    struct Intermediary **eltPtr = trampoline + TrampolineAddrOffset();
-    struct Intermediary *elt = *eltPtr;
-    id block = elt->nextPtrOrBlock;
+    struct Intermediary **intermediaryPtr = trampoline + TrampolineAddrOffset();
+    struct Intermediary *intermediary = *intermediaryPtr;
+    id block = intermediary->nextPtrOrBlock;
     
     [(id)block release];
     
-    OSAtomicEnqueue(&gFptrCache, elt, 0);
+    OSAtomicEnqueue(&gFptrCache, intermediary, 0);
 }
 
 static void CreateTrampoline(void *destination, int length, int addrOffset, struct Intermediary *intermediary)
@@ -124,7 +124,7 @@ static void CreateTrampoline(void *destination, int length, int addrOffset, stru
     
     intermediary->nextPtrOrBlock = NULL;
     intermediary->trampoline = destination;
-    *((void **)(destination + addrOffset)) = &intermediary->nextPtrOrBlock;
+    *((void **)(destination + addrOffset)) = intermediary;
 }
 
 void CreateNewFptrsAndEnqueue(void)
