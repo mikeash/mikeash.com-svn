@@ -82,7 +82,7 @@ static OSQueueHead gFptrCache = OS_ATOMIC_QUEUE_INIT;
 // the fptr cache actually caches the block pointer pointers
 // because the trampolines themselves are immutable
 // block pointer pointers are defined like so
-struct QueueElement
+struct Intermediary
 {
     // when in the queue, the first field is the required 'next' pointer
     // when in use, the first field is the block pointer
@@ -97,7 +97,7 @@ struct QueueElement
 // the block is copied as part of this
 static void *DequeueCachedFptr(id block)
 {
-    struct QueueElement *elt = OSAtomicDequeue(&gFptrCache, 0);
+    struct Intermediary *elt = OSAtomicDequeue(&gFptrCache, 0);
     if(!elt)
         return NULL;
     
@@ -109,13 +109,22 @@ static void *DequeueCachedFptr(id block)
 // the associated block is released as part of this
 static void EnqueueCachedFptr(void *trampoline)
 {
-    struct QueueElement **eltPtr = trampoline + TrampolineAddrOffset();
-    struct QueueElement *elt = *eltPtr;
+    struct Intermediary **eltPtr = trampoline + TrampolineAddrOffset();
+    struct Intermediary *elt = *eltPtr;
     id block = elt->nextPtrOrBlock;
     
     [(id)block release];
     
     OSAtomicEnqueue(&gFptrCache, elt, 0);
+}
+
+static void CreateTrampoline(void *destination, int length, int addrOffset, struct Intermediary *intermediary)
+{
+    memcpy(destination, &Trampoline, length);
+    
+    intermediary->nextPtrOrBlock = NULL;
+    intermediary->trampoline = destination;
+    *((void **)(destination + addrOffset)) = &intermediary->nextPtrOrBlock;
 }
 
 void CreateNewFptrsAndEnqueue(void)
@@ -127,16 +136,12 @@ void CreateNewFptrsAndEnqueue(void)
     int howmany = pageSize / trampolineLength;
     void *page = valloc(pageSize);
     
-    struct QueueElement *elts = malloc(howmany * sizeof(*elts));
+    struct Intermediary *intermediaries = malloc(howmany * sizeof(*intermediaries));
     
     for(int i = 0; i < howmany; i++)
     {
-        void *trampoline = page + i * trampolineLength;
-        memcpy(trampoline, &Trampoline, trampolineLength);
-        
-        elts[i].nextPtrOrBlock = NULL;
-        elts[i].trampoline = trampoline;
-        *((void **)(trampoline + addrOffset)) = &elts[i];
+        void *destination = page + i * trampolineLength;
+        CreateTrampoline(destination, trampolineLength, addrOffset, &intermediaries[i]);
     }
     
     int err = mprotect(page, pageSize, PROT_READ | PROT_EXEC);
