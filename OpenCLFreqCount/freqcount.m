@@ -39,7 +39,7 @@ static NSData *CLFreqCount(NSData *inData)
     [data setLength: paddedLength];
     
     // create large output area
-    NSMutableData *largeOutput = [NSMutableData dataWithLength: paddedLength];
+    NSMutableData *largeOutput = [NSMutableData dataWithLength: paddedLength * 2];
     // and the final totals area
     NSMutableData *freqCount = [NSMutableData dataWithLength: 256 * sizeof(uint32_t)];
     

@@ -1,5 +1,5 @@
 
-__kernel void freqcount(const unsigned char *input, unsigned char *output)
+__kernel void freqcount(const unsigned char *input, unsigned short *output)
 {
     const uint index = get_global_id(0);
     const uint start = index * 256;
@@ -10,7 +10,7 @@ __kernel void freqcount(const unsigned char *input, unsigned char *output)
     }
 }
 
-__kernel void freqsum(const unsigned int count, unsigned char *freqs, unsigned int *totals)
+__kernel void freqsum(const unsigned int count, unsigned short *freqs, unsigned int *totals)
 {
     const uint index = get_global_id(0);
     for(uint i = 0; i < count; i++)
