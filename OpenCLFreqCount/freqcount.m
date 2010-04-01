@@ -91,6 +91,9 @@ static NSData *CLFreqCount(NSData *inData)
     // compensate for the padding
     freqs[0] -= pad;
     
+    [program release];
+    [context release];
+    
     return freqCount;
 }
 
