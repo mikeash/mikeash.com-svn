@@ -12,9 +12,11 @@
 @interface DiagonalSlider : NSControl
 {
     double _value;
+    id _target;
+    SEL _action;
 }
 
-- (void)setValue: (double)value;
-- (double)value;
+- (void)setDoubleValue: (double)value;
+- (double)doubleValue;
 
 @end

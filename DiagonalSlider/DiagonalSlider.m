@@ -110,17 +110,23 @@ static CGFloat len(NSPoint p)
     // same piece of the knob when dragging
     double valueOffset = [self _valueForPoint: p] - _value;
     
+    // create a pool to flush each time through the cycle
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     // track!
     NSEvent *event = nil;
     while([event type] != NSLeftMouseUp)
     {
+        [pool release];
+        pool = [[NSAutoreleasePool alloc] init];
+        
         event = [[self window] nextEventMatchingMask: NSLeftMouseDraggedMask | NSLeftMouseUpMask];
         
         NSPoint p = [self convertPoint: [event locationInWindow] fromView: nil];
         double value = [self _valueForPoint: p];
-        [self setValue: value - valueOffset];
+        [self setDoubleValue: value - valueOffset];
         [self sendAction: [self action] to: [self target]];
     }
+    [pool release];
 }
 
 - (void)mouseDown: (NSEvent *)event
@@ -133,12 +139,13 @@ static CGFloat len(NSPoint p)
     }
     else if([self _sliderContainsPoint: p])
     {
-        [self setValue: [self _valueForPoint: p]];
+        [self setDoubleValue: [self _valueForPoint: p]];
+        [self sendAction: [self action] to: [self target]];
         [self _trackMouseWithStartPoint: p];
     }
 }
 
-- (void)setValue: (double)value
+- (void)setDoubleValue: (double)value
 {
     // clamp to [0, 1]
     value = MAX(value, 0);
@@ -148,9 +155,29 @@ static CGFloat len(NSPoint p)
     [self setNeedsDisplay: YES];
 }
 
-- (double)value
+- (double)doubleValue
 {
     return _value;
+}
+
+- (void)setTarget: (id)anObject
+{
+    _target = anObject;
+}
+
+- (id)target
+{
+    return _target;
+}
+
+- (void)setAction: (SEL)aSelector
+{
+    _action = aSelector;
+}
+
+- (SEL)action
+{
+    return _action;
 }
 
 @end

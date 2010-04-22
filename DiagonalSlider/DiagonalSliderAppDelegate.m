@@ -16,4 +16,9 @@
 	// Insert code here to initialize your application 
 }
 
+- (IBAction)sliderMoved: (id)sender
+{
+    NSLog(@"Slider moved to value %f", [sender doubleValue]);
+}
+
 @end

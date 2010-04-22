@@ -1329,7 +1329,7 @@
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSCustomView" id="403891173">
+						<object class="NSCustomView" id="811439746">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{60, 62}, {327, 238}}</string>
@@ -2033,6 +2033,14 @@
 					</object>
 					<int key="connectionID">532</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">sliderMoved:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="811439746"/>
+					</object>
+					<int key="connectionID">535</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -2588,7 +2596,7 @@
 						<reference key="object" ref="439893737"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="403891173"/>
+							<reference ref="811439746"/>
 						</object>
 						<reference key="parent" ref="972006081"/>
 					</object>
@@ -3080,7 +3088,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">533</int>
-						<reference key="object" ref="403891173"/>
+						<reference key="object" ref="811439746"/>
 						<reference key="parent" ref="439893737"/>
 					</object>
 				</object>
@@ -3612,7 +3620,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">533</int>
+			<int key="maxID">535</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3628,6 +3636,10 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">DiagonalSliderAppDelegate</string>
 					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">sliderMoved:</string>
+						<string key="NS.object.0">id</string>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">window</string>
 						<string key="NS.object.0">NSWindow</string>
