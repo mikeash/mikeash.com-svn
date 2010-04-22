@@ -11,6 +11,8 @@
 
 @implementation DiagonalSlider
 
+#pragma mark Geometry
+
 const CGFloat kInsetX = 12;
 const CGFloat kInsetY = 12;
 const CGFloat kSliderWidth = 6;
@@ -39,20 +41,6 @@ const CGFloat kKnobRadius = 10;
 {
     NSRect knobR = { [self _knobCenter], NSZeroSize };
     return [NSBezierPath bezierPathWithOvalInRect: NSInsetRect(knobR, kKnobRadius, kKnobRadius)];
-}
-
-- (void)drawRect: (NSRect)r
-{
-    NSBezierPath *slider = [NSBezierPath bezierPath];
-    [slider moveToPoint: [self _point1]];
-    [slider lineToPoint: [self _point2]];
-    [slider setLineWidth: kSliderWidth];
-    
-    [[NSColor blueColor] setStroke];
-    [slider stroke];
-    
-    [[NSColor redColor] setFill];
-    [[self _knobPath] fill];
 }
 
 static NSPoint sub(NSPoint p1, NSPoint p2)
@@ -104,6 +92,24 @@ static CGFloat len(NSPoint p)
     return fabs(projection) <= kSliderWidth;
 }
 
+#pragma mark Drawing
+
+- (void)drawRect: (NSRect)r
+{
+    NSBezierPath *slider = [NSBezierPath bezierPath];
+    [slider moveToPoint: [self _point1]];
+    [slider lineToPoint: [self _point2]];
+    [slider setLineWidth: kSliderWidth];
+    
+    [[NSColor blueColor] setStroke];
+    [slider stroke];
+    
+    [[NSColor redColor] setFill];
+    [[self _knobPath] fill];
+}
+
+#pragma mark Event Tracking
+
 - (void)_trackMouseWithStartPoint: (NSPoint)p
 {
     // compute the value offset: this makes the pointer stay on the
@@ -144,6 +150,8 @@ static CGFloat len(NSPoint p)
         [self _trackMouseWithStartPoint: p];
     }
 }
+
+#pragma mark Control Utilities
 
 - (void)setDoubleValue: (double)value
 {
