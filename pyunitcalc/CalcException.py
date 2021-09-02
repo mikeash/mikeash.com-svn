@@ -1,3 +1,0 @@
-
-class CalcException(Exception):
-    pass
